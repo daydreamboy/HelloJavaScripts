@@ -1,0 +1,21 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="./01_dump.js"></script>
+    <script>
+        function User(name) {
+            this.name = name;
+        }
+
+        User.prototype.sayHi = function () {
+            alert(this.name);
+        }
+
+        let user = new User("John");
+        // user.sayHi()
+        user.dump()
+        // console.log("test")
+    </script>
+</head>
+
+</html>
