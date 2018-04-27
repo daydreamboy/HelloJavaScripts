@@ -106,7 +106,33 @@ user.last_name = "Lea";
 console.log("last_name: " + user.last_name);
 ```
 
+* class的定义可以作为表达式
 
+class的定义可以作为函数的返回值，也可以直接赋值给变量，这个和function是保持一致的。
+
+```
+// Note: class definition as return value
+function makeClass(type) {
+    if (type === 'hello') {
+        return class {
+            sayHi() {
+                console.log("Hello!");
+            }
+        };
+    }
+}
+let User = makeClass("hello");
+new User().sayHi();
+
+// Note: class definition as varibale value
+let User2 = class MyClass {
+    sayHi() {
+        console.log(MyClass);
+    }
+}
+new User2().sayHi();
+//console.log(MyClass); // Error: can't access MyClass
+```
 
 ####（2）getter/setter语法
 
@@ -173,3 +199,67 @@ Object.defineProperties(User.prototype,{
 let user = new User("John");
 user = new User("a");
 ```
+
+####（3）static语法
+
+static关键字可以class中定义一个类方法，调用这个方法直接使用类名。
+
+```
+// Note: define class method in class 
+class User {
+    static classMethod1() {
+        console.log(this === User);
+    }
+}
+
+User.classMethod2 = function() {
+   console.log(this === User)
+}
+
+User.classMethod1(); // true
+User.classMethod2(); // true
+```
+
+使用类方法的例子，如下
+
+```
+// Note: define class method in class 
+class User {
+    static classMethod1() {
+        console.log(this === User);
+    }
+}
+
+User.classMethod2 = function() {
+   console.log(this === User)
+}
+
+User.classMethod1(); // true
+User.classMethod2(); // true
+
+class Article {
+    constructor(title, date) {
+        this.title = title;
+        this.date = date
+    }
+
+    static compare(articleA, articleB) {
+        return articleA.date - articleB.date;
+    }
+
+    static createTodayArticle() {
+        // Note: `this` is for class, not for object
+        return new this("Today's digest", new Date());
+    }
+}
+
+let articles = [
+    new Article("Mind", new Date(2016, 1, 1)),
+    new Article("Body", new Date(2016, 0, 1)),
+    new Article("JavaScript", new Date(2016, 11, 1)),
+    Article.createTodayArticle()
+];
+articles.sort(Article.compare);
+console.log(articles);
+```
+

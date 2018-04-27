@@ -1,0 +1,47 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="./01_dump.js"></script>
+    <script>
+        // Note: define class method in class 
+        class User {
+            static classMethod1() {
+                console.log(this === User);
+            }
+        }
+
+        User.classMethod2 = function() {
+           console.log(this === User)
+        }
+
+        User.classMethod1(); // true
+        User.classMethod2(); // true
+
+        class Article {
+            constructor(title, date) {
+                this.title = title;
+                this.date = date
+            }
+
+            static compare(articleA, articleB) {
+                return articleA.date - articleB.date;
+            }
+
+            static createTodayArticle() {
+                // Note: `this` is for class, not for object
+                return new this("Today's digest", new Date());
+            }
+        }
+
+        let articles = [
+            new Article("Mind", new Date(2016, 1, 1)),
+            new Article("Body", new Date(2016, 0, 1)),
+            new Article("JavaScript", new Date(2016, 11, 1)),
+            Article.createTodayArticle()
+        ];
+        articles.sort(Article.compare);
+        console.log(articles);
+    </script>
+</head>
+
+</html>

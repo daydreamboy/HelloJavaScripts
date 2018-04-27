@@ -1,0 +1,30 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="./01_dump.js"></script>
+    <script>
+        // Note: class definition as return value
+        function makeClass(type) {
+            if (type === 'hello') {
+                return class {
+                    sayHi() {
+                        console.log("Hello!");
+                    }
+                };
+            }
+        }
+        let User = makeClass("hello");
+        new User().sayHi();
+
+        // Note: class definition as varibale value
+        let User2 = class MyClass {
+            sayHi() {
+                console.log(MyClass);
+            }
+        }
+        new User2().sayHi();
+        //console.log(MyClass); // Error: can't access MyClass
+    </script>
+</head>
+
+</html>
