@@ -3,8 +3,8 @@ Object.prototype.dump = function (full_path = false) {
 
     var e = new Error('Could not parse input');
     try { throw e } catch (err) { }
-    var frames = e.stack.split('\n')
-    var caller_line = frames[2]
+    var frames = e.stack.split('\n');
+    var caller_line = frames[2];
 
     var components = /.+((?:http|file)\:\/\/[^\)]+)/.exec(caller_line)
     var uri = components[1]
@@ -19,8 +19,8 @@ Object.prototype.dump = function (full_path = false) {
 
     var caller = full_path ? uri : (file_name + ':' + line_number)
     // @see https://stackoverflow.com/a/24850933
-    var debug_info = caller + `: (${type_name}) ${this}`
-    console.log(debug_info)
-    console.log(this)
-    console.log('\n')
+    var debug_info = caller + `: (${type_name}) ${this}`;
+    console.log(debug_info);
+    console.log(this);
+    console.log('\n');
 };

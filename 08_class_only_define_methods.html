@@ -1,0 +1,30 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="./01_dump.js"></script>
+    <script>
+        class User {
+            //var another_name; // Error: class not support
+            constructor(name) {
+                this.name = name;
+            }
+
+            // Note: readonly property `first_name`
+            get first_name() {
+                return "J";
+            }
+        }
+
+        // Note: inject property `last_name` by prototype
+        User.prototype.last_name = "Lee";
+
+        let user = new User("John");
+        console.log("first_name: " + user.first_name);
+        console.log("last_name: " + user.last_name);
+
+        user.last_name = "Lea";
+        console.log("last_name: " + user.last_name);
+    </script>
+</head>
+
+</html>

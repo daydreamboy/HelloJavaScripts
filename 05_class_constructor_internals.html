@@ -1,0 +1,30 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="./01_dump.js"></script>
+    <script>
+        class User {
+            constructor(name) {
+                this.name = name;
+            }
+        }
+
+        let user = new User("John");
+
+        // Note: User still is `function` type
+        console.log("type of User: " + typeof User);
+        console.log("type of User.prototype.constructor: " + typeof User.prototype.constructor);
+
+        // proof: User is the "constructor" function
+        console.log(User === User.prototype.constructor);
+        console.log(User.prototype.constructor);
+        console.log(User);
+
+        // proof: there are two methods in its "prototype"
+        console.log(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
+
+        //User(); // Error: must use new for class User, e.g. new User()
+    </script>
+</head>
+
+</html>
