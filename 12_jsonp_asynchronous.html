@@ -1,0 +1,23 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="./01_dump.js"></script>
+    <script>
+        // @see http://schock.net/articles/2013/02/05/how-jsonp-really-works-examples/
+        function processJSON(json) {
+            // handle json
+            console.log(json);
+        };
+
+        // create a new script element
+        var script_element = document.createElement('script');
+
+        // set its source to the JSONP api which returns processJSON(['some string 1', 'some data', 'whatever data']))
+        script_element.src = 'http://localhost/jsonp';
+
+        // stick the script element in the page <head>
+        document.getElementsByTagName('head')[0].appendChild(script_element);
+    </script>
+</head>
+
+</html>

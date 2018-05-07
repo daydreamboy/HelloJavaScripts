@@ -1,0 +1,16 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="./01_dump.js"></script>
+    <script>
+        // @see http://schock.net/articles/2013/02/05/how-jsonp-really-works-examples/
+        function processJSON(json) {
+            // handle json
+            console.log(json);
+        };
+    </script>
+    <!-- http://localhost/jsonp returns processJSON(['some string 1', 'some data', 'whatever data'])) -->
+    <script src="http://localhost/jsonp"></script>
+</head>
+
+</html>

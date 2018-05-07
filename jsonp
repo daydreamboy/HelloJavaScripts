@@ -1,0 +1,1 @@
+processJSON(['some string 1', 'some data', 'whatever data'])
