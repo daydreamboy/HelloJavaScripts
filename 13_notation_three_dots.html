@@ -1,0 +1,25 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="./01_dump.js"></script>
+    <script>
+        // Example 1
+        // @see https://stackoverflow.com/a/41640566
+        var parts = ['two', 'three'];
+        // ... is as 'Spread Attributes'
+        var numbers = ['one', ...parts, 'four', 'five'];
+        console.log(numbers);
+
+        // Example 2
+        // @see https://stackoverflow.com/a/42486285
+        // force numbers as Array
+        // ... is as 'Rest parameters'
+        let Sum = (...numbers) => {
+            numbers.dump(); // Array
+            return numbers.reduce((prev, current) => prev + current );
+        }
+        console.log(Sum(1, 2, 3, 4, 5, 6, 7, 8, 9));//45
+    </script>
+</head>
+
+</html>
