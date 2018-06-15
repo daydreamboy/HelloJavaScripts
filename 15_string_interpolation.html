@@ -1,0 +1,56 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="./01_dump.js"></script>
+    <script>
+        // @see https://stackoverflow.com/a/4673436
+        if (!String.prototype.format) {
+        String.prototype.format = function() {
+            var args = arguments;
+            return this.replace(/{(\d+)}/g, function(match, number) { 
+            return typeof args[number] != 'undefined'
+                ? args[number]
+                : match
+            ;
+            });
+        };
+        }
+
+        // Example 1
+        var now = new Date();
+        var nowString = now.toISOString();
+        var tip = "Now is {0}".format(nowString);
+        console.log(tip);
+
+        var fragment1 = '{ \
+            "header": { \
+                "title": "卡片消息", \
+                "summary": "$summary" \
+            }, \
+            "template": { \
+                "id": 20014, \
+                "data": { \
+                    "bgl": "", \
+                    "layout": "fix", \
+                    "body": \
+                    ';
+        var fragment2 = '\
+                } \
+            } \
+        }';
+
+        var body = '{"title": "this is a title"}';
+        var full_content = fragment1 + body + fragment2;
+        var jsonObject = JSON.parse(full_content);
+        if (jsonObject) {
+            var jsonString = JSON.stringify(jsonObject, null, 4);
+            console.log(jsonString);
+        }
+        else {
+            console.log('JSON format is invalid');
+        }
+
+    </script>
+</head>
+
+</html>
