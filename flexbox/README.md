@@ -88,19 +88,39 @@ flexbox有主轴 (main axe)和侧轴 (cross axe)的概念。
 
 
 
+### （3）flex item比例分配
+
+flex容器中item，称之为**flex item**。多个flex item在主轴上排列，需要确定每个item的大小。flexbox提供三个属性`flex-basis`、`flex-grow`、`flex-shrink`，用于控制比例分配。
+
+
+
+* `flex-basis`：What is the size of the item before growing and shrinking happens?
+  * item在grow或shrink之前的大小
+* `flex-grow`：How much of the positive free space does this item get?
+  * item获取多少多余的正空间
+* `flex-shrink`：How much negative free space can be removed from this item?
+  * item获取多少多余的负空间
+
+以上三个属性，通常用一个shorthand属性`flex`来表示。
+
+
+
+
+
 ## 附录
 
 ### 1、flexbox属性表
 
-| 属性名         | 含义                            | 属性值                          | 默认值 | 说明 |
-| :------------- | ------------------------------- | ------------------------------- | ------ | ---- |
-| display        |                                 | flex/inline-flex                |        |      |
-| flex-direction | 主轴方向                        |                                 |        |      |
-| flex-wrap      | 换行方式                        | wrap/nowrap                     | nowrap |      |
-| flex-flow      | flex-direction和flex-wrap的简写 | flex-direction和flex-wrap的组合 |        |      |
-|                |                                 |                                 |        |      |
-|                |                                 |                                 |        |      |
-|                |                                 |                                 |        |      |
+| 属性名           | 含义                                         | 属性值                          | 默认值   | 说明 |
+| :--------------- | -------------------------------------------- | ------------------------------- | -------- | ---- |
+| `display`        |                                              | `flex/inline-flex`              |          |      |
+| `flex-direction` | 主轴方向                                     | row/                            |          |      |
+| `flex-wrap`      | 换行方式                                     | `wrap/nowrap`                   | `nowrap` |      |
+| `flex-flow`      | `flex-direction`和`flex-wrap`的shorthand属性 | flex-direction和flex-wrap的组合 |          |      |
+| `flex-basis`     |                                              |                                 |          |      |
+| `flex-grow`      |                                              |                                 |          |      |
+| `flex-shrink`    |                                              |                                 |          |      |
+| `flex`           |                                              |                                 |          |      |
 
 
 
