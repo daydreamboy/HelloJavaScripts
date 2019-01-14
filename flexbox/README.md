@@ -33,7 +33,7 @@ flexbox有主轴 (main axe)和侧轴 (cross axe)的概念。
 
 ### （2）flex容器 (flex container)
 
-​        当对div标签，声明display属性声明为`flex`或者`inline-flex`，则该div是一个flex container，它里面的子标签（后面称为flex item或item）都会按照flexbox方式布局。
+​        当对div标签，声明display属性声明为`flex`或者`inline-flex`，则该div是一个flex container，它里面的直接子标签（后面称为flex item或item）都会按照flexbox方式布局。
 
 ​        一般声明`display: flex`，默认会初始化一些属性值，表现的行为，如下
 
@@ -84,7 +84,9 @@ flexbox有主轴 (main axe)和侧轴 (cross axe)的概念。
 * 在侧轴上，每个item自动拉伸，满足其中一个item的最大高度。这里第三个item有最大高度，前两个item的高度自动拉伸来满足这个最大高度。
 * 在主轴上，flex-wrap属性设置为`nowrap`，则item超出容器时，不自动换行，而设置为`wrap`，则item超出容器时，按照侧轴方向自动换行。示例代码，见**03_flow-wrap.html**。
 
-> flex-direction和flex-wrap可以用`flex-flow`来代替，`flex-flow`有两个值用空格分隔，前者是flex-direction，后者是flex-wrap
+> 1. 容器声明display为flex，仅对该容器里面的第一级item有效[^2]。
+>
+> 2. flex-direction和flex-wrap可以用`flex-flow`来代替，`flex-flow`有两个值用空格分隔，前者是flex-direction，后者是flex-wrap
 
 
 
@@ -182,4 +184,8 @@ flex容器中item，称之为**flex item**。多个flex item在主轴上排列�
 ## References
 
 [^1]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox
+
+[^2]: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+
+
 
