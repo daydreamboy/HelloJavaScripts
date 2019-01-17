@@ -12,7 +12,83 @@
 
 ## 1、JavaScript语法
 
-### （1）class语法[^1]
+### （1）数据类型
+
+JavaScript有7种数据类型（Data Types）[^2]，如下
+
+| 类型        | 含义         | 说明                                                         |
+| ----------- | ------------ | ------------------------------------------------------------ |
+| `number`    | 整数或浮点数 | 除了整数或浮点数，还有特殊值也属于`number`类型：`Infinity`，`-Infinity` 和`NaN` |
+| `string`    | 字符串       | 字符串有三种引号方式：单引号（`'`），双引号（`"`），反引号（<code>`</code>） |
+| `boolean`   | 布尔值       | `boolean`类型的值只有两种：`true`和`false`                   |
+| `null`      | 空值         | JavaScript中null代表nothing, empty或者value unknown          |
+| `undefined` | 未赋值       | 和`null`不一样，`undefined`表示没有赋值                      |
+| `symbol`    | 符号         |                                                              |
+| `object`    | 对象         | 对象类型是一种复杂的类型。除`object`之外的6个类型都是基本类型[^3]。 |
+
+示例代码见**16_data_types_1.html**
+
+
+
+关于`typeof`操作符
+
+> 1. JavaScript内置有`typeof`操作符，可以用于判断某个变量的类型，返回值是字符串类型。
+> 2. `typeof`操作符有两种使用方式：作为操作符使用，`typeof x`；作为函数使用，`typeof(x)`。
+> 3. `typeof`操作符判断出来的类型并不和上面的类型是一一对应的。`typeof`操作符判断出来的类型字符串，除了上面7种数据类型，还有一种"function"字符串。并且`typeof(null)`是"object"，而不是"null"。
+
+举个例子[^2]，如下
+
+```javascript
+typeof undefined // "undefined"
+
+typeof 0 // "number"
+
+typeof true // "boolean"
+
+typeof "foo" // "string"
+
+typeof Symbol("id") // "symbol"
+
+typeof Math // "object"
+
+typeof null // "object"
+
+typeof alert // "function"
+```
+
+
+
+#### a. number类型
+
+number类型的值支持算术操作符（`+`、`-`、`*`、`/`等）。
+
+`number`类型有三种特殊值：`Infinity`，`-Infinity` 和`NaN`
+
+* `Infinity`，代表数学上无穷大∞
+* `NaN`，代表计算错误（Not a Number），而且数字和NaN一起运算还是NaN。
+
+举个例子，如下
+
+```javascript
+alert( 1 / 0 ); // Infinity
+alert( Infinity ); // Infinity
+alert( "not a number" / 2 ); // NaN, such division is erroneous
+alert( "not a number" / 2 + 5 ); // NaN
+```
+
+
+
+#### b. string类型(TODO)
+
+
+
+
+
+
+
+
+
+### （2）class语法[^1]
 
 ​           JavaScript（后简称JS），不使用`class`，采用`prototype`方式，也可以定义类的结构，如下
 
@@ -138,7 +214,7 @@ new User2().sayHi();
 
 
 
-### （2）getter/setter语法
+### （3）getter/setter语法
 
 class定义的类中，允许重写属性的getter和setter方法。例如
 
@@ -208,7 +284,7 @@ user = new User("a");
 
 
 
-### （3）static语法
+### （4）static语法
 
 `static`关键字可以class中定义一个类方法，调用这个方法直接使用类名。
 
@@ -283,6 +359,11 @@ console.log(articles);
 
 
 
+
+
 ## References
 
 [^1]: https://javascript.info/class
+[^2]:https://javascript.info/types
+[^3]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures
+
