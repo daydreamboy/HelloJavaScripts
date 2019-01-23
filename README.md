@@ -349,6 +349,206 @@ console.log(articles);
 
 
 
+### （5）module功能[^4]
+
+​       JavaScript的module，即单个js文件，module封装特定class以及function的集合，可以通过**export**和**import**关键词，提供给其他js文件调用。但是html文件的`script`标签默认导入js文件，并不支持module功能。
+
+​       html文件的`script`标签引入JavaScript的module，需要设置`script`的type为**module**，举个例子
+
+```html
+<script src="main.js" type="module"></script>
+```
+
+说明
+
+> 如果不设置type为module，浏览器（Chrome、FireFox等）将把export、import等关键词报错。
+
+
+
+#### 使用export
+
+​        **export**语句用于从module中导出function、object或者primitive value。**export**语句不能用于内嵌script。
+
+有两种类型的export方式：**named export**（有名导出）和**default export**（默认导出）
+
+
+
+* named export方式
+
+```javascript
+// exports a function declared earlier
+export { myFunction }; 
+
+// exports a constant
+export const foo = Math.sqrt(2);
+```
+
+​        使用named导出方式，export的符号名和import的符号名必须一致。
+
+
+
+举个例子，如下
+
+**19_named_export_module.js**
+
+```javascript
+function cube(x) {
+  return x * x * x;
+}
+
+const foo = Math.PI + Math.SQRT2;
+
+var graph = {
+  options: {
+    color: "white",
+    thickness: "2px"
+  },
+  draw: function() {
+    console.log(`From graph draw function with color ${this.options.color}, thickness ${this.options.thickness}`);
+  }
+};
+
+// Note: named export
+export { cube, foo, graph };
+
+```
+
+说明
+
+> 1. cube、foo和graph都是采用named exported的符号名。
+> 2. named导出的符号名必须和变量、函数名一致，而且是已定义的。例如`export { cube2, foo, graph };`Chrome报错`Uncaught SyntaxError: Export 'cube2' is not defined in module`
+
+
+
+**19_named_export_main.js**
+
+```javascript
+import { cube, foo, graph } from "./19_export_1_module1.js";
+
+graph.options = {
+  color: "blue",
+  thickness: "3px"
+};
+
+graph.draw();
+console.log(cube(3)); // 27
+console.log(foo); // 4.555806215962888
+```
+
+说明
+
+> 1. import的符号名也必须和export的符号名一致。
+> 2. 这里from "./19_export_1_module1.js"，而不是from "./19_export_1_module1"，是浏览器要求。
+
+
+
+**19_named_export.html**
+
+```html
+<html>
+  <head>
+    <script type="module" src="./19_export_1_main.js"></script>
+  </head>
+</html>
+```
+
+说明
+
+> 1. 前面也提到过，如果js文件是module，需要设置type为module
+
+
+
+* default export方式
+
+```javascript
+// Default exports (function)
+export default function() {} 
+
+// Default exports (class)
+export default class {} 
+```
+
+
+
+如果仅想导出单个value或者function，则可以采用default export方式。
+
+
+
+举个例子，如下
+
+**20_default_export_module.js**
+
+```javascript
+export default function cube(x) {
+  return x * x * x;
+}
+```
+
+**20_default_export_main.js**
+
+```javascript
+import myCube from "./20_default_export_module.js";
+console.log(myCube(3)); // 27
+```
+
+说明
+
+> 1. 使用default export方式导出，import的符号名可以任意名称，不一定保持一致。例如module中的函数是cube，而import语句可以取名为myCube。
+> 2. `export default`不能和`var`、`let`或者`const`一起使用。
+
+
+
+
+
+module要求必须有一个默认的export，即export default。
+
+一般推荐把export和import放在js文件最前面，但是export和import一些变体写法，需要遵循变量作用域，因此不支持写在最前面。
+
+举个例子，如下
+
+```javascript
+export default count;
+export {ability};
+let count = 10;
+function ability() { return 'hello!'; }
+```
+
+浏览器将不识别count变量，可以换成下面的写法
+
+```javascript
+export default ability;
+export {count};
+let count = 10;
+function ability() { return 'hello!'; }
+```
+
+或者
+
+```javascript
+export {count as default};
+export {ability};
+let count = 10;
+function ability() { return 'hello!'; }
+```
+
+
+
+#### 使用import
+
+ES 6 module要求完整module名字，包括文件后缀名。举个例子，如下
+
+```javascript
+import {count} from './modulename.js';
+```
+
+
+
+#### module重定向（Module Redirect）
+
+
+
+
+
 ## 附录
 
 ### 1、辅助工具
@@ -366,4 +566,5 @@ console.log(articles);
 [^1]: https://javascript.info/class
 [^2]:https://javascript.info/types
 [^3]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures
+[^4]:https://medium.com/@mattlag/es6-modules-getting-started-gotchas-2ad154f38e2e
 
