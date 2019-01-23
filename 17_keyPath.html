@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <script type="module" src="./library/ObjectTool.js"></script>
+    <script type="module">
+      import ObjectTool from './library/ObjectTool.js';
+      const target = {
+        foo: {
+          bar: {
+            example: 65
+          },
+          array: [1, 2],
+          null: null
+        }
+      };
+
+      var keyPath = "foo.array.1";
+      // Note: examples
+      // keyPath = "foo.bar.example";
+      // keyPath = "foo.bar2.example";
+      // keyPath = "foo.array.1";
+      // keyPath = "foo.array.10";
+      const result = ObjectTool.valueForKeyPath(target, keyPath);
+      console.log(result);
+    </script>
+  </head>
+</html>
