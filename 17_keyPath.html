@@ -2,7 +2,7 @@
   <head>
     <script type="module" src="./library/ObjectTool.js"></script>
     <script type="module">
-      import ObjectTool from './library/ObjectTool.js';
+      import ObjectTool from "./library/ObjectTool.js";
       const target = {
         foo: {
           bar: {
@@ -13,14 +13,23 @@
         }
       };
 
-      var keyPath = "foo.array.1";
+      var keyPath;
+      var output;
       // Note: examples
       // keyPath = "foo.bar.example";
       // keyPath = "foo.bar2.example";
       // keyPath = "foo.array.1";
       // keyPath = "foo.array.10";
-      const result = ObjectTool.valueForKeyPath(target, keyPath);
-      console.log(result);
+
+      // Case 1
+      keyPath = 'foo.array.1';
+      output = ObjectTool.valueForKeyPath(target, keyPath);
+      console.log(output);
+
+      // Case 2
+      keyPath = 'foo.bar.example';
+      output = ObjectTool.valueForKeyPath(target, keyPath);
+      console.log(output);
     </script>
   </head>
 </html>
