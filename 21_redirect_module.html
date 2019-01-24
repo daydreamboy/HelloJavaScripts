@@ -1,0 +1,12 @@
+<html>
+  <head>
+    <script type="module" src="./21_redirect_module_main.js"></script>
+    <script type="module">
+      import square from "./21_redirect_module_main.js";
+      import { ModuleName, ModuleFileName } from "./21_redirect_module_main.js";
+      console.log(ModuleName);
+      console.log(ModuleFileName);
+      console.log(square(3));
+    </script>
+  </head>
+</html>

@@ -10,9 +10,7 @@
 
 
 
-## 1、JavaScript语法
-
-### （1）数据类型
+## 1、数据类型
 
 JavaScript有7种数据类型（Data Types）[^2]，如下
 
@@ -82,13 +80,7 @@ alert( "not a number" / 2 + 5 ); // NaN
 
 
 
-
-
-
-
-
-
-### （2）class语法[^1]
+## 2、class语法[^1]
 
 ​           JavaScript（后简称JS），不使用`class`，采用`prototype`方式，也可以定义类的结构，如下
 
@@ -130,7 +122,7 @@ user.sayHi();
 
 
 
-#### 理解class和constructor作用
+### （1）理解class和constructor作用
 
 * class定义User，实际上User不是类，还是function类型，可见class是function的另一种形式。
 
@@ -148,7 +140,7 @@ console.log(User === User.prototype.constructor); // true
 
 
 
-#### class和function的区别
+### （2）class和function的区别
 
 * class定义的类（也可以称函数，后面为了区分，还是称为类），必须使用new关键字初始化，否则浏览器会报错。
 
@@ -184,7 +176,7 @@ console.log("last_name: " + user.last_name);
 
 
 
-#### class的定义可以作为表达式
+### （3）class的定义可以作为表达式
 
 class的定义可以作为函数的返回值，也可以直接赋值给变量，这个和function是保持一致的。
 
@@ -214,7 +206,7 @@ new User2().sayHi();
 
 
 
-### （3）getter/setter语法
+### （4）getter/setter语法
 
 class定义的类中，允许重写属性的getter和setter方法。例如
 
@@ -284,7 +276,7 @@ user = new User("a");
 
 
 
-### （4）static语法
+### （5）static语法
 
 `static`关键字可以class中定义一个类方法，调用这个方法直接使用类名。
 
@@ -349,14 +341,14 @@ console.log(articles);
 
 
 
-### （5）module功能[^4]
+## 3、module功能[^4]
 
 ​       JavaScript的module，即单个js文件，module封装特定class以及function的集合，可以通过**export**和**import**关键词，提供给其他js文件调用。但是html文件的`script`标签默认导入js文件，并不支持module功能。
 
 ​       html文件的`script`标签引入JavaScript的module，需要设置`script`的type为**module**，举个例子
 
 ```html
-<script src="main.js" type="module"></script>
+<script type="module" src="main.js"></script>
 ```
 
 说明
@@ -365,7 +357,7 @@ console.log(articles);
 
 
 
-#### 使用export
+### （1）使用export[^5]
 
 ​        **export**语句用于从module中导出function、object或者primitive value。**export**语句不能用于内嵌script。
 
@@ -373,19 +365,14 @@ console.log(articles);
 
 
 
-* named export方式
-
-```javascript
-// exports a function declared earlier
-export { myFunction }; 
-
-// exports a constant
-export const foo = Math.sqrt(2);
-```
-
-​        使用named导出方式，export的符号名和import的符号名必须一致。
+| 类型               | 区分                                                         | 说明 |
+| ------------------ | ------------------------------------------------------------ | ---- |
+| **named export**   | import的符号名和export的符号名必须一致                       |      |
+| **default export** | import的符号名可以任意名称，不一定和定义名字（变量名、函数名等）保持一致 |      |
 
 
+
+#### a. named export（有名导出）
 
 举个例子，如下
 
@@ -458,17 +445,7 @@ console.log(foo); // 4.555806215962888
 
 
 
-* default export方式
-
-```javascript
-// Default exports (function)
-export default function() {} 
-
-// Default exports (class)
-export default class {} 
-```
-
-
+#### b. default export（默认导出）
 
 如果仅想导出单个value或者function，则可以采用default export方式。
 
@@ -493,7 +470,7 @@ console.log(myCube(3)); // 27
 
 说明
 
-> 1. 使用default export方式导出，import的符号名可以任意名称，不一定保持一致。例如module中的函数是cube，而import语句可以取名为myCube。
+> 1. 使用default export方式导出，import的符号名可以任意名称，不一定和定义名字（变量名、函数名等）保持一致。例如module中的函数是cube，而import语句可以取名为myCube。
 > 2. `export default`不能和`var`、`let`或者`const`一起使用。
 
 
@@ -533,9 +510,91 @@ function ability() { return 'hello!'; }
 
 
 
-#### 使用import
+#### c. module重定向（Module Redirect）
 
-ES 6 module要求完整module名字，包括文件后缀名。举个例子，如下
+当module A中导出module B中exported的符号，称之为**module重定向**。
+
+
+
+举个例子，如下
+
+**21_redirect_module_main.js**
+
+```javascript
+export {default} from './21_redirect_module_other_module.js';
+export * from './21_redirect_module_other_module.js';
+```
+
+
+
+**21_redirect_module_other_module.js**
+
+```javascript
+export default function square(x) {
+    return x * x;
+}
+
+export let ModuleName = 'Other_Module', ModuleFileName = '21_redirect_module_other_module.js';
+```
+
+
+
+**21_redirect_module.html**
+
+```html
+<html>
+  <head>
+    <script type="module" src="./21_redirect_module_main.js"></script>
+    <script type="module">
+      import square from "./21_redirect_module_main.js";
+      import { ModuleName, ModuleFileName } from "./21_redirect_module_main.js";
+      console.log(ModuleName);
+      console.log(ModuleFileName);
+      console.log(square(3));
+    </script>
+  </head>
+</html>
+```
+
+
+
+#### d. export语法形式
+
+```javascript
+// 1. named export
+export { name1, name2, …, nameN };
+export { variable1 as name1, variable2 as name2, …, nameN };
+export let name1, name2, …, nameN; // also var, const
+export let name1 = …, name2 = …, …, nameN; // also var, const
+export function FunctionName(){...}
+export class ClassName {...}
+
+// 2. default export
+export default expression;
+export default function (…) { … } // also class, function*
+export default function name1(…) { … } // also class, function*
+export { name1 as default, … };
+
+// 3. redirect module
+export * from …;
+export { name1, name2, …, nameN } from …;
+export { import1 as name1, import2 as name2, …, nameN } from …;
+export { default } from …;
+```
+
+
+
+### （2）使用import[^6]
+
+**import**语句用于绑定module导出的符号。
+
+导入的module都是`strict mode`，不管是否显式声明它了
+
+如果内嵌`script`标签需要使用import语句，必须设置`script`标签的`type="module"`。但是如果使用`import()`函数，则可以不用设置，
+
+
+
+ES 6 module要求**import**语句使用完整module名字，包括文件后缀名。举个例子，如下
 
 ```javascript
 import {count} from './modulename.js';
@@ -543,7 +602,49 @@ import {count} from './modulename.js';
 
 
 
-#### module重定向（Module Redirect）
+#### a. import导入分类
+
+**import**语句有下面几种使用形式
+
+##### 1. 导入整个module（Import an entire module's contents）
+
+
+
+##### 2. 导入单个符号或多个符号（Import a single export or multiple exports from a module）
+
+
+
+##### 3. 导入符号作为别名（Import an export with a more convenient alias）
+
+
+
+##### 4. 直接执行module
+
+
+
+##### 5. 导入default符号（Import defaults）
+
+
+
+##### 6. 动态导入（Dynamic Import）
+
+
+
+#### b. import语法形式
+
+```javascript
+import defaultExport from "module-name";
+import * as name from "module-name";
+import { export } from "module-name";
+import { export as alias } from "module-name";
+import { export1 , export2 } from "module-name";
+import { foo , bar } from "module-name/path/to/specific/un-exported/file";
+import { export1 , export2 as alias2 , [...] } from "module-name";
+import defaultExport, { export [ , [...] ] } from "module-name";
+import defaultExport, * as name from "module-name";
+import "module-name";
+var promise = import("module-name"); // This is a stage 3 proposal.
+```
 
 
 
@@ -567,4 +668,9 @@ import {count} from './modulename.js';
 [^2]:https://javascript.info/types
 [^3]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures
 [^4]:https://medium.com/@mattlag/es6-modules-getting-started-gotchas-2ad154f38e2e
+
+[^5]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
+[^6]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
+
+
 
