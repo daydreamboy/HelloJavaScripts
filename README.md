@@ -449,37 +449,13 @@ console.log(foo); // 4.555806215962888
 
 如果仅想导出单个value或者function，则可以采用default export方式。
 
+注意
 
-
-举个例子，如下
-
-**20_default_export_module.js**
-
-```javascript
-export default function cube(x) {
-  return x * x * x;
-}
-```
-
-**20_default_export_main.js**
-
-```javascript
-import myCube from "./20_default_export_module.js";
-console.log(myCube(3)); // 27
-```
-
-说明
-
-> 1. 使用default export方式导出，import的符号名可以任意名称，不一定和定义名字（变量名、函数名等）保持一致。例如module中的函数是cube，而import语句可以取名为myCube。
-> 2. `export default`不能和`var`、`let`或者`const`一起使用。
+> module要求必须有且仅有一个默认的export，即export default语句。
 
 
 
-
-
-module要求必须有一个默认的export，即export default。
-
-一般推荐把export和import放在js文件最前面，但是export和import一些变体写法，需要遵循变量作用域，因此不支持写在最前面。
+​        一般推荐把export和import放在js文件最前面，但是export和import一些变体写法，需要遵循变量作用域，因此不支持写在最前面。
 
 举个例子，如下
 
@@ -507,6 +483,30 @@ export {ability};
 let count = 10;
 function ability() { return 'hello!'; }
 ```
+
+
+
+举个完整使用default符号的例子，如下
+
+**20_default_export_module.js**
+
+```javascript
+export default function cube(x) {
+  return x * x * x;
+}
+```
+
+**20_default_export_main.js**
+
+```javascript
+import myCube from "./20_default_export_module.js";
+console.log(myCube(3)); // 27
+```
+
+说明
+
+> 1. 使用default export方式导出，import的符号名可以任意名称，不一定和定义名字（变量名、函数名等）保持一致。例如module中的函数是cube，而import语句可以取名为myCube。
+> 2. `export default`不能和`var`、`let`或者`const`一起使用。
 
 
 
@@ -608,25 +608,113 @@ import {count} from './modulename.js';
 
 ##### 1. 导入整个module（Import an entire module's contents）
 
+形式：`import * as aliasName from 'module.js';`
+
+示例
+
+```javascript
+import * as utility from "./22_import_all_symbols_as_namespace_module.js";
+
+console.log(utility.ModuleFileName);
+console.log('3^2 = '+ utility.square(3));
+console.log('pow(2,3) = ' + utility.pow(2,3));
+```
+
+完整例子，见**22_import_all_symbols_as_namespace.html**
+
 
 
 ##### 2. 导入单个符号或多个符号（Import a single export or multiple exports from a module）
+
+形式：
+
+`import { namedExport } from 'module.js';`
+
+`import { namedExport1, namedExport2, namedExport3,... } from 'module.js';`
+
+示例
+
+```javascript
+import { ModuleFileName } from "./23_import_exported_symbols_module.js";
+import { square, pow } from "./23_import_exported_symbols_module.js";
+
+console.log(ModuleFileName);
+console.log('3^2 = '+ square(3));
+console.log('pow(2,3) = ' + pow(2,3));
+```
+
+完整例子，见**23_import_exported_symbols.html**
 
 
 
 ##### 3. 导入符号作为别名（Import an export with a more convenient alias）
 
+形式：
+
+`import { namedExport as aliasName } from 'module.js';`
+
+`import { namedExport1 as aliasName1, namedExport2 as aliasName2, ... } from 'module.js';`
+
+示例
+
+```javascript
+import { ModuleFileName as moduel_name } from "./24_import_symbols_as_alias_module.js";
+import {
+	square as s,
+	pow as p
+} from "./24_import_symbols_as_alias_module.js";
+
+console.log(moduel_name);
+console.log("3^2 = " + s(3));
+console.log("pow(2,3) = " + p(2, 3));
+```
+
+完整例子，见**24_import_symbols_as_alias.html**
 
 
-##### 4. 直接执行module
+
+##### 4. 直接执行module（Import module without import symbols）
+
+形式：`import 'module.js';`
+
+示例
+
+```javascript
+import "./25_import_module_module.js";
+```
+
+说明
+
+> 直接执行module方式，并不导入任何符号，仅执行该js文件。
+
+完整例子，见**25_import_module.html**
 
 
 
 ##### 5. 导入default符号（Import defaults）
 
+形式：`import defaultExport from 'module.js';`
+
+也可以和其他形式组合使用，如
+
+`import defaultExport, * as aliasName from 'module.js';`
+
+`import defaultExport, {namedExport1, namedExport2, ...} from 'module.js';`
+
+示例
+
+```javascript
+import myFunction from "./26_import_default_symbol_module.js";
+myFunction();
+```
+
+完整例子，见**26_import_default_symbol.html**
+
 
 
 ##### 6. 动态导入（Dynamic Import）
+
+
 
 
 
@@ -635,12 +723,12 @@ import {count} from './modulename.js';
 ```javascript
 import defaultExport from "module-name";
 import * as name from "module-name";
-import { export } from "module-name";
-import { export as alias } from "module-name";
+import { namedExport } from "module-name";
+import { namedExport as alias } from "module-name";
 import { export1 , export2 } from "module-name";
 import { foo , bar } from "module-name/path/to/specific/un-exported/file";
 import { export1 , export2 as alias2 , [...] } from "module-name";
-import defaultExport, { export [ , [...] ] } from "module-name";
+import defaultExport, { namedExport [ , [...] ] } from "module-name";
 import defaultExport, * as name from "module-name";
 import "module-name";
 var promise = import("module-name"); // This is a stage 3 proposal.

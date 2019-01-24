@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <script type="module" src="./24_import_symbols_as_alias_module.js"></script>
+    <script type="module">
+      import { ModuleFileName as moduel_name } from "./24_import_symbols_as_alias_module.js";
+      import {
+        square as s,
+        pow as p
+      } from "./24_import_symbols_as_alias_module.js";
+
+      console.log(moduel_name);
+      console.log("3^2 = " + s(3));
+      console.log("pow(2,3) = " + p(2, 3));
+    </script>
+  </head>
+</html>

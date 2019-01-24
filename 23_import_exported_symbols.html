@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <script type="module" src="./23_import_exported_symbols_module.js"></script>
+    <script type="module">
+      import { ModuleFileName } from "./23_import_exported_symbols_module.js";
+      import { square, pow } from "./23_import_exported_symbols_module.js";
+
+      console.log(ModuleFileName);
+      console.log('3^2 = '+ square(3));
+      console.log('pow(2,3) = ' + pow(2,3));
+    </script>
+  </head>
+</html>
