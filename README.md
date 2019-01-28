@@ -714,23 +714,60 @@ myFunction();
 
 ##### 6. 动态导入（Dynamic Import）
 
+形式：
 
+`import('module.js').then((module) => { // Do something with the module. });`
+
+`import('module.js').then((module) => { // Do something with the module. }).catch(err => { // Do something with the err });`
+
+
+
+示例
+
+```javascript
+import("./27_dynamic_import_module.js").then((module) => {
+  console.log(module.ModuleFileName);
+  console.log('3^2 = '+ module.square(3));
+  console.log('pow(2,3) = ' + module.pow(2,3));
+}).catch(err => {
+  console.log(err);
+});;
+```
+
+完整例子，见**27_dynamic_import.html**
+
+
+
+官方文档上说，动态导入还支持添加await关键词，例如
+
+```javascript
+let module = await import('/module.js');
+```
+
+但实际上Chrome报错。示例见见**27_dynamic_import.html**
 
 
 
 #### b. import语法形式
 
 ```javascript
+// 1. 导入默认符号
 import defaultExport from "module-name";
+// 2. 导入整个module
 import * as name from "module-name";
+// 3. 导入有名符号
 import { namedExport } from "module-name";
+// 4. 导入符号指定别名
 import { namedExport as alias } from "module-name";
+// 5. 导入多个符号
 import { export1 , export2 } from "module-name";
 import { foo , bar } from "module-name/path/to/specific/un-exported/file";
 import { export1 , export2 as alias2 , [...] } from "module-name";
 import defaultExport, { namedExport [ , [...] ] } from "module-name";
 import defaultExport, * as name from "module-name";
+// 6. 执行module代码
 import "module-name";
+// 7. 动态导入
 var promise = import("module-name"); // This is a stage 3 proposal.
 ```
 
