@@ -56,7 +56,7 @@ typeof alert // "function"
 
 
 
-#### a. number类型
+### （1）number类型
 
 number类型的值支持算术操作符（`+`、`-`、`*`、`/`等）。
 
@@ -76,7 +76,26 @@ alert( "not a number" / 2 + 5 ); // NaN
 
 
 
-#### b. string类型(TODO)
+### （2）string类型(TODO)
+
+
+
+### （7）object类型
+
+object类型包括**自定义类**和**标准内置类**（Standard built-in objects）[^7]。
+
+
+
+标准内置类，按照分类如下
+
+| Category         | objects |
+| ---------------- | ------- |
+| Value properties |         |
+|                  |         |
+
+
+
+
 
 
 
@@ -783,7 +802,51 @@ var promise = import("module-name"); // This is a stage 3 proposal.
 
 
 
+### 2、开发环境搭建
 
+#### （1）安装http-server
+
+```shell
+$ npm install http-server
+```
+
+
+
+#### （2）开启Web服务
+
+在根目录开启http server，如下
+
+```shell
+$ http-server -c-1
+```
+
+
+
+#### （3）浏览器中访问html页面
+
+html页面，示例如下
+
+```html
+<html>
+  <head>
+    <script type="module" src="./library/StringTool.js"></script>
+    <script type="module">
+      import StringTool from "./library/StringTool.js";
+      var input = '测试时是地方哈是否if的hi个';
+      var output;
+      
+      output = StringTool.truncateString(input, 8);
+      console.log(output);
+
+      output = StringTool.truncateString(input, 8, StringTool.TruncatingStyle.truncatingHead);
+      console.log(output);
+
+      output = StringTool.truncateString(input, 8, StringTool.TruncatingStyle.truncatingMiddle);
+      console.log(output);
+    </script>
+  </head>
+</html>
+```
 
 
 
@@ -796,6 +859,8 @@ var promise = import("module-name"); // This is a stage 3 proposal.
 
 [^5]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
 [^6]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
+
+[^7]:<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects>
 
 
 
