@@ -88,10 +88,20 @@ object类型包括**自定义类**和**标准内置类**（Standard built-in obj
 
 标准内置类，按照分类如下
 
-| Category         | objects |
-| ---------------- | ------- |
-| Value properties |         |
-|                  |         |
+| Category                    | Objects                                                      |
+| --------------------------- | ------------------------------------------------------------ |
+| Value properties            | * Infinity<br/>* NaN<br/>* undefined<br/>* null<br/>* globalThis |
+| Function properties         | * eval()<br/>* uneval()⚠️<br/>* isFinite()<br/>* isNaN()<br/>* parseFloat()<br/>* parseInt()<br/>* decodeURI()<br/>* decodeURIComponent()<br/>* encodeURI()<br/>* encodeURIComponent()<br/>* escape()👎<br/>* unescape()👎 |
+| Fundamental objects         | * Object<br/>* Function<br/>* Boolean<br/>* Symbol<br/>* Error<br/>* EvalError<br/>* InternalError<br/>* RangeError<br/>* ReferenceError<br/>* SyntaxError<br/>* TypeError<br/>* URIError |
+| Numbers and dates           | * Number<br/>* BigInt<br/>* Math<br/>* Date                  |
+| Text processing             | * String<br/>* RegExp                                        |
+| Indexed collections         | * Array<br/>* Int8Array<br/>* Uint8Array<br/>* Uint8ClampedArray<br/>* Int16Array<br/>* Int32Array<br/>* Uint32Array<br/>* Float32Array<br/>* Float64Array |
+| Keyed collections           | * Map<br/>* Set<br/>* WeakMap<br/>* WeakSet                  |
+| Structured data             | * ArrayBuffer<br/>* SharedArrayBuffer🧪<br/>* Atomics🧪<br/>* DataView<br/>* JSON |
+| Control abstraction objects | * Promise<br/>* Generator<br/>* GeneratorFunction<br/>* AsyncFunction🧪 |
+| Reflection                  | * Reflect<br/>* Proxy                                        |
+| Internationalization        | * Intl<br/>* Intl.Collator<br/>* Intl.DateTimeFormat<br/>* Intl.ListFormat<br/>* Intl.NumberFormat<br/>* Intl.PluralRules<br/>* Intl.RelativeTimeFormat<br/>* Intl.Locale |
+| WebAssembly                 | *                                                            |
 
 
 
