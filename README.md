@@ -802,6 +802,80 @@ var promise = import("module-name"); // This is a stage 3 proposal.
 
 
 
+## 4、IIFE函数[^8]
+
+​      IIFE(Immediately-invoked Function Expressions)指的是立即调用函数表达式，简单说，就是定义函数的同时调用这个函数。后面称这种函数为IIFE函数。
+
+​     举个IIFE函数的例子，如下
+
+```javascript
+// 匿名函数
+(function() {
+  /* */
+})();
+
+// 匿名arrow函数
+(() => {
+  /* */
+})();
+```
+
+除了上面的写法，还可以函数调用符`()`，放在里面，如下
+
+```javascript
+(function() {
+  /* */
+}())
+
+// Note: Chrome console，执行下面代码，好像不支持
+(() => {
+  /* */
+}())
+```
+
+
+
+也是是有名的IIFE函数，如下
+
+```javascript
+(function doSomething() {
+  /* */
+})()
+```
+
+
+
+一般可以在前面加上`;`，避免某些工具合并多个JS文件，导致出现问题，如下
+
+```javascript
+;(function() {
+  /* */
+})()
+```
+
+
+
+举个简单应用例子[^9]，如下
+
+```html
+<html>
+  <head>
+    <script type="module">
+      ;(window.powers = function(i) {
+        alert('test : ' + i);
+      })(2);
+    </script>
+  </head>
+  <body>
+    <a href="#" onclick="powers(654)">Click</a>
+  </body>
+</html>
+```
+
+IIFE函数赋值到powers，powers函数和IIFE函数是等价的。页面加载时，定义IIFE函数并同时执行它。
+
+
+
 
 
 ## 附录
@@ -817,8 +891,12 @@ var promise = import("module-name"); // This is a stage 3 proposal.
 #### （1）安装http-server
 
 ```shell
-$ npm install http-server
+$ npm install -g http-server
 ```
+
+
+
+> -g，全局安装
 
 
 
@@ -872,5 +950,6 @@ html页面，示例如下
 
 [^7]:<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects>
 
-
+[^8]:https://flaviocopes.com/javascript-iife/
+[^9]:https://stackoverflow.com/questions/7498361/defining-and-calling-function-in-one-step
 
