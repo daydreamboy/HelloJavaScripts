@@ -938,6 +938,36 @@ html页面，示例如下
 
 
 
+### 3、JavaScript常用库
+
+
+
+#### （1）jquery.qrcode.js
+
+[jquery.qrcode.js](http://jeromeetienne.github.com/jquery-qrcode)是JQuery的插件，可以生成二维码图片，举个例子[^10]
+
+```html
+<html>
+
+<head>
+  <script type="text/javascript" src="vendor/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="vendor/jquery.qrcode.min.js"></script>
+  <script type="module">
+    $(document).ready(function () {
+      $('#test').qrcode({ width: 120, height: 120, text: "https://github.com/jeromeetienne/jquery-qrcode" });
+    });
+  </script>
+</head>
+
+<body>
+  <div id="test"></div>
+</body>
+
+</html>
+```
+
+
+
 ## References
 
 [^1]: https://javascript.info/class
@@ -952,4 +982,8 @@ html页面，示例如下
 
 [^8]:https://flaviocopes.com/javascript-iife/
 [^9]:https://stackoverflow.com/questions/7498361/defining-and-calling-function-in-one-step
+
+[^10]:https://stackoverflow.com/a/8611716
+
+
 
