@@ -370,6 +370,136 @@ console.log(articles);
 
 
 
+### （6）let vs. var[^12]
+
+let是es5语法引入的变量修饰符[^13]，推荐使用let，而不是var。
+
+
+
+#### var存在某些捕获变量特殊规则
+
+举个例子，如下
+
+```javascript
+function f() {
+    var a = 10;
+    return function g() {
+        var b = a + 1;
+        return b;
+    }
+}
+
+var g = f();
+g(); // returns '11'
+```
+
+这里g函数中a变量捕获f函数中a变量。
+
+
+
+#### var变量不是block级别
+
+举个例子，如下
+
+```javascript
+function f(shouldInitialize: boolean) {
+    if (shouldInitialize) {
+        var x = 10;
+    }
+
+    return x;
+}
+
+f(true);  // returns '10'
+f(false); // returns 'undefined'
+```
+
+即使x定义在if语句中，return语句依然能访问x变量
+
+
+
+let修饰符解决上面var存在的问题，避免一些意外的错误
+
+
+
+#### let是block级别的作用域
+
+举个例子，如下
+
+```javascript
+function f(input: boolean) {
+    let a = 100;
+
+    if (input) {
+        // Still okay to reference 'a'
+        let b = a + 1;
+        return b;
+    }
+
+    // Error: 'b' doesn't exist here
+    return b;
+}
+```
+
+
+
+#### let不允许重定义
+
+
+
+var的例子
+
+```javascript
+function f(x) {
+    var x;
+    var x;
+
+    if (true) {
+        var x;
+    }
+}
+```
+
+
+
+let的例子
+
+```javascript
+let x = 10;
+let x = 20; // error: can't re-declare 'x' in the same scope
+
+function f(x) {
+    let x = 100; // error: interferes with parameter declaration
+}
+
+function g() {
+    let x = 100;
+    var x = 100; // error: can't have both declarations of 'x'
+}
+```
+
+
+
+虽然函数内部let变量不能和函数形参重名，但是下面这个情况是例外
+
+```javascript
+function f(condition, x) {
+    if (condition) {
+        let x = 100;
+        return x;
+    }
+
+    return x;
+}
+
+f(false, 0); // returns '0'
+f(true, 0);  // returns '100'
+```
+
+
+
+
+
 ## 3、module功能[^4]
 
 ​       JavaScript的module，即单个js文件，module封装特定class以及function的集合，可以通过**export**和**import**关键词，提供给其他js文件调用。但是html文件的`script`标签默认导入js文件，并不支持module功能。
@@ -1066,6 +1196,7 @@ html页面，示例如下
 
 [^11]:https://stackoverflow.com/a/19626821
 [^12]:https://www.typescriptlang.org/docs/handbook/variable-declarations.html
+[^13]:https://www.typescriptlang.org/docs/handbook/basic-types.html#a-note-about-let
 
 
 
