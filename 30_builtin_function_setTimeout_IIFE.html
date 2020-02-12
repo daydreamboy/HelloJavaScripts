@@ -1,0 +1,14 @@
+<html>
+<head>
+    <script>
+        // example from https://www.typescriptlang.org/docs/handbook/variable-declarations.html
+        for (let i = 0; i < 10; i++) {
+            (function(i) {
+                setTimeout(function () {
+                    console.log(i);
+                }, 100 * i);
+            })(i)
+        }
+    </script>
+</head>
+</html>

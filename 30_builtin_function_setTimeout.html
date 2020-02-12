@@ -1,0 +1,16 @@
+<html>
+<head>
+    <script>
+        setTimeout(function() {
+            console.log("second");
+        }, 0);
+        console.log("first"); // Note: "first" always appear before "second"
+
+        for (var i = 0; i < 10; i++) {
+            setTimeout(function () {
+                console.log(i);
+            }, 100 * i);
+        }
+    </script>
+</head>
+</html>

@@ -876,6 +876,85 @@ IIFE函数赋值到powers，powers函数和IIFE函数是等价的。页面加载
 
 
 
+## 5、内置函数
+
+JavaScript的window提供一些方法，因此这些方法可以直接使用，不需要window.method()。
+
+
+
+### （1）setTimeout
+
+setTimeout方法是异步方法，但不是在其他线程，也是在JavaScript线程[^11]。
+
+语法如下
+
+```javascript
+var timeoutID = scope.setTimeout(function[, delay, arg1, arg2, ...]);
+var timeoutID = scope.setTimeout(function[, delay]);
+var timeoutID = scope.setTimeout(code[, delay]);
+```
+
+* 第一个参数是函数名，arg1、arg2是function的实参，function仅是函数名。举个例子，如下
+
+```javascript
+var timeoutID;
+
+function delayedAlert() {
+  timeoutID = window.setTimeout(window.alert, 2*1000, 'That was really slow!');
+}
+
+function clearAlert() {
+  window.clearTimeout(timeoutID);
+}
+```
+
+* 第一个参数是函数闭包。如下
+
+```javascript
+setTimeout(function() {
+    console.log("second");
+}, 0);
+console.log("first"); // Note: "first" always appear before "second"
+```
+
+
+
+#### 解决setTimeout方法在loop中传参问题[^12]
+
+
+
+举个例子，如下
+
+```javascript
+for (var i = 0; i < 10; i++) {
+    setTimeout(function() { console.log(i); }, 100 * i);
+}
+```
+
+输出将是十次10。
+
+
+
+使用IIFE方式，将loop的下标传给setTimeout的闭包函数，如下
+
+```javascript
+for (var i = 0; i < 10; i++) {
+    // capture the current state of 'i'
+    // by invoking a function with its current value
+    (function(i) {
+        setTimeout(function() { console.log(i); }, 100 * i);
+    })(i);
+}
+```
+
+输出将是0至9.
+
+
+
+
+
+
+
 
 
 ## 附录
@@ -984,6 +1063,13 @@ html页面，示例如下
 [^9]:https://stackoverflow.com/questions/7498361/defining-and-calling-function-in-one-step
 
 [^10]:https://stackoverflow.com/a/8611716
+
+[^11]:https://stackoverflow.com/a/19626821
+[^12]:https://www.typescriptlang.org/docs/handbook/variable-declarations.html
+
+
+
+
 
 
 
