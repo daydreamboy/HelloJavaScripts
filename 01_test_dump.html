@@ -13,8 +13,23 @@
 
         let user = new User("John");
         // user.sayHi()
-        user.dump()
-        // console.log("test")
+
+        function test_dump() {
+            user.dump();
+            ({ 'key': 'value'}).dump();
+            ([1, 2, 3]).dump();
+            (1).dump();
+            (3.14).dump();
+            ('abc').dump();
+            (true).dump();
+            (User).dump();
+            (/match/).dump();
+            //(null).dump(); // Error: Cannot read property 'dump' of null
+            //(undefined).dump(); // Error: Cannot read property 'dump' of undefined
+        }
+
+        test_dump();
+
     </script>
 </head>
 
