@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    <script type="module" src="./library/ObjectTool.js"></script>
+    <script type="module">
+        import ObjectTool from "./library/ObjectTool.js";
+        let x;
+
+        x = ['1', '2'];
+        console.log(x + ': ' + ObjectTool.checkIfObject(x)); // true
+
+        x = { key: 'value'};
+        console.log(x + ': ' + ObjectTool.checkIfObject(x)); // true
+
+        x = null;
+        console.log(x + ': ' + ObjectTool.checkIfObject(x)); // false
+
+        x = 'abc';
+        console.log(x + ': ' + ObjectTool.checkIfObject(x)); // false
+
+        x = 1;
+        console.log(x + ': ' + ObjectTool.checkIfObject(x)); // false
+
+        x = function () {
+            console.log('Hello');
+        };
+        console.log(x + ': ' + ObjectTool.checkIfObject(x)); // false
+
+        x = Number('3.14');
+        console.log(x + ': ' + ObjectTool.checkIfObject(x)); // false
+
+        x = new Map();
+        console.log(x + ': ' + ObjectTool.checkIfObject(x)); // true
+    </script>
+</head>
+
+</html>

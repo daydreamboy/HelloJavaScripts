@@ -1,0 +1,24 @@
+<html>
+
+<head>
+    <script>
+        let x;
+
+        JSONString = "{\"title\":\"标题\",\"list\":[{\"item1\":\"内容1\"}],\"subtitle\":\"副标题\"}";
+        x = JSON.parse(JSONString);
+        console.log(typeof(x)+ ': ' + x);
+        console.log('title1' + ': ' + x.title);
+        console.log('title2' + ': ' + x['title']);
+
+        console.log('list1' + ': ' + x.list);
+        console.log('list2' + ': ' + x['list']);
+
+        console.log('list3' + ': ' + x.list[0]);
+        console.log('list4' + ': ' + x['list'][0]);
+
+        console.log('list5' + ': ' + x.list[0].item1);
+        console.log('list6' + ': ' + x['list'][0]['item1']);
+    </script>
+</head>
+
+</html>

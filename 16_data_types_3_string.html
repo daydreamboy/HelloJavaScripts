@@ -1,11 +1,19 @@
 <html>
 
 <head>
-    <script>
+    <script type="module" src="./library/StringTool.js"></script>
+    <script type="module">
+        import StringTool from "./library/StringTool.js";
+
         let x;
 
         x = '1';
-        console.log(`x` + ': ' + Number.isInteger(x)); // false
+        console.log(x + ': ' + typeof x); // string
+        console.log(x + ': ' + StringTool.checkIfString(x)); // true
+
+        x = new String('2');
+        console.log(x + ': ' + typeof x); // object
+        console.log(x + ': ' + StringTool.checkIfString(x)); // true
     </script>
 </head>
 
