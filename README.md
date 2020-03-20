@@ -105,6 +105,15 @@ object类型包括**自定义类**和**标准内置类**（Standard built-in obj
 
 
 
+#### a. JSON
+
+JSON是object类型，它提供两个方法，如下
+
+```javascript
+JSON.parse(text[, reviver])
+JSON.stringify(value[, replacer[, space]])
+```
+
 
 
 
