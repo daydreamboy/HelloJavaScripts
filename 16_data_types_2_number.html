@@ -10,6 +10,26 @@
 
         // NaN
         console.log("not a number" / 2 + 5);
+
+        let x;
+
+        x = 1;
+        console.log(x + ': ' + Number.isInteger(x)); // true
+
+        x = 3.14;
+        console.log(x + ': ' + Number.isInteger(x)); // false
+
+        x = '1';
+        console.log(x + ': ' + Number.isInteger(x)); // false
+
+        x = '2'
+        console.log(x + ': ' + Number.isInteger(Number(x))); // true
+
+        x = 3
+        console.log(x + ': ' + Number.isInteger(Number(x))); // true
+
+        x = '3.15'
+        console.log(x + ': ' + Number.isInteger(Number(x))); // false
     </script>
 </head>
 

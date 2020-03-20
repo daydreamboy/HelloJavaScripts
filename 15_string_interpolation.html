@@ -5,24 +5,30 @@
     <script>
         // @see https://stackoverflow.com/a/4673436
         if (!String.prototype.format) {
-        String.prototype.format = function() {
-            var args = arguments;
-            return this.replace(/{(\d+)}/g, function(match, number) { 
-            return typeof args[number] != 'undefined'
-                ? args[number]
-                : match
-            ;
-            });
-        };
+            String.prototype.format = function () {
+                // Note: arguments is the parameter of current function, and is an array
+                // For example, "Now is {0}".format(nowString, ...),
+                // the nowString, ... is the arguments
+                let args = arguments;
+                // Note: this stands for current String instance
+                // For example, "Now is {0}".format(nowString, ...),
+                // the "Now is {0}" is this
+                return this.replace(/{(\d+)}/g, function (match, number) {
+                    return typeof args[number] != 'undefined'
+                        ? args[number]
+                        : match
+                        ;
+                });
+            };
         }
 
         // Example 1
-        var now = new Date();
-        var nowString = now.toISOString();
-        var tip = "Now is {0}".format(nowString);
+        let now = new Date();
+        let nowString = now.toISOString();
+        let tip = "Now is {0}".format(nowString);
         console.log(tip);
 
-        var fragment1 = '{ \
+        let fragment1 = '{ \
             "header": { \
                 "title": "卡片消息", \
                 "summary": "$summary" \
@@ -34,19 +40,18 @@
                     "layout": "fix", \
                     "body": \
                     ';
-        var fragment2 = '\
+        let fragment2 = '\
                 } \
             } \
         }';
 
-        var body = '{"title": "this is a title"}';
-        var full_content = fragment1 + body + fragment2;
-        var jsonObject = JSON.parse(full_content);
+        let body = '{"title": "this is a title"}';
+        let full_content = fragment1 + body + fragment2;
+        let jsonObject = JSON.parse(full_content);
         if (jsonObject) {
-            var jsonString = JSON.stringify(jsonObject, null, 4);
+            let jsonString = JSON.stringify(jsonObject, null, 4);
             console.log(jsonString);
-        }
-        else {
+        } else {
             console.log('JSON format is invalid');
         }
 
