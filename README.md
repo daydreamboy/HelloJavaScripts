@@ -792,6 +792,12 @@ console.log('pow(2,3) = ' + utility.pow(2,3));
 
 
 
+注意：不能使用类似这样的语法，`import * from "<module>";`，一次性导入所有的export符号[^14]。目的在于，打包最终JS代码仅是使用到的export符号。
+
+
+
+
+
 ##### 2. 导入单个符号或多个符号（Import a single export or multiple exports from a module）
 
 形式：
@@ -1206,6 +1212,8 @@ html页面，示例如下
 [^11]:https://stackoverflow.com/a/19626821
 [^12]:https://www.typescriptlang.org/docs/handbook/variable-declarations.html
 [^13]:https://www.typescriptlang.org/docs/handbook/basic-types.html#a-note-about-let
+
+[^14]:https://stackoverflow.com/questions/34573779/es6-import-all-named-module-without-alias
 
 
 
