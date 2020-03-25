@@ -116,6 +116,81 @@ JSON.stringify(value[, replacer[, space]])
 
 
 
+#### b. Array
+
+Array是JavaScript内置类，属于object类型。
+
+
+
+##### 遍历Array[^15]
+
+（1）使用下标
+
+```javascript
+let myStringArray = ["Hello","World"];
+let arrayLength = myStringArray.length;
+for (let i = 0; i < arrayLength; i++) {
+    console.log(myStringArray[i]);
+}
+```
+
+
+
+（2）Array.prototype.forEach
+
+```javascript
+x = [{key: 1}, {key: 2}, {KEY: 3}];
+x.forEach(function (item, index, array) {
+    console.log(item, index);
+    if (item.key != undefined) {
+        console.log(item.key);
+    }
+});
+```
+
+forEach方法是ES5语法开始支持的
+
+
+
+（3）for-of方式
+
+```javascript
+let colors = ['red', 'green', 'blue'];
+for (const color of colors){
+    console.log(color);
+}
+```
+
+for-of方式是ES6语法开始支持的
+
+
+
+（4）不要使用for-in方式
+
+for-in方式把数组注入的方法，也遍历出来。举个例子，如下
+
+```javascript
+Array.prototype.foo = "foo!";
+let array = ['a', 'b', 'c'];
+for (let i in array) {
+    console.log(array[i]);
+}
+```
+
+输出是：a b c foo!
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## 2、class语法[^1]
@@ -1214,6 +1289,8 @@ html页面，示例如下
 [^13]:https://www.typescriptlang.org/docs/handbook/basic-types.html#a-note-about-let
 
 [^14]:https://stackoverflow.com/questions/34573779/es6-import-all-named-module-without-alias
+
+[^15]:https://stackoverflow.com/questions/3010840/loop-through-an-array-in-javascript
 
 
 

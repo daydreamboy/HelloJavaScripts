@@ -12,6 +12,36 @@
 
         x = null;
         console.log(x + ': ' + Array.isArray(x)); // false
+
+        // loop case 1
+        let myStringArray = ["Hello","World"];
+        let arrayLength = myStringArray.length;
+        for (let i = 0; i < arrayLength; i++) {
+            console.log(myStringArray[i]);
+        }
+
+        // loop case 2
+        x = [{key: 1}, {key: 2}, {KEY: 3}];
+        x.forEach(function (item, index, array) {
+            console.log(item, index);
+            if (item.key != undefined) {
+                console.log(item.key);
+            }
+        });
+
+        // loop case 3
+        let colors = ['red', 'green', 'blue'];
+        for (const color of colors){
+            console.log(color);
+        }
+
+        // loop abnormal case 1
+        Array.prototype.foo = "foo!";
+        let array = ['a', 'b', 'c'];
+        for (let i in array) {
+            console.log(array[i]);
+        }
+
     </script>
 </head>
 
