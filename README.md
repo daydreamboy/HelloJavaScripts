@@ -181,6 +181,22 @@ for (let i in array) {
 
 
 
+##### Array相关函数
+
+###### join
+
+```javascript
+let x;
+x = ['1'];
+console.log(x.join(',')); // 1
+x = ['1', '2'];
+console.log(x.join(',')); // 1,2
+```
+
+
+
+
+
 
 
 
