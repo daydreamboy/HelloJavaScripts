@@ -154,7 +154,7 @@ x.forEach(function (item, index, array) {
 });
 ```
 
-forEach方法是ES5语法开始支持的
+forEach方法是ES5语法开始支持的。但是forEach方法不支持break。
 
 
 
