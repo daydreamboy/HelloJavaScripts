@@ -105,7 +105,13 @@ object类型包括**自定义类**和**标准内置类**（Standard built-in obj
 
 
 
-#### a. JSON
+#### a. Object
+
+Object和object，是不同概念。object泛指非基本类型的都为object类型，而Object是object类型中的一种，Object是key-value的集合，类似Objective-C的NSDictionary类型。
+
+
+
+#### b. JSON
 
 JSON是object类型，它提供两个方法，如下
 
@@ -116,7 +122,7 @@ JSON.stringify(value[, replacer[, space]])
 
 
 
-#### b. Array
+#### c. Array
 
 Array是JavaScript内置类，属于object类型。
 
@@ -191,6 +197,41 @@ x = ['1'];
 console.log(x.join(',')); // 1
 x = ['1', '2'];
 console.log(x.join(',')); // 1,2
+```
+
+
+
+###### some
+
+```javascript
+let x;
+let evenValue;
+
+// Case 1
+x = [1, 2, 3, 4, 5];
+evenValue = undefined;
+x.some(function (item) {
+    if (item % 2 === 0) {
+        evenValue = item;
+        return true;
+    }
+    return false;
+});
+
+console.log('evenValue：' + evenValue); // 2
+
+// Case 2
+x = [1, 3, 5];
+evenValue = undefined;
+x.some(function (item) {
+    if (item % 2 === 0) {
+        evenValue = item;
+        return true;
+    }
+    return false;
+});
+
+console.log('evenValue：' + evenValue); // undefined
 ```
 
 

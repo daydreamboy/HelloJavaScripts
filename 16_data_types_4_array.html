@@ -3,6 +3,7 @@
 <head>
     <script>
         function test_isArray() {
+            console.log('--- test_isArray ---');
             let x;
 
             x = ['1', '2'];
@@ -16,6 +17,8 @@
         }
 
         function test_loop_array() {
+            console.log('--- test_loop_array ---');
+
             // loop case 1
             let myStringArray = ["Hello", "World"];
             let arrayLength = myStringArray.length;
@@ -47,6 +50,8 @@
         }
 
         function test_join() {
+            console.log('--- test_join ---');
+
             let x;
 
             x = ['1'];
@@ -56,9 +61,42 @@
             console.log(x.join(',')); // 1,2
         }
 
+        function test_some() {
+            console.log('--- test_some ---');
+            let x;
+            let evenValue;
+
+            // Case 1
+            x = [1, 2, 3, 4, 5];
+            evenValue = undefined;
+            x.some(function (item) {
+                if (item % 2 === 0) {
+                    evenValue = item;
+                    return true;
+                }
+                return false;
+            });
+
+            console.log('evenValue：' + evenValue); // 2
+
+            // Case 2
+            x = [1, 3, 5];
+            evenValue = undefined;
+            x.some(function (item) {
+                if (item % 2 === 0) {
+                    evenValue = item;
+                    return true;
+                }
+                return false;
+            });
+
+            console.log('evenValue：' + evenValue); // undefined
+        }
+
         test_isArray();
         test_loop_array();
         test_join();
+        test_some();
     </script>
 </head>
 
