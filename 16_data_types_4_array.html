@@ -93,10 +93,46 @@
             console.log('evenValue：' + evenValue); // undefined
         }
 
+        function test_reduce() {
+            console.log('--- test_reduce ---');
+            let x;
+            let output;
+
+            // Case 1
+            x = [1, 2, 3, 4];
+            output = x.reduce((accumulator, currentItem) => {
+               return accumulator + currentItem;
+            });
+            console.log(x + "'s sum is: " + output);
+
+            // Case 2
+            x = [1, 2, 3, 4];
+            let initialValue = 5;
+            output = x.reduce((accumulator, currentItem) => {
+                return accumulator + currentItem;
+            }, initialValue);
+            console.log(x + "'s sum is: " + output);
+
+            // Case 3
+            x = {
+                'root': {
+                    'level1': {
+                        'level2': 'leaf'
+                    }
+                }
+            };
+            let keyPath = 'root.level1.level2';
+            output = keyPath.split('.').reduce((accumulator, currentScript) => {
+                return accumulator[currentScript];
+            }, x);
+            console.log(keyPath + "'s value is: " + output);
+        }
+
         test_isArray();
         test_loop_array();
         test_join();
         test_some();
+        test_reduce();
     </script>
 </head>
 

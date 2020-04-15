@@ -199,6 +199,14 @@ x = ['1', '2'];
 console.log(x.join(',')); // 1,2
 ```
 
+作用：将数组元素，根据分隔符进行拼接
+
+函数签名：`arr.join([separator])`
+
+参数说明：
+
+* separator，是分隔符，字符串类型。可选，如果不填默认使用`，`
+
 
 
 ###### some
@@ -232,6 +240,27 @@ x.some(function (item) {
 });
 
 console.log('evenValue：' + evenValue); // undefined
+```
+
+作用：遍历数组元素，根据特定条件决定是否中止遍历
+
+函数签名：`arr.some(callback(element[, index[, array]])[, thisArg])`
+
+参数说明：
+
+* callback，回调函数，有3个参数，后面2个参数是可选的
+  * element，数组元素
+  * index，数组元素下标
+  * array，数组本身
+  * 返回值，是bool。如果返回true，则终止当前的数组元素遍历
+* thisArg，用于指定callback中的this对象。可选，如果不指定，callback中的this是undefined
+
+
+
+###### reduce
+
+```javascript
+
 ```
 
 
