@@ -126,6 +126,20 @@
                 return accumulator[currentScript];
             }, x);
             console.log(keyPath + "'s value is: " + output);
+
+            // Case 4
+            x = [1, 2, 3, 4];
+            x.reduce((accumulator, element, index) => {
+                console.log(`element: ${element} at ${index}`);
+                return accumulator;
+            });
+
+            // Case 5
+            x = [1, 2, 3, 4];
+            x.reduce((accumulator, element, index) => {
+                console.log(`element: ${element} at ${index}`);
+                return accumulator;
+            }, 0);
         }
 
         test_isArray();

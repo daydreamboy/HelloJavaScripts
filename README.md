@@ -259,21 +259,57 @@ console.log('evenValue：' + evenValue); // undefined
 
 ###### reduce
 
-```javascript
+作用：用于遍历数组的元素，做特定的reduce操作（比如数组求和，创建Object词典等）
 
+函数签名：
+
+```javascript
+arr.reduce(callback( accumulator, currentValue[, index[, array]] )[, initialValue])
+```
+
+* callback：匿名回调函数，至少有2个参数：accumulator和currentValue，以及返回值
+  * accumulator：如果提供initialValue参数，则accumulator初始化为initialValue，而且currentValue从下标0开始取值；如果没有提供initialValue参数，则accumulator初始化为arr[0]，而且currentValue从下标1开始取值
+  * currentValue：遍历过程中，当前数组的元素
+  * index（可选）：遍历过程中，当前数组的元素的下标
+  * array（可选）：遍历的数组对象
+  * 返回值：必须提供返回值，如果没有return语句，默认返回undefined
+
+* initialValue（可选），如果提供该参数，遍历从下标0开始；如果不提供该参数，遍历从下标1开始，而accumulator初始值为arr[0]
+
+
+
+举个例子，不提供initialValue，如下
+
+```javascript
+x = [1, 2, 3, 4];
+x.reduce((accumulator, element, index) => {
+    console.log(`element: ${element} at ${index}`);
+    return accumulator;
+});
+// element: 2 at 1
+// element: 3 at 2
+// element: 4 at 3
 ```
 
 
 
+举个例子，提供initialValue，如下
+
+```javascript
+x = [1, 2, 3, 4];
+x.reduce((accumulator, element, index) => {
+    console.log(`element: ${element} at ${index}`);
+    return accumulator;
+}, 0);
+// element: 1 at 0
+// element: 2 at 1
+// element: 3 at 2
+// element: 4 at 3
+```
 
 
 
-
-
-
-
-
-
+> 示例代码，见16_data_types_4_array.html
 
 
 
