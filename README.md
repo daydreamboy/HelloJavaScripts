@@ -76,7 +76,64 @@ alert( "not a number" / 2 + 5 ); // NaN
 
 
 
-### （2）string类型(TODO)
+### （2）string类型
+
+string类型主要指字面常量字符串，例如'a'、"b"等。
+
+#### a. string interpolation
+
+ES6(ECMAScript 2015)[^16]引入了template literals语法，可以使用反引号来表示字符串literal，如下
+
+```javascript
+`hello world`
+`hello!
+ world!`
+`hello ${who}`
+tag`string text ${expression} string text`
+```
+
+同时支持`${variable}`用于string interpolation。这样方式比字符串拼接要方便很多，例如
+
+```javascript
+'hello ' + who
+```
+
+
+
+说明
+
+> 1. ES6对应的是ECMAScript 2015，具体对照表见https://en.wikipedia.org/wiki/ECMAScript
+> 2. tag\`string text ${expression} string text\`，是tagged template literal语法，参考"tagged template literal"这一节
+
+
+
+#### b. tagged template literal
+
+TODO
+
+
+
+#### c. long string literal
+
+有两种方法可以支持长字符串，如下
+
+* 使用`+`拼接，如下
+
+```javascript
+let longString = "This is a very long string which needs " +
+                 "to wrap across multiple lines because " +
+                 "otherwise my code is unreadable."
+```
+
+* 使用`\`来换行，如下
+
+```javascript
+let longString = "This is a very long string which needs \
+to wrap across multiple lines because \
+otherwise my code is unreadable."
+```
+
+
 
 
 
@@ -1413,6 +1470,8 @@ html页面，示例如下
 [^14]:https://stackoverflow.com/questions/34573779/es6-import-all-named-module-without-alias
 
 [^15]:https://stackoverflow.com/questions/3010840/loop-through-an-array-in-javascript
+
+[^16]:[https://en.wikipedia.org/wiki/ECMAScript#6th_Edition_%E2%80%93_ECMAScript_2015](https://en.wikipedia.org/wiki/ECMAScript#6th_Edition_–_ECMAScript_2015)
 
 
 

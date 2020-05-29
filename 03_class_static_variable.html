@@ -1,0 +1,25 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="./01_dump.js"></script>
+    <script>
+        // Example from https://stackoverflow.com/a/51382313
+        class Animal {
+            static count = 1;
+            static increaseCount() {
+                this.count = this.getCount() + 1;
+            }
+
+            static getCount() {
+                return this.count || 0;
+            }
+        }
+
+        console.log(Animal.count);
+        Animal.increaseCount();
+        console.log(Animal.count);
+        console.log(Animal.getCount());
+    </script>
+</head>
+
+</html>
