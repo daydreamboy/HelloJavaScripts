@@ -1,15 +1,44 @@
 <html>
 
 <head>
-    <script>
+    <script type="module">
+        import LogTool from "./library/log_tool.js";
+        import CallerTool from "./library/caller_tool.js";
+
+        class MyError extends Error {
+            constructor(message) {
+                super();
+                this.name = 'MyError';
+                this.message = message;
+            }
+        }
+
         function check_Error_data_type() {
+            LogTool.v(`--- ${CallerTool.currentFunctionName()} ---`);
             let x;
 
             x = new Error('This is a error');
             console.log(x + ': ' + typeof x);
         }
 
+        function test_MyError() {
+            LogTool.v(`--- ${CallerTool.currentFunctionName()} ---`);
+
+            try {
+                throw new MyError('A MyError occurred');
+            }
+            catch (error) {
+                if (error instanceof MyError) {
+                    LogTool.i(`This is my error: ${error.name}, ${error.message}, ${error.stack}`);
+                }
+                else {
+                    LogTool.i(`${error.name}: ${error.message}`);
+                }
+            }
+        }
+
         check_Error_data_type();
+        test_MyError();
     </script>
 </head>
 
