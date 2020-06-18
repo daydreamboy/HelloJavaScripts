@@ -1383,15 +1383,46 @@ Error实例的类型是`object`。
 
 ### （1）获取当前函数的名字[^18]
 
-arguments变量[^19]支持获取当前函数的相关信息，
+#### a. 使用arguments变量[^19]
 
-例如，获取当前函数的函数名
+arguments变量支持获取当前函数的相关信息
+
+例如，获取当前函数的函数名。
 
 ```javascript
 function foo() { 
   console.log(`${arguments.callee.name}`);
 }
 ```
+
+但是从ES 5+开始，不再支持arguments.callee方式[^21]
+
+> **Warning:** The 5th edition of ECMAScript (ES5) forbids use of `arguments.callee()` in [strict mode](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Functions_and_function_scope/Strict_mode). Avoid using `arguments.callee()` by either giving function expressions a name or use a function declaration where a function must call itself.
+
+因此在strict mode下面，浏览器会下面的错误
+
+```
+TypeError: 'caller', 'callee', and 'arguments' properties may not be accessed on strict mode functions or the arguments objects for calls to them
+```
+
+
+
+#### b. 使用Error实例
+
+使用Error实例的stack属性，可以获取调用栈相关信息。
+
+举个例子[^22]，如下
+
+```javascript
+class CallerTool {
+    static currentFunctionName = () => {
+        // gets the text between whitespace for second part of stacktrace
+        return (new Error()).stack.match(/at (\S+)/g)[1].slice(3);
+    }
+}
+```
+
+> 示例代码，见caller_tool.js
 
 
 
@@ -1533,6 +1564,8 @@ html页面，示例如下
 [^19]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
 
 [^20]:https://stackoverflow.com/questions/7505623/colors-in-javascript-console
+[^21]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments/callee
+[^22]:https://stackoverflow.com/a/41621478
 
 
 

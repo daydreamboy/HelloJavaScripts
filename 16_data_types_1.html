@@ -1,9 +1,12 @@
 <html>
 
 <head>
-    <script>
+    <script type="module">
+        import CallerTool from "./library/caller_tool.js";
+        import LogTool from "./library/log_tool.js";
+
         function test_primitive_data_type() {
-            console.log(`--- ${arguments.callee.name} ---`);
+            LogTool.v(`--- ${CallerTool.currentFunctionName()} ---`);
 
             let x;
             console.log(x + ': ' + typeof x); // "undefined"
@@ -27,7 +30,7 @@
         }
 
         function test_null_data_type() {
-            console.log(`--- ${arguments.callee.name} ---`);
+            LogTool.v(`--- ${CallerTool.currentFunctionName()} ---`);
 
             let x;
 
@@ -36,7 +39,7 @@
         }
 
         function test_object_data_type() {
-            console.log(`--- ${arguments.callee.name} ---`);
+            LogTool.v(`--- ${CallerTool.currentFunctionName()} ---`);
 
             let x;
 
@@ -54,7 +57,7 @@
         }
 
         function test_function_data_type() {
-            console.log(`--- ${arguments.callee.name} ---`);
+            LogTool.v(`--- ${CallerTool.currentFunctionName()} ---`);
 
             let x;
 
