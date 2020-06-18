@@ -1373,6 +1373,8 @@ for (var i = 0; i < 10; i++) {
 
 ## 6、Error处理[^17]
 
+Error实例的类型是`object`。
+
 
 
 
@@ -1436,19 +1438,19 @@ html页面，示例如下
 ```html
 <html>
   <head>
-    <script type="module" src="./library/StringTool.js"></script>
+    <script type="module" src="library/string_tool.js"></script>
     <script type="module">
-      import StringTool from "./library/StringTool.js";
+      import String_tool from "./string_tString_tool.js";
       var input = '测试时是地方哈是否if的hi个';
       var output;
       
-      output = StringTool.truncateString(input, 8);
+      output = String_tool.truncateString(input, 8);
       console.log(output);
 
-      output = StringTool.truncateString(input, 8, StringTool.TruncatingStyle.truncatingHead);
+      output = String_tool.truncateString(input, 8, String_tool.TruncatingStyle.truncatingHead);
       console.log(output);
 
-      output = StringTool.truncateString(input, 8, StringTool.TruncatingStyle.truncatingMiddle);
+      output = String_tool.truncateString(input, 8, String_tool.TruncatingStyle.truncatingMiddle);
       console.log(output);
     </script>
   </head>
