@@ -12,19 +12,40 @@
 
 ## 1、数据类型
 
-JavaScript有7种数据类型（Data Types）[^2]，如下
+JavaScript有9种数据类型（Data Types）[^3]，如下
+
+* 6种基本类型(Primitive)
 
 | 类型        | 含义         | 说明                                                         |
 | ----------- | ------------ | ------------------------------------------------------------ |
-| `number`    | 整数或浮点数 | 除了整数或浮点数，还有特殊值也属于`number`类型：`Infinity`，`-Infinity` 和`NaN` |
-| `string`    | 字符串       | 字符串有三种引号方式：单引号（`'`），双引号（`"`），反引号（<code>`</code>） |
-| `boolean`   | 布尔值       | `boolean`类型的值只有两种：`true`和`false`                   |
-| `null`      | 空值         | JavaScript中null代表nothing, empty或者value unknown          |
-| `undefined` | 未赋值       | 和`null`不一样，`undefined`表示没有赋值                      |
+| `undefined` | 未赋值       | 和`null`不一样，`undefined`表示没有赋值。typeof instance === 'undefined' |
+| `boolean`   | 布尔值       | `boolean`类型的值只有两种：`true`和`false`。typeof instance === 'boolean' |
+| `number`    | 整数或浮点数 | 除了整数或浮点数，还有特殊值也属于`number`类型：`Infinity`，`-Infinity` 和`NaN`。typeof instance === 'number' |
+| `string`    | 字符串       | 字符串有三种引号方式：单引号（`'`），双引号（`"`），反引号（<code>`</code>）。typeof instance === 'string' |
+| `bigint`    | 大整数       | typeof instance === 'bigint'                                 |
 | `symbol`    | 符号         |                                                              |
-| `object`    | 对象         | 对象类型是一种复杂的类型。除`object`之外的6个类型都是基本类型[^3]。 |
 
-示例代码见**16_data_types_1.html**
+* null类型
+
+| 类型   | 含义 | 说明                                                         |
+| ------ | ---- | ------------------------------------------------------------ |
+| `null` | 空值 | JavaScript中null代表nothing, empty或者value unknown。<br/>值得注意的是，typeof instance === 'object'，而不是null |
+
+* object类型
+
+| 类型     | 含义 | 说明                                                   |
+| -------- | ---- | ------------------------------------------------------ |
+| `object` | 对象 | 对象类型是一种复杂的类型。typeof instance === 'object' |
+
+* function类型
+
+| 类型       | 含义 | 说明                                                         |
+| ---------- | ---- | ------------------------------------------------------------ |
+| `function` | 函数 | 函数类型，严格讲不是数据类型，但是很多类的类型是function。<br/>typeof instance === 'function' |
+
+
+
+> 示例代码见**16_data_types_1.html**
 
 
 
@@ -1350,6 +1371,26 @@ for (var i = 0; i < 10; i++) {
 
 
 
+## 6、Error处理[^17]
+
+
+
+
+
+## 7、JavaScript Tips
+
+### （1）获取当前函数的名字[^18]
+
+arguments变量[^19]支持获取当前函数的相关信息，
+
+例如，获取当前函数的函数名
+
+```javascript
+function foo() { 
+  console.log(`${arguments.callee.name}`);
+}
+```
+
 
 
 
@@ -1472,6 +1513,12 @@ html页面，示例如下
 [^15]:https://stackoverflow.com/questions/3010840/loop-through-an-array-in-javascript
 
 [^16]:[https://en.wikipedia.org/wiki/ECMAScript#6th_Edition_%E2%80%93_ECMAScript_2015](https://en.wikipedia.org/wiki/ECMAScript#6th_Edition_–_ECMAScript_2015)
+
+[^17]:https://javascript.info/custom-errors
+[^18]:https://stackoverflow.com/a/1013304
+[^19]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
+
+
 
 
 

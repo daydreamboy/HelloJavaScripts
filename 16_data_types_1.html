@@ -2,44 +2,76 @@
 
 <head>
     <script>
-        let x;
-        console.log(typeof x); // "undefined"
+        function test_primitive_data_type() {
+            console.log(`--- ${arguments.callee.name} ---`);
 
-        x = 10;
-        console.log(typeof x); // "number"
+            let x;
+            console.log(x + ': ' + typeof x); // "undefined"
 
-        x = "a";
-        console.log(typeof x); // "string"
+            x = true;
+            console.log(x + ': ' + typeof x); // "boolean"
 
-        x = true;
-        console.log(typeof x); // "boolean"
+            x = 10;
+            console.log(x + ': ' + typeof x); // "number"
 
-        x = null;
-        console.log(typeof x); // "object", not "null"
+            x = "a";
+            console.log(x + ': ' + typeof x); // "string"
 
-        x = Symbol("id");
-        console.log(typeof x); // "symbol"
+            x = 9007199254740991n;
+            console.log(x + ': ' + typeof x); // "bigint"
 
-        x = Math;
-        console.log(typeof x); // "object"
+            x = Symbol("id");
+            //console.log(x + ': ' + typeof x); // "symbol"
+            console.log(x.toString() + ': ' + typeof x); // "symbol"
+            console.log(typeof x); // "symbol"
+        }
 
-        x = alert;
-        console.log(typeof x); // "function"
+        function test_null_data_type() {
+            console.log(`--- ${arguments.callee.name} ---`);
 
-        x = JSON;
-        console.log(typeof x); // "object"
+            let x;
 
-        x = Object;
-        console.log(typeof x); // "function"
+            x = null;
+            console.log(x + ': ' + typeof x); // "object", not "null"
+        }
 
-        x = () => {};
-        console.log(typeof x); // "function"
+        function test_object_data_type() {
+            console.log(`--- ${arguments.callee.name} ---`);
 
-        x = [];
-        console.log(typeof x); // "object"
+            let x;
 
-        x = {};
-        console.log(typeof x); // "object"
+            x = [];
+            console.log(x + ': ' + typeof x); // "object"
+
+            x = {};
+            console.log(x + ': ' + typeof x); // "object"
+
+            x = Math;
+            console.log(x + ': ' + typeof x); // "object"
+
+            x = JSON;
+            console.log(x + ': ' + typeof x); // "object"
+        }
+
+        function test_function_data_type() {
+            console.log(`--- ${arguments.callee.name} ---`);
+
+            let x;
+
+            x = alert;
+            console.log(x + ': ' + typeof x); // "function"
+
+            x = Object;
+            console.log(x + ': ' + typeof x); // "function"
+
+            x = () => {};
+            console.log(x + ': ' + typeof x); // "function"
+        }
+
+        test_primitive_data_type();
+        test_null_data_type();
+        test_object_data_type();
+        test_function_data_type();
     </script>
 </head>
 
