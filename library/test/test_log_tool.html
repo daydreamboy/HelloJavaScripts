@@ -1,0 +1,23 @@
+<html>
+
+<head>
+    <script type="module">
+        // @see https://stackoverflow.com/questions/7505623/colors-in-javascript-console
+        function test_colored_mesage() {
+            console.log('%c Oh my heavens! ', 'background: #222; color: #bada55');
+        }
+
+        import LogTool from "../log_tool.js";
+
+        LogTool.i('This is [Info]');
+        LogTool.v('This is [Verbose]');
+        LogTool.d('This is [Debug]');
+        LogTool.w('This is [Warning]');
+        LogTool.e('This is [Error]');
+        LogTool.t('This is [Timing]');
+
+        test_colored_mesage();
+    </script>
+</head>
+
+</html>

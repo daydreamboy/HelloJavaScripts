@@ -1395,7 +1395,19 @@ function foo() {
 
 
 
+### （2）Chrome console输出有颜色的日志
 
+Chrome和Firefox(+31)支持console输出有颜色的日志[^20]，字符串增加前缀`%c`，log另外增加1个css样式参数。
+
+举个例子，如下
+
+```javascript
+console.log('%c Oh my heavens! ', 'background: #222; color: #bada55');
+```
+
+
+
+> 示例代码，见log_tool.js
 
 
 
@@ -1519,6 +1531,8 @@ html页面，示例如下
 [^17]:https://javascript.info/custom-errors
 [^18]:https://stackoverflow.com/a/1013304
 [^19]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
+
+[^20]:https://stackoverflow.com/questions/7505623/colors-in-javascript-console
 
 
 
