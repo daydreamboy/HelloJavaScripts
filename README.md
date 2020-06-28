@@ -10,7 +10,73 @@
 
 
 
-## 1、数据类型
+## 1、JavaScript版本
+
+### （1）JavaScript和ECMAScript的关系
+
+JavaScript是ECMAScript标准的实现
+
+参考SO的这个[回答](https://stackoverflow.com/a/30113184)，如下
+
+> I believe JavaScript is considered the Language which implements a standard called ECMAScript.
+
+JavaScript可以简称JS，ECMAScript可以简称ES，目前主流ECMAScript标准有ES5和ES6。
+
+
+
+### （2）ECMAScript版本
+
+JavaScript版本，实际上是对应ECMAScript的版本。ECMAScript的版本[^25]，如下
+
+| Version | Official Name                                                | Description                                                  |
+| :------ | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| 1       | ECMAScript 1 (1997)                                          | First Edition.                                               |
+| 2       | ECMAScript 2 (1998)                                          | Editorial changes only.                                      |
+| 3       | ECMAScript 3 (1999)                                          | Added Regular Expressions. <br/>Added try/catch.             |
+| 4       | ECMAScript 4                                                 | Never released.                                              |
+| 5       | ECMAScript 5 (2009)  [Read More: JS ES5](https://www.w3schools.com/js/js_es5.asp) | Added "strict mode". <br/>Added JSON support. <br/>Added String.trim(). <br/>Added Array.isArray().<br/> Added Array Iteration Methods. |
+| 5.1     | ECMAScript 5.1 (2011)                                        | Editorial changes.                                           |
+| 6       | ECMAScript 2015  [Read More: JS ES6](https://www.w3schools.com/js/js_es6.asp) | Added let and const. <br/>Added default parameter values.<br/> Added Array.find(). <br/>Added Array.findIndex(). |
+| 7       | ECMAScript 2016                                              | Added exponential operator (**).<br/> Added Array.prototype.includes. |
+| 8       | ECMAScript 2017                                              | Added string padding. <br/>Added new Object properties. <br/>Added Async functions. <br/>Added Shared Memory. |
+| 9       | ECMAScript 2018                                              | Added rest / spread properties. <br/>Added Asynchronous iteration.<br/> Added Promise.finally(). <br/>Additions to RegExp. |
+
+
+
+### （3）浏览器对ES5 (ECMAScript 5)支持情况[^25]
+
+| Browser   | Version | From Date |
+| :-------- | :------ | :-------- |
+| Chrome    | 23      | Sep 2012  |
+| Firefox   | 21      | Apr 2013  |
+| IE        | 9*      | Mar 2011  |
+| IE / Edge | 10      | Sep 2012  |
+| Safari    | 6       | Jul 2012  |
+| Opera     | 15      | Jul 2013  |
+
+说明
+
+> *Internet Explorer 9 does not support ECMAScript 5 "use strict".
+
+
+
+### （4）浏览器对ES6 (ECMAScript 2015)支持情况[^25]
+
+| Browser | Version | Date     |
+| :------ | :------ | :------- |
+| Chrome  | 51      | May 2016 |
+| Firefox | 54      | Jun 2017 |
+| Edge    | 14      | Aug 2016 |
+| Safari  | 10      | Sep 2016 |
+| Opera   | 38      | Jun 2016 |
+
+说明
+
+> Internet Explorer does not support ECMAScript 2015.
+
+
+
+## 2、数据类型
 
 JavaScript有9种数据类型（Data Types）[^3]，如下
 
@@ -393,7 +459,7 @@ x.reduce((accumulator, element, index) => {
 
 
 
-## 2、class语法[^1]
+## 3、class语法[^1]
 
 ​           JavaScript（后简称JS），不使用`class`，采用`prototype`方式，也可以定义类的结构，如下
 
@@ -784,7 +850,7 @@ f(true, 0);  // returns '100'
 
 
 
-## 3、module功能[^4]
+## 4、module功能[^4]
 
 ​       JavaScript的module，即单个js文件，module封装特定class以及function的集合，可以通过**export**和**import**关键词，提供给其他js文件调用。但是html文件的`script`标签默认导入js文件，并不支持module功能。
 
@@ -1222,7 +1288,7 @@ var promise = import("module-name"); // This is a stage 3 proposal.
 
 
 
-## 4、IIFE函数[^8]
+## 5、IIFE函数[^8]
 
 ​      IIFE(Immediately-invoked Function Expressions)指的是立即调用函数表达式，简单说，就是定义函数的同时调用这个函数。后面称这种函数为IIFE函数。
 
@@ -1296,7 +1362,7 @@ IIFE函数赋值到powers，powers函数和IIFE函数是等价的。页面加载
 
 
 
-## 5、内置函数
+## 6、内置函数
 
 JavaScript的window提供一些方法，因此这些方法可以直接使用，不需要window.method()。
 
@@ -1371,15 +1437,121 @@ for (var i = 0; i < 10; i++) {
 
 
 
-## 6、Error处理[^17]
+## 7、Error处理[^17]
 
-Error实例的类型是`object`。
+Error实例的类型是`object`，Error实例可以配合throw语句使用。Error可以使用extend语句派生出子对象，通过这种方式，用户可以自定义错误。
+
+举个例子，如下
+
+```javascript
+class MyError extends Error {
+    constructor(message) {
+        super();
+        this.name = 'MyError';
+        this.message = message;
+    }
+}
+```
+
+注意
+
+> ES6语法才支持上面的自定义Error形式，ES5-需要定义MyError函数，同时修改它的prototype为Error。
+>
+> 示例代码，如下
+>
+> ```javascript
+> function CustomError(foo, message, fileName, lineNumber) {
+>   var instance = new Error(message, fileName, lineNumber);
+>   instance.name = 'CustomError';
+>   instance.foo = foo;
+>   Object.setPrototypeOf(instance, Object.getPrototypeOf(this));
+>   if (Error.captureStackTrace) {
+>     Error.captureStackTrace(instance, CustomError);
+>   }
+>   return instance;
+> }
+> 
+> CustomError.prototype = Object.create(Error.prototype, {
+>   constructor: {
+>     value: Error,
+>     enumerable: false,
+>     writable: true,
+>     configurable: true
+>   }
+> });
+> 
+> if (Object.setPrototypeOf){
+>   Object.setPrototypeOf(CustomError, Error);
+> } else {
+>   CustomError.__proto__ = Error;
+> }
+> 
+> try {
+>   throw new CustomError('baz', 'bazMessage');
+> } catch(e){
+>   console.error(e.name); //CustomError
+>   console.error(e.foo); //baz
+>   console.error(e.message); //bazMessage
+> }
+> ```
+>
+> 
+
+
+
+其他内置错误的构造函数[^23]，如下
+
+| 函数名         | throw场景                             |
+| -------------- | ------------------------------------- |
+| EvalError      | eval函数中，可能throw                 |
+| InternalError  | JS引擎执行出错，例如迭代次数超出限制  |
+| RangeError     | 创建某个实例，超出它的值范围          |
+| ReferenceError | 创建某个实例，引用出错                |
+| SyntaxError    | 语法错误                              |
+| TypeError      | 类型出错                              |
+| URIError       | encodeURI或decodeURI函数中，可能throw |
+
+在try-catch语句中通过instanceof语句来区分Error类型，如下
+
+```javascript
+try {
+    throw new MyError('A MyError occurred');
+}
+catch (error) {
+    if (error instanceof MyError) {
+        LogTool.i(`This is my error: ${error.name}, ${error.message}, ${error.stack}`);
+    }
+    else {
+        LogTool.i(`${error.name}: ${error.message}`);
+    }
+}
+```
+
+
+
+## 8、Strict Mode[^24]
+
+​       ES5 (ECMAScript 5)引入JavaScript的strict mode，这个使得JavaScript的语法比默认的[sloppy mode](https://developer.mozilla.org/en-US/docs/Glossary/Sloppy_mode)更加严格。strict mode和sloppy mode完全不同，而且strict mode不是sloppy mode的子集。
+
+strict mode和sloppy mode相比，有下面几点变化
+
+* 
+
+
+
+### （1）应用strict mode
+
+应用strict mode和应用sloppy mode的代码可以混合，因此有几种方式使strict mode生效。
+
+#### a. strict mode for scripts
 
 
 
 
 
-## 7、JavaScript Tips
+
+
+## 9、JavaScript Tips
 
 ### （1）获取当前函数的名字[^18]
 
@@ -1447,6 +1619,7 @@ console.log('%c Oh my heavens! ', 'background: #222; color: #bada55');
 ### 1、辅助工具
 
 - [JSFiddle](https://jsfiddle.net/)，在线JS编辑运行工具
+- WebStorm，编写JavaScript、TypeScript的IDE
 
 
 
@@ -1566,6 +1739,10 @@ html页面，示例如下
 [^20]:https://stackoverflow.com/questions/7505623/colors-in-javascript-console
 [^21]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments/callee
 [^22]:https://stackoverflow.com/a/41621478
+
+[^23]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+[^24]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
+[^25]:https://www.w3schools.com/js/js_versions.asp
 
 
 
