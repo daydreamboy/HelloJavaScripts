@@ -1,0 +1,67 @@
+<html>
+
+<head>
+    <script type="module">
+        import DebugTool from "../debug_tool.js";
+        import LogTool from "../log_tool.js";
+
+        function test_currentFunctionName_1() {
+            LogTool.v(`--- ${DebugTool.currentFunctionName()} ---`);
+            console.log(DebugTool.currentFunctionName());
+        }
+
+        function test_currentFunctionName_2() {
+            LogTool.v(`--- ${DebugTool.currentFunctionName()} ---`);
+            console.log(DebugTool.currentFunctionName());
+        }
+
+        function test_variableName() {
+            LogTool.v(`--- ${DebugTool.currentFunctionName()} ---`);
+            let this_is_a_var = "Hi!";
+            console.log(`${DebugTool.variableName({this_is_a_var})}: ${this_is_a_var}`);
+        }
+
+        function test_dump() {
+            LogTool.v(`--- ${DebugTool.currentFunctionName()} ---`);
+            let x;
+            console.log(`debug: ${DebugTool.dump({x}, false)}`);
+
+            x = null;
+            DebugTool.dump({x}); // "object"
+
+            x = true;
+            DebugTool.dump({x}); // "boolean"
+
+            x = 10;
+            DebugTool.dump({x}); // "number"
+
+            x = "a";
+            DebugTool.dump({x}); // "string"
+
+            x = 9007199254740991n;
+            DebugTool.dump({x}); // "bigint"
+
+            x = Symbol("id");
+            DebugTool.dump({x}); // "symbol"
+
+            x = {a: 1};
+            DebugTool.dump({x}); // "object"
+
+            x = ['b', 2];
+            DebugTool.dump({x}); // "object"
+
+            x = Math;
+            DebugTool.dump({x}); // "object"
+
+            x = alert;
+            DebugTool.dump({x}); // "function"
+        }
+
+        test_currentFunctionName_1();
+        test_currentFunctionName_2();
+        test_variableName();
+        test_dump();
+    </script>
+</head>
+
+</html>

@@ -3,7 +3,7 @@
 <head>
     <script type="module">
         import LogTool from "./library/log_tool.js";
-        import CallerTool from "./library/caller_tool.js";
+        import DebugTool from "./library/debug_tool.js";
 
         class MyError extends Error {
             constructor(message) {
@@ -14,7 +14,7 @@
         }
 
         function check_Error_data_type() {
-            LogTool.v(`--- ${CallerTool.currentFunctionName()} ---`);
+            LogTool.v(`--- ${DebugTool.currentFunctionName()} ---`);
             let x;
 
             x = new Error('This is a error');
@@ -22,7 +22,7 @@
         }
 
         function test_MyError() {
-            LogTool.v(`--- ${CallerTool.currentFunctionName()} ---`);
+            LogTool.v(`--- ${DebugTool.currentFunctionName()} ---`);
 
             try {
                 throw new MyError('A MyError occurred');
