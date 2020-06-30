@@ -22,8 +22,8 @@ class StringTool {
         truncatingStyle = truncatingStyle || this.TruncatingStyle.truncatingTrail;
         separator = separator || "...";
 
-        var separatorLength = separator.length;
-        var showedLength = limitedLength - separatorLength;
+        let separatorLength = separator.length;
+        let showedLength = limitedLength - separatorLength;
 
         switch (truncatingStyle) {
             case this.TruncatingStyle.truncatingHead: {

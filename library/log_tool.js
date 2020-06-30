@@ -6,7 +6,7 @@ class LogTool {
      */
     static i = (message) => {
         console.log(message);
-    }
+    };
 
     /**
      * Verbose[Blue]
@@ -15,7 +15,7 @@ class LogTool {
      */
     static v = (message) => {
         console.log(`%c${message}`, 'color: #157EFB');
-    }
+    };
 
     /**
      * Debug[Cyan]
@@ -24,7 +24,7 @@ class LogTool {
      */
     static d = (message) => {
         console.log(`%c${message}`, 'color: #60C9F8');
-    }
+    };
 
     /**
      * Warning[Yellow]
@@ -33,7 +33,7 @@ class LogTool {
      */
     static w = (message) => {
         console.log(`%c${message}`, 'color: #FECB2F');
-    }
+    };
 
     /**
      * Error[Red]
@@ -42,7 +42,7 @@ class LogTool {
      */
     static e = (message) => {
         console.log(`%c${message}`, 'color: #D50921');
-    }
+    };
 
     /**
      * Timing[Magenta]
@@ -51,7 +51,7 @@ class LogTool {
      */
     static t = (message) => {
         console.log(`%c${message}`, 'color: #FD6684');
-    }
+    };
 }
 
 export default LogTool;

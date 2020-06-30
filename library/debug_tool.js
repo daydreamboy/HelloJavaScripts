@@ -9,7 +9,7 @@ class DebugTool {
     static currentFunctionName = () => {
         // gets the text between whitespace for second part of stacktrace
         return (new Error()).stack.match(/at (\S+)/g)[1].slice(3);
-    }
+    };
 
     /**
      * Get variable name
@@ -67,7 +67,18 @@ class DebugTool {
         }
 
         return debugString;
-    }
+    };
+
+    /**
+     * Check the code context if in strict mode
+     *
+     * @returns {bool} true if the context is strict mode, false if not
+     *
+     * @see https://stackoverflow.com/questions/10480108/is-there-any-way-to-check-if-strict-mode-is-enforced
+     */
+    static isStrictMode = () => {
+        return (function() { return !this; })();
+    };
 }
 
 export default DebugTool;

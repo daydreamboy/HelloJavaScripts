@@ -1549,6 +1549,33 @@ strict mode和sloppy mode相比，有下面几点变化
 
 
 
+### （2）测试是否当前是strict mode[^27]
+
+可以借助strict mode和sloppy mode之间的特性差异来判断是否是strict mode，例如在sloppy mode中，函数中的this是指向全局的对象，而在strict mode中，函数中的this是undefined。因此借助这个差异，实现如下代码。
+
+```shell
+$ echo '"use strict"; var isStrict = (function() { return !this; })(); console.log(isStrict);' | node
+true
+$ echo 'var isStrict = (function() { return !this; })(); console.log(isStrict);' | node
+false
+```
+
+注意
+
+> !undefined是true，而!global是false。
+
+把上面代码变成一个工具函数，如下
+
+```javascript
+static isStrictMode = () => {
+    return (function() { return !this; })();
+};
+```
+
+
+
+
+
 
 
 ## 9、JavaScript Tips
@@ -1743,6 +1770,8 @@ html页面，示例如下
 [^23]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
 [^24]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 [^25]:https://www.w3schools.com/js/js_versions.asp
+
+[^26]:https://stackoverflow.com/questions/10480108/is-there-any-way-to-check-if-strict-mode-is-enforced
 
 
 

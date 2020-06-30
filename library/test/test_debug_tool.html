@@ -62,6 +62,31 @@
         test_variableName();
         test_dump();
     </script>
+
+    <script type="module">
+        import DebugTool from "../debug_tool.js";
+        import LogTool from "../log_tool.js";
+        
+        function test_isStrictMode() {
+            LogTool.v(`--- ${DebugTool.currentFunctionName()} ---`);
+            console.log(`isStrictMode: ${DebugTool.isStrictMode()}`);
+        }
+
+        test_isStrictMode();
+    </script>
+
+    <script>
+        function isStrictMode() {
+            return (function() { return !this; })();
+        }
+
+        function test_isStrictMode2() {
+            console.log(`%c--- ${test_isStrictMode2.name} ---`, 'color: #157EFB');
+            console.log(`isStrictMode: ${isStrictMode()}`);
+        }
+
+        test_isStrictMode2();
+    </script>
 </head>
 
 </html>
