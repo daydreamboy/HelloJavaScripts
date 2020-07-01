@@ -1,0 +1,29 @@
+<html>
+<head>
+    <script>
+        function test_strict_function() {
+            // Function-level strict mode syntax
+            'use strict';
+
+            function nested() {
+                let ret = 'And so am I!';
+                return ret;
+            }
+
+            let ret = "Hi!  I'm a strict mode function!  ";
+
+            // Note: Ok, call notStrict function
+            test_notStrict_function();
+            return ret + nested();
+        }
+
+        function test_notStrict_function() {
+            ret = "I'm not strict.";
+            return ret;
+        }
+
+        console.log(test_strict_function());
+        console.log(test_notStrict_function());
+    </script>
+</head>
+</html>

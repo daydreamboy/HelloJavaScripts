@@ -1539,11 +1539,88 @@ strict mode和sloppy mode相比，有下面几点变化
 
 
 
+标记strict mode，可以使用下面特定字符串
+
+```javascript
+'use strict';
+"use strict";
+```
+
+
+
 ### （1）应用strict mode
 
 应用strict mode和应用sloppy mode的代码可以混合，因此有几种方式使strict mode生效。
 
-#### a. strict mode for scripts
+#### a. strict mode for script
+
+应用strict mode到整个脚本中，可以在脚本执行最前面，加上`'use strict';`，举个例子，如下
+
+```html
+<html>
+<head>
+    <script>
+        'use strict';
+        v1 = "Hi! I'm a strict mode script!"; // ReferenceError: v1 is not defined
+        console.log(`v1 : ${v1}`);
+    </script>
+    <script>
+        v2 = "Hi! I'm a sloppy mode script!";
+        console.log(`v2: ${v2}`);
+    </script>
+</head>
+</html>
+```
+
+说明
+
+> <script type="module">，就是strict mode应用到整个脚本
+
+
+
+#### b. strict mode for function
+
+可以将strict mode应用到单个函数体中，该函数体中定义的内部函数也是strict mode，但是该函数可以调用其他非strict mode函数。
+
+举个例子，如下
+
+```javascript
+function test_strict_function() {
+    // Function-level strict mode syntax
+    'use strict';
+
+    function nested() {
+        let ret = 'And so am I!';
+        return ret;
+    }
+
+    let ret = "Hi!  I'm a strict mode function!  ";
+
+    // Note: Ok, call notStrict function
+    test_notStrict_function();
+    return ret + nested();
+}
+
+function test_notStrict_function() {
+    ret = "I'm not strict.";
+    return ret;
+}
+```
+
+
+
+#### c. strict mode for module
+
+ES6 (ECMAScript 2015)引入module概念，定义module文件时，默认就是strict mode。
+
+举个例子，如下
+
+```javascript
+function strict() {
+    // because this is a module, I'm strict by default
+}
+export default strict;
+```
 
 
 

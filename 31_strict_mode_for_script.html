@@ -1,15 +1,13 @@
 <html>
 <head>
     <script>
-        import DebugTool from "./library/debug_tool.js";
         'use strict';
-        v1 = "Hi! I'm a strict mode script!";
-        console.log(`${DebugTool.variableName({v1})} : ${v1}`);
+        v1 = "Hi! I'm a strict mode script!"; // ReferenceError: v1 is not defined
+        console.log(`v1 : ${v1}`);
     </script>
     <script>
-        import DebugTool from "./library/debug_tool.js";
         v2 = "Hi! I'm a sloppy mode script!";
-        console.log(`${DebugTool.variableName({v2})}: ${v2}`);
+        console.log(`v2: ${v2}`);
     </script>
 </head>
 </html>
