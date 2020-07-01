@@ -1533,10 +1533,6 @@ catch (error) {
 
 ​       ES5 (ECMAScript 5)引入JavaScript的strict mode，这个使得JavaScript的语法比默认的[sloppy mode](https://developer.mozilla.org/en-US/docs/Glossary/Sloppy_mode)更加严格。strict mode和sloppy mode完全不同，而且strict mode不是sloppy mode的子集。
 
-strict mode和sloppy mode相比，有下面几点变化
-
-* 
-
 
 
 标记strict mode，可以使用下面特定字符串
@@ -1548,7 +1544,291 @@ strict mode和sloppy mode相比，有下面几点变化
 
 
 
-### （1）应用strict mode
+strict mode和sloppy mode相比，有下面几点变化
+
+* 更加严格语法检查(Converting mistakes into errors)
+
+
+
+### （1）strict mode变化
+
+#### a. 更加严格语法检查 (Converting mistakes into errors)
+
+总结有6个方面，如下
+
+```javascript
+'use strict';
+
+// 1. 不允许没有定义类型的全局变量
+mistypeVariable = 17;
+
+// 2. 赋值给不可写的全局对象，sloppy mode下执行不成功，但是也没有报错；strict mode下，会报错或抛出异常
+// Assignment to a non-writable global
+var undefined = 5; // throws a TypeError
+var Infinity = 5; // throws a TypeError
+
+// Assignment to a non-writable property
+var obj1 = {};
+Object.defineProperty(obj1, 'x', { value: 42, writable: false });
+obj1.x = 9; // throws a TypeError
+
+// Assignment to a getter-only property
+var obj2 = { get x() { return 17; } };
+obj2.x = 5; // throws a TypeError
+
+// Assignment to a new property on a non-extensible object
+var fixed = {};
+Object.preventExtensions(fixed);
+fixed.newProp = 'ohai'; // throws a TypeError
+
+// 3. 删除不可删除的属性，sloppy mode下执行不成功，但是也没有报错；strict mode下，会报错或抛出异常
+// delete undeletable properties throw exception
+delete Object.prototype; // throws a TypeError
+
+// 4. sloppy mode下，允许函数参数重名，以最后的参数值为准；strict mode下，不允许函数参数重名
+// strict mode requires that function parameter names be unique.
+function sum(a, a, c) { // !!! syntax error
+  'use strict';
+  return a + a + c; // wrong if this code ran
+}
+
+// 5. ES5 (ECMAScript 5)的strict mode下不支持八进制字面常量，ES6 (ECMAScript 2015)开始支持以0o为前缀的八进制字面常量
+// strict mode in ECMAScript 5 forbids octal syntax.
+var a = 0644 === 420; // Uncaught SyntaxError: Octal literals are not allowed in strict mode.
+var b = "\045" === "%"; // Uncaught SyntaxError: Octal literals are not allowed in strict mode.
+
+// 6. ES6 (ECMAScript 2015)的strict mode禁止设置primitive值的属性
+// strict mode in ECMAScript 2015 forbids setting properties on primitive values.
+(function() {
+	'use strict';
+
+	false.true = '';         // TypeError
+	(14).sailing = 'home';   // TypeError
+	'with'.you = 'far away'; // TypeError
+})();
+```
+
+
+
+Chrome的console中测试strict mode的特性，举个例子，如下
+
+```shell
+> function sum(a, a, c) {'use strict'; return a + a + c; }
+Uncaught SyntaxError: Duplicate parameter name not allowed in this context
+> function sum(a, a, c) {return a + a + c; }
+<· undefined
+> sum(1,2,3)
+<· 7
+```
+
+
+
+注意：
+
+下面这种case，本来是一个语法错误，但是因为ES 6 (ECMAScript 2015)实现的bug，允许这种写法
+
+```javascript
+'use strict';
+var o = { p: 1, p: 2 }; // !!! syntax error
+```
+
+> This is no longer the case in ECMAScript 2015 ([bug 1041128](https://bugzilla.mozilla.org/show_bug.cgi?id=1041128)).
+
+
+
+#### b. 简化变量使用 (Simplifying variable uses)
+
+总结有3个方面，如下
+
+```javascript
+'use strict';
+
+// 1. strict mode下，禁止with语句；sloppy mode下，允许with语句
+var x = 17;
+var obj = {x: 18};
+with (obj) { // !!! syntax error
+  x; // If this weren't strict mode, would this be var x, or would it instead be obj.x?
+}
+
+// 2. strict mode下，调用eval不会在当前环境中引入新的变量
+// eval of strict mode code does not introduce new variables into the surrounding scope
+var x = 17;
+var evalX = eval("'use strict'; var x = 42; x;");
+console.assert(x === 17);
+console.assert(evalX === 42);
+
+// 3. strict mode下，不能删除变量
+// strict mode forbids deleting plain names. delete name in strict mode is a syntax error
+var x;
+delete x; // !!! syntax error
+eval('var y; delete y;'); // !!! syntax error
+```
+
+
+
+说明
+
+> 1. with语句，主要用于简化block块中，访问属性的方式。举个例子，如下
+>
+> ```javascript
+> var a, x, y;
+> var r = 10;
+> 
+> with (Math) {
+>   a = PI * r * r;
+>   x = r * cos(PI);
+>   y = r * sin(PI / 2);
+> }
+> ```
+>
+> 上面省去Math.PI、Math.cost和Math.sin的写法。但是with语句存在变量的歧义以及不利于编译器优化，所以不推荐使用。
+>
+> 2. 在strict mode下，调用eval，和执行eval的所在环境是否是strict mode没有关系，eval执行字符串是否在strict mode下，取决该字符串中是否指定了strict mode。举个例子，如下
+>
+> ```javascript
+> function strict1(str) {
+>   'use strict';
+>   // Note: str总是在strict mode中执行
+>   return eval(str); // str will be always treated as strict mode code
+> }
+> 
+> function strict2(f, str) {
+>   'use strict';
+>   // Note: 和strict2的strict mode没有关系。如果str自身指定strict mode，则str在strict mode中执行，否则在sloppy mode中执行
+>   return f(str); // str is strict if and only when itself contains 'use strict'
+> }
+> 
+> function nonstrict(str) {
+>   // Note: 如果str自身指定strict mode，则str在strict mode中执行，否则在sloppy mode中执行
+>   return eval(str); // str is strict if and only if it invokes strict mode
+> }
+> 
+> strict1("'Strict mode code!'");
+> strict1("'use strict'; 'Strict mode code!'");
+> strict2(eval, "'Non-strict code.'");
+> strict2(eval, "'use strict'; 'Strict mode code!'");
+> nonstrict("'Non-strict code.'");
+> nonstrict("'use strict'; 'Strict mode code!'");
+> ```
+>
+> 
+
+
+
+#### c. 简化`eval`和`arguments`的使用 (Making `eval` and `arguments` simpler)
+
+总结有3个方面，如下
+
+```javascript
+'use strict';
+
+// 1. strict mode下，eval和arguments更像关键词，而不能当变量使用，下面每行代码，在strict mode下都会抛出异常
+// Strict mode makes great strides toward treating eval and arguments as keywords
+eval = 17;
+arguments++;
+++eval;
+var obj = { set p(arguments) { } };
+var eval;
+try { } catch (arguments) { }
+function x(eval) { }
+function arguments() { }
+var y = function eval() { };
+var f = new Function('arguments', "'use strict'; return 17;");
+
+// 2. strict mode下，arguments[i]不再是函数参数的别名
+function f(a) {
+  'use strict';
+  a = 42;
+  return [a, arguments[0]];
+}
+var pair = f(17);
+console.assert(pair[0] === 42);
+console.assert(pair[1] === 17);
+
+// Note: 修改参数变量a，其实也修改了arguments[0]，所以pair2[1]是42，而不是17
+function f2(a) {
+  a = 42;
+  return [a, arguments[0]];
+}
+var pair2 = f2(17);
+console.assert(pair2[0] === 42);
+console.assert(pair2[1] === 42);
+
+// 3. strict mode下，不再支持访问arguments.callee
+var f = function() { return arguments.callee; };
+f(); // throws a TypeError
+```
+
+
+
+说明
+
+> 关于strict mode下，不再支持访问arguments.callee的原因，可以参考[官方文档](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments/callee)
+
+
+
+#### d. 更加安全的JavaScript ("Securing" JavaScript)
+
+
+
+```javascript
+'use strict';
+
+// 1. strict mode下，函数中的this不再是强制变成boxed的对象，而且也不能默认成为global object
+// 特定的调用call、apply、bind等，this不会变成boxed的对象
+function fun() { return this; }
+console.assert(fun() === undefined);
+console.assert(fun.call(2) === 2);
+console.assert(fun.apply(null) === null);
+console.assert(fun.call(undefined) === undefined);
+console.assert(fun.bind(true)() === true);
+
+// 2. strict mode下，函数的caller和arguments是不能访问的，因为它们是non-deletable properties which throw when set or retrieved
+// If fun is in strict mode, both fun.caller and fun.arguments are non-deletable properties which throw when set or retrieved
+function restricted() {
+  'use strict';
+  restricted.caller;    // throws a TypeError
+  restricted.arguments; // throws a TypeError
+}
+function privilegedInvoker() {
+  return restricted();
+}
+privilegedInvoker();
+
+// 3. 
+
+```
+
+
+
+说明
+
+> 在sloppy mode下，函数中的this，可以global object对象，或者boxed的对象。
+>
+> 举个在Chrome的console中的测试例子，如下
+>
+> ```javascript
+> > function fun() { return this; }
+> <· undefined
+> > fun();
+> <· Window {parent: Window, opener: null, top: Window, length: 0, frames: Window, …}
+> > fun.call(2);
+> <· Number {2}
+> > fun.apply(null)
+> <· Window {parent: Window, opener: null, top: Window, length: 0, frames: Window, …}
+> > fun.call(undefined)
+> <· Window {parent: Window, opener: null, top: Window, length: 0, frames: Window, …}
+> > fun.bind(true)()
+> <· Boolean {true}
+> ```
+>
+> 
+
+
+
+
+
+### （2）应用strict mode
 
 应用strict mode和应用sloppy mode的代码可以混合，因此有几种方式使strict mode生效。
 
@@ -1626,7 +1906,7 @@ export default strict;
 
 
 
-### （2）测试是否当前是strict mode[^27]
+### （3）测试是否当前是strict mode[^27]
 
 可以借助strict mode和sloppy mode之间的特性差异来判断是否是strict mode，例如在sloppy mode中，函数中的this是指向全局的对象，而在strict mode中，函数中的this是undefined。因此借助这个差异，实现如下代码。
 
