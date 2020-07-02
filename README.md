@@ -1548,9 +1548,14 @@ strict mode和sloppy mode相比，有下面几点变化
 
 * 更加严格语法检查(Converting mistakes into errors)
 
+* 简化变量使用 (Simplifying variable uses)
+* 简化`eval`和`arguments`的使用 (Making `eval` and `arguments` simpler)
+* 更加安全的JavaScript ("Securing" JavaScript)
+* 更好过渡到将来的ECMAScript版本 (Paving the way for future ECMAScript versions)
 
 
-### （1）strict mode变化
+
+### （1）strict mode带来的变化
 
 #### a. 更加严格语法检查 (Converting mistakes into errors)
 
@@ -1769,7 +1774,7 @@ f(); // throws a TypeError
 
 #### d. 更加安全的JavaScript ("Securing" JavaScript)
 
-
+​      对JavaScript中可能透出上下文环境的变量，做了一些调整，比如this；或者禁止使用，比如caller、arguments等。
 
 ```javascript
 'use strict';
@@ -1795,8 +1800,14 @@ function privilegedInvoker() {
 }
 privilegedInvoker();
 
-// 3. 
-
+// 3. strict mode下，不再支持arguments.caller访问
+// arguments for strict mode functions no longer provide access to the corresponding function call's variables.
+function fun(a, b) {
+  'use strict';
+  var v = 12;
+  return arguments.caller; // throws a TypeError
+}
+fun(1, 2); // doesn't expose v (or a or b)
 ```
 
 
@@ -1823,6 +1834,59 @@ privilegedInvoker();
 > ```
 >
 > 
+
+
+
+#### e. 更好过渡到将来的ECMAScript版本 (Paving the way for future ECMAScript versions)
+
+##### 保留词 (reserved word)
+
+将来的ECMAScript版本会引入新的语法，ES5 (ECMAScript 5)的strict mode将一些关键词进行保留，有`implements`, `interface`, `let`, `package`, `private`, `protected`, `public`, `static `和 `yield`，strict mode下不能使用这些保留词。
+
+```javascript
+'use strict';
+
+function package(protected) { // !!!
+  'use strict';
+  var implements; // !!!
+
+  interface: // !!!
+  while (true) {
+    break interface; // !!!
+  }
+
+  function private() { } // !!!
+}
+
+function fun(static) { 'use strict'; } // !!!
+```
+
+
+
+##### 函数语句 (function statement)
+
+ES6的strict mode开始，函数语句不再允许在脚本或函数中的顶级范围(top level)中。举个例子，如下
+
+```javascript
+'use strict';
+if (true) {
+  function f() { } // !!! syntax error
+  f();
+}
+
+for (var i = 0; i < 5; i++) {
+  function f2() { } // !!! syntax error
+  f2();
+}
+
+function baz() { // kosher
+  function eit() { } // also kosher
+}
+```
+
+说明
+
+> Sloppy Mode下，允许函数语句在任意的地方。In normal mode in browsers, function statements are permitted "everywhere".
 
 
 
@@ -1906,7 +1970,7 @@ export default strict;
 
 
 
-### （3）测试是否当前是strict mode[^27]
+### （3）测试当前是否是strict mode[^27]
 
 可以借助strict mode和sloppy mode之间的特性差异来判断是否是strict mode，例如在sloppy mode中，函数中的this是指向全局的对象，而在strict mode中，函数中的this是undefined。因此借助这个差异，实现如下代码。
 
