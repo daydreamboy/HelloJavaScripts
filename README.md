@@ -253,6 +253,66 @@ object类型包括**自定义类**和**标准内置类**（Standard built-in obj
 
 Object和object，是不同概念。object泛指非基本类型的都为object类型，而Object是object类型中的一种，Object是key-value的集合，类似Objective-C的NSDictionary类型。
 
+MDN上对Object的定义[^27]为，是一个属性的集合，每个属性由key和value构成。
+
+> An object is a collection of properties, and a property is an association between a name (or *key*) and a value.
+
+对于属性值的访问，采用点语法，如下
+
+```javascript
+objectName.propertyName
+```
+
+定义一个Object对象，如下
+
+```javascript
+// 1. 使用new关键词
+var myCar = new Object();
+myCar.make = 'Ford';
+myCar.model = 'Mustang';
+myCar.year = 1969;
+
+// 2. 使用字面literal
+var myCar = {
+    make: 'Ford',
+    model: 'Mustang',
+    year: 1969
+};
+```
+
+值得说明的是，literal方式，如果仅包含一个变量，则key是变量名，value是变量值。
+
+举个例子，如下
+
+```javascript
+let a = 1;
+let o = {a}; // { a: 1 }
+```
+
+除了使用点语法，Object还支持下标方式
+
+举个例子，如下
+
+```javascript
+// four variables are created and assigned in a single go,
+// separated by commas
+var myObj = new Object(),
+    str = 'myString',
+    rand = Math.random(),
+    obj = new Object();
+
+myObj.type              = 'Dot syntax';
+myObj['date created']   = 'String with space';
+myObj[str]              = 'String value';
+myObj[rand]             = 'Random Number';
+myObj[obj]              = 'Object';
+myObj['']               = 'Even an empty string';
+
+console.log(myObj);
+```
+
+对于Object的语法，可以参考MDN的这篇文章[^27]
+
 
 
 #### b. JSON
@@ -2193,6 +2253,8 @@ html页面，示例如下
 [^25]:https://www.w3schools.com/js/js_versions.asp
 
 [^26]:https://stackoverflow.com/questions/10480108/is-there-any-way-to-check-if-strict-mode-is-enforced
+
+[^27]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects
 
 
 
