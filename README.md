@@ -163,6 +163,16 @@ alert( "not a number" / 2 + 5 ); // NaN
 
 
 
+#### a. 判断一个变量是否NaN
+
+```javascript
+isNaN(parseFloat("geoff"))
+```
+
+https://stackoverflow.com/questions/2652319/how-do-you-check-that-a-number-is-nan-in-javascript
+
+
+
 ### （2）string类型
 
 string类型主要指字面常量字符串，例如'a'、"b"等。
@@ -202,9 +212,15 @@ TODO
 
 #### c. long string literal
 
-有两种方法可以支持长字符串，如下
+有三种方法可以支持长字符串，如下
 
-* 使用`+`拼接，如下
+* 使用`+`拼接
+* 使用`\`来换行
+* 使用String.raw\`templateString\`方式
+
+
+
+使用`+`拼接，如下
 
 ```javascript
 let longString = "This is a very long string which needs " +
@@ -212,13 +228,88 @@ let longString = "This is a very long string which needs " +
                  "otherwise my code is unreadable."
 ```
 
-* 使用`\`来换行，如下
+使用`\`来换行，如下
 
 ```javascript
 let longString = "This is a very long string which needs \
 to wrap across multiple lines because \
 otherwise my code is unreadable."
 ```
+
+使用String.raw\`templateString\`方式，如下
+
+```javascript
+let grammar = String.raw`
+start = string:$(.+) {
+  let result = parseFloat(string);
+  if (isNaN(result)) {
+      let loc = location();
+      let startIndexInfo = 'start: offset: ' + loc.start.offset + ',line: ' + loc.start.line + ', column: ' + loc.start.column
+      let endIndexInfo = 'end: offset: ' + loc.end.offset + ',line: ' + loc.end.line + ', column: ' + loc.end.column
+      console.log(startIndexInfo);
+      console.log(endIndexInfo);
+        
+      return undefined
+  }
+  else {
+      return null
+  }
+}
+`;
+```
+
+
+
+
+
+#### d. 遍历string
+
+枚举字符串中每个字符，有很多种方式
+
+* 下标方式
+* charAt方法
+* for-of遍历（ES6语法）
+
+
+
+但是不是所有方法对emoji支持很好。举个例子，如下
+
+```javascript
+const string = '😀 is an emoji';
+for (let i = 0; i < string.length; i++) {
+   console.log(string[i]);
+}
+```
+
+上面代码在Chrome的Console中执行，😀会变成2个`�`
+
+推荐使用for-of遍历[^28]，如下
+
+```javascript
+const string = '😀 is an emoji';
+for (const i of string) {
+   console.log(i);
+}
+```
+
+可以正确打印出😀
+
+
+
+#### e. 取子字符串
+
+String提供substring方法，用于获取子字符串。语法格式，如下
+
+```javascript
+substring(indexStart)
+substring(indexStart, indexEnd)
+```
+
+其中substring(indexStart, indexEnd)的区间是[indexStart, indexEnd)。
+
+说明
+
+> MDN文档上，描述String的substr方法不再推荐使用
 
 
 
@@ -2255,6 +2346,8 @@ html页面，示例如下
 [^26]:https://stackoverflow.com/questions/10480108/is-there-any-way-to-check-if-strict-mode-is-enforced
 
 [^27]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects
+
+[^28]:https://medium.com/@giltayar/iterating-over-emoji-characters-the-es6-way-f06e4589516
 
 
 
