@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>manually render into svg</title>
+</head>
+
+<body>
+  <div id="graphDiv">
+  </div>
+
+  <script src="../vendor/mermaid.min.js"></script>
+  <script>
+    var mermaidAPI = mermaid.mermaidAPI;
+
+    mermaidAPI.initialize({
+      startOnLoad: false
+    });
+
+    // https://stackoverflow.com/questions/42402912/how-to-embed-an-image-in-a-node-with-mermaid-js
+    var element = document.getElementById("graphDiv");
+    var insertSvg = function (svgCode, bindFunctions) {
+      element.innerHTML = svgCode;
+    };
+    var graphDefinition = 'graph TB\na-->b';
+    var graph = mermaidAPI.render("mermaid", graphDefinition, insertSvg);
+  </script>
+</body>
+
+</html>

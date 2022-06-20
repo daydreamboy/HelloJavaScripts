@@ -2,11 +2,17 @@
 <html>
 
 <head>
-  <title>Hello, world!</title>
+  <title>Change mermaid style</title>
+  <style>
+    /* https://github.com/mermaid-js/mermaid/blob/develop/docs/usage.md */
+    div.mermaid {
+      font-family: 'trebuchet ms', verdana, arial;
+      /* font-family: 'Courier New', Courier, monospace !important; */
+    }
+  </style>
 </head>
 
 <body>
-
   <div class="mermaid">
     graph TD
     A[Client] --> B[Load Balancer]
