@@ -2304,6 +2304,16 @@ html页面，示例如下
 
 
 
+#### (2) mermaid-js
+
+
+
+mermaid.min.js: https://github.com/mermaid-js/mermaid/blob/develop/docs/n00b-gettingStarted.md
+
+
+
+
+
 ## References
 
 [^1]: https://javascript.info/class

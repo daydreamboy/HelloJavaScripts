@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Hello, mermaid-js!</title>
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+  <style>
+      div.mermaid {
+        /* font-family: 'trebuchet ms', verdana, arial; */
+        font-family: 'Courier New', Courier, monospace !important;
+      }
+  </style>
+</head>
+<body>
+  <div id="graphDiv">
+  </div>
+
+  <script type="text/javascript" src="../vendor/jquery-3.4.1.min.js"></script>
+  <script src="../vendor/mermaid.min.js"></script>
+  <script>
+    var mermaidAPI = mermaid.mermaidAPI;
+
+    mermaidAPI.initialize({ 
+      startOnLoad: false 
+    });
+
+    // https://stackoverflow.com/questions/42402912/how-to-embed-an-image-in-a-node-with-mermaid-js
+    var element = document.getElementById("graphDiv");
+    var insertSvg = function(svgCode, bindFunctions) {
+      element.innerHTML = svgCode;
+    };
+    var graphDefinition = 'graph TB\na-->b'; 
+    var graph = mermaidAPI.render("mermaid", graphDefinition, insertSvg);
+  </script>
+</body>
+
+</html>

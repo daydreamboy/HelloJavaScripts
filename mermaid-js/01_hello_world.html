@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Hello, mermaid-js!</title>
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+  <style>
+      div.mermaid {
+        /* font-family: 'trebuchet ms', verdana, arial; */
+        font-family: 'Courier New', Courier, monospace !important;
+      }
+  </style>
+</head>
+<body>
+  <h1>mermaid-js test</h1>
+  <h2>Sample 1: Hello, world!</h2>
+  <h3>graph</h3>
+  <div class="mermaid">
+    graph LR
+     A --- B
+     B-->C[fa:fa-ban forbidden]
+     B-->D(fa:fa-spinner hello, world!);
+  </div>
+
+  <hr/>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad:true,
+    });
+  </script>
+</body>
+</html>
