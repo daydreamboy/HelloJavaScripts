@@ -621,6 +621,51 @@ click taskId href URL
 
 
 
+### (10) task描述
+
+在上面Gantt语法中已经有部分语法描述task。官方似乎没有给出完整的task语法，这里总结一下它的语法，如下
+
+```
+<task desc> :<status list>, <task id>, <task start>, <task duration>
+```
+
+* `:`用于分隔task的描述和属性
+* `:`后面可以有必要的属性(例如`<task duration>`)或者可选的属性(例如`<status list>`)
+* `<status list>`，表示任务的状态，可选。支持的字段有
+  * done，已完成的task
+  * active，正在进行的task
+  * 为空（默认），将来的task
+  * crit，关键task。可以和上面的3个状态组合，用`,`连接。
+
+* `<task id>`，表示任务的id，可选。
+* `<task start>`，表示任务的起始日期，可选。可以使用绝对时间，可以使用相对时间（例如使用`after`字段，表示在某个任务之后）。如果不写，则默认是在上个任务之后。
+* `<task duration>`，表示任务的耗时，必选。时间长度可以是天、小时等
+
+
+
+举个例子，如下
+
+```mermaid
+gantt
+	title A Gantt Diagram with status
+	dateFormat YYYY-MM-DD
+	todaymarker off
+  A task with done status         :done,         a1, 2022-07-18, 2d
+  A crit task with done status    :done, crit,   a1, 2022-07-18, 2d
+  
+  A task with ongoing status      :active,       a2, after a1, 2d
+  A crit task with ongoing status :crit, active, a2, after a1, 2d
+	
+	A task with future status       :              a3, after a2, 2d
+	A crit task with future status  :crit,         a3, after a2, 2d
+	
+	A task only with duration       :                            2d
+```
+
+
+
+
+
 
 
 
