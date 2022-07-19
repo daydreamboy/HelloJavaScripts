@@ -311,6 +311,320 @@ https://github.com/mermaid-js/mermaid/blob/develop/docs/n00b-gettingStarted.md
 
 
 
+TODO
+
+https://stackoverflow.com/questions/28121525/mermaid-cli-how-do-you-escape-characters
+
+```
+graph TD
+
+    question1{"Gas tank less than 1/8?"}
+    action1["Fill tank to 100%"]
+
+    question1-- Yes -->action1
+```
+
+
+
+##4、甘特图 (Gantt Charts)
+
+甘特图 (Gantt Charts)的展示，示例如下
+
+```mermaid
+%% Example with selection of syntaxes
+        gantt
+        dateFormat  YYYY-MM-DD
+        title Adding GANTT diagram functionality to mermaid
+
+        section A section
+        Completed task            :done,    des1, 2014-01-06,2014-01-08
+        Active task               :active,  des2, 2014-01-09, 3d
+        Future task               :         des3, after des2, 5d
+        Future task2               :         des4, after des3, 5d
+
+        section Critical tasks
+        Completed task in the critical line :crit, done, 2014-01-06,24h
+        Implement parser and jison          :crit, done, after des1, 2d
+        Create tests for parser             :crit, active, 3d
+        Future task in critical line        :crit, 5d
+        Create tests for renderer           :2d
+        Add to mermaid                      :1d
+
+        section Documentation
+        Describe gantt syntax               :active, a1, after des1, 3d
+        Add gantt diagram to demo page      :after a1  , 20h
+        Add another diagram to demo page    :doc1, after a1  , 48h
+
+        section Last section
+        Describe gantt syntax               :after doc1, 3d
+        Add gantt diagram to demo page      : 20h
+        Add another diagram to demo page    : 48h
+```
+
+甘特图(Gantt diagram)是一种条线的图表，用于显示工程上的日程以及每个工程的耗时。甘特图也显示每个元素的起始时间和结束时间，以及每个工程的摘要信息。
+
+mermaid文档对甘特图的描述[^5]，如下
+
+> A Gantt chart is a type of bar chart, first developed by Karol Adamiecki in 1896, and independently by Henry Gantt in the 1910s, that illustrates a project schedule and the amount of time it would take for any one project to finish. Gantt charts illustrate number of days between the start and finish dates of the terminal elements and summary elements of a project.
+
+
+
+### (1) 图表的标题(Title)
+
+用title字段描述甘特图的标题，它是可选的
+
+举个例子，如下
+
+```mermaid
+gantt
+	title A Gantt Diagram
+	dateFormat YYYY-MM-DD
+	A task with 7 days :a1, 2022-07-18, 7d
+```
+
+### (2) 区块语句(Section statements)
+
+可以将图表分成多个区块(section)，比如一个项目分为开发阶段和文档阶段。
+
+使用section字段，后面跟着一个名字。名字是必选的。
+
+举个例子，如下
+
+```mermaid
+gantt
+	title A Gantt Diagram
+	dateFormat YYYY-MM-DD
+	section section for development
+	A task with 7 days :a1, 2022-07-18, 7d
+	section section for documentation
+	A task with 2 days :a2, 2d
+```
+
+
+
+### (3) 里程碑(Milestones)
+
+使用milestone字段可以标记一个里程碑。
+
+举个例子，如下
+
+```mermaid
+gantt
+	title A Gantt Diagram
+	dateFormat YYYY-MM-DD
+	section section for development
+	A task with 7 days :a1, 2022-07-18, 7d
+	Initial milestone :milestone, m1, 2022-07-18, 0d
+	Half milestone :milestone, m2, 2022-07-21, 12h
+```
+
+里程碑的时间计算规则是`initial date+duration/2`，这里duration是指里程碑耗费的时间。举个例子，如下
+
+```
+Half milestone :milestone, m2, 2022-07-21, 12h
+```
+
+上面12h是指里程碑耗费0.5天时间。
+
+
+
+### (4) 设置日期(Setting dates)
+
+`dateFormat`字段用于定义输入时间的格式。默认格式为YYYY-MM-DD
+
+`axisFormat`字段用于定义输出时间的格式。默认格式为YYYY-MM-DD
+
+
+
+`dateFormat`字段用法，如下
+
+```
+dateFormat YYYY-MM-DD
+```
+
+
+
+`dateFormat`字段支持的时间格式，如下
+
+```
+Input       Example             Description:
+YYYY        2014                4 digit year
+YY          14                  2 digit year
+Q           1..4                Quarter of year. Sets month to first month in quarter.
+M MM        1..12               Month number
+MMM MMMM    January..Dec        Month name in locale set by moment.locale()
+D DD        1..31               Day of month
+Do          1st..31st           Day of month with ordinal
+DDD DDDD    1..365              Day of year
+X           1410715640.579      Unix timestamp
+x           1410715640579       Unix ms timestamp
+H HH        0..23               24 hour time
+h hh        1..12               12 hour time used with a A.
+a A         am pm               Post or ante meridiem
+m mm        0..59               Minutes
+s ss        0..59               Seconds
+S           0..9                Tenths of a second
+SS          0..99               Hundreds of a second
+SSS         0..999              Thousandths of a second
+Z ZZ        +12:00              Offset from UTC as +-HH:mm, +-HHmm, or Z
+```
+
+
+
+`axisFormat`字段用法，如下
+
+```
+axisFormat  %Y-%m-%d
+```
+
+
+
+`axisFormat`字段支持的时间格式，如下
+
+```
+%a - abbreviated weekday name.
+%A - full weekday name.
+%b - abbreviated month name.
+%B - full month name.
+%c - date and time, as "%a %b %e %H:%M:%S %Y".
+%d - zero-padded day of the month as a decimal number [01,31].
+%e - space-padded day of the month as a decimal number [ 1,31]; equivalent to %_d.
+%H - hour (24-hour clock) as a decimal number [00,23].
+%I - hour (12-hour clock) as a decimal number [01,12].
+%j - day of the year as a decimal number [001,366].
+%m - month as a decimal number [01,12].
+%M - minute as a decimal number [00,59].
+%L - milliseconds as a decimal number [000, 999].
+%p - either AM or PM.
+%S - second as a decimal number [00,61].
+%U - week number of the year (Sunday as the first day of the week) as a decimal number [00,53].
+%w - weekday as a decimal number [0(Sunday),6].
+%W - week number of the year (Monday as the first day of the week) as a decimal number [00,53].
+%x - date, as "%m/%d/%Y".
+%X - time, as "%H:%M:%S".
+%y - year without century as a decimal number [00,99].
+%Y - year with century as a decimal number.
+%Z - time zone offset, such as "-0700".
+%% - a literal "%" character.
+```
+
+
+
+### (5) 注释(Comments)
+
+`%%`用于单行注释。举个例子，如下
+
+```
+gantt
+    title A Gantt Diagram
+    %% this is a comment
+```
+
+
+
+### (6) 样式(Styles)
+
+TODO：https://mermaid-js.github.io/mermaid/#/gantt?id=styling
+
+
+
+### (7) 当天日期标记(Today marker)
+
+`todayMarker`字段用于标记当天日期。默认Today marker的样式，是红色的竖条，标记当前日期和时间。
+
+* 可以修改Today marker的样式。举个例子，如下
+
+```
+	todayMarker stroke-width:5px,stroke:#0f0,opacity:0.5
+```
+
+效果如下
+
+```mermaid
+gantt
+	title A Gantt Diagram
+	todayMarker stroke-width:5px,stroke:#0f0,opacity:0.5
+	A task with 7 days :a1, 2022-07-18, 7d
+```
+
+* 可以不显示Today marker。举个例子，如下
+
+```
+todayMarker off
+```
+
+效果如下
+
+```mermaid
+gantt
+	title A Gantt Diagram
+	todayMarker off
+	A task with 7 days :a1, 2022-07-18, 7d
+```
+
+### (8) 配置(ganttConfig属性)
+
+TODO: https://mermaid-js.github.io/mermaid/#/gantt?id=configuration
+
+
+
+### (9) 交互(Interaction)
+
+可以为每个task绑定一个点击事件。当设置`securityLevel='strict'`时，这个绑定是无效的。当设置`securityLevel='loose'`时，允许绑定。
+
+`click`字段，用于绑定task的点击事件。语法格式，如下
+
+```
+click taskId call callback(arguments)
+click taskId href URL
+```
+
+* taskId是task的id
+* callback是JavaScript的回调函数。arguments参数是可选的，如果不设置arguments，则默认会传taskId作为参数
+
+举个例子，如下
+
+```html
+<body>
+  <script src="../vendor/mermaid.min.js"></script>
+  <h2>Gantt Diagram</h2>
+  <div class="mermaid">
+    gantt
+      dateFormat  YYYY-MM-DD
+
+      section Clickable
+      Visit mermaidjs(cl1)           :active, cl1, 2014-01-07, 3d
+      Print arguments(cl2)         :cl2, after cl1, 3d
+      Print task(cl3)              :cl3, after cl2, 3d
+
+      click cl1 href "https://mermaidjs.github.io/"
+      click cl2 call printArguments("test1", "test2", test3)
+      click cl3 call printTask()
+  </div>
+
+  <script>
+    var printArguments = function(arg1, arg2, arg3) {
+      alert('printArguments called with arguments: ' + arg1 + ', ' + arg2 + ', ' + arg3);
+    }
+    var printTask = function(taskId) {
+      alert('taskId: ' + taskId);
+    }
+    var config = {
+      logLevel: 'debug',
+      startOnLoad: true,
+      securityLevel: 'loose',
+    };
+    mermaid.initialize(config);
+  </script>
+</body>
+```
+
+
+
+
+
+
+
 
 
 ## References
@@ -319,7 +633,8 @@ https://github.com/mermaid-js/mermaid/blob/develop/docs/n00b-gettingStarted.md
 [^2]:https://github.com/mermaid-js/mermaid/blob/develop/docs/n00b-overview.md
 [^3]:https://mermaid-js.github.io/mermaid/#/Setup?id=startonload
 [^4]:https://stackoverflow.com/questions/42402912/how-to-embed-an-image-in-a-node-with-mermaid-js
-[^]:
+[^5]:https://mermaid-js.github.io/mermaid/#/gantt 
+
 [^]:https://github.com/mermaid-js/mermaid/blob/develop/docs/usage.md
 
 

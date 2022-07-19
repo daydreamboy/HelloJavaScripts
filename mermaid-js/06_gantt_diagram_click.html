@@ -1,0 +1,32 @@
+<body>
+  <script src="../vendor/mermaid.min.js"></script>
+  <h2>Gantt Diagram</h2>
+  <div class="mermaid">
+    gantt
+      dateFormat  YYYY-MM-DD
+
+      section Clickable
+      Visit mermaidjs(cl1)           :active, cl1, 2014-01-07, 3d
+      Print arguments(cl2)         :cl2, after cl1, 3d
+      Print task(cl3)              :cl3, after cl2, 3d
+
+      click cl1 href "https://mermaidjs.github.io/"
+      click cl2 call printArguments("test1", "test2", test3)
+      click cl3 call printTask()
+  </div>
+
+  <script>
+    var printArguments = function(arg1, arg2, arg3) {
+      alert('printArguments called with arguments: ' + arg1 + ', ' + arg2 + ', ' + arg3);
+    }
+    var printTask = function(taskId) {
+      alert('taskId: ' + taskId);
+    }
+    var config = {
+      logLevel: 'debug',
+      startOnLoad: true,
+      securityLevel: 'loose',
+    };
+    mermaid.initialize(config);
+  </script>
+</body>
