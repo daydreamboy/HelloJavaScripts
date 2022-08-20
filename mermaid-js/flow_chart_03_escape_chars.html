@@ -1,0 +1,22 @@
+<body>
+  <script src="../vendor/mermaid.min.js"></script>
+  <h2>Gantt Diagram for page event</h2>
+
+  <div class="mermaid">
+    graph TD
+
+    question1{"Gas tank less than 1/8?"}
+    action1["Fill tank to 100%"]
+
+    question1-- Yes -->action1
+  </div>
+
+  <script>
+    var config = {
+      logLevel: 'debug',
+      startOnLoad: true,
+      securityLevel: 'loose',
+    };
+    mermaid.initialize(config);
+  </script>
+</body>
