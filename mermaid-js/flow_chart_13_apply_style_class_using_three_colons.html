@@ -1,0 +1,19 @@
+<body>
+  <script src="../vendor/mermaid.min.js"></script>
+
+  <h2>Flow Chart - define a style</h2>
+  <div class="mermaid">
+    flowchart LR
+      A:::someclass --> B
+      classDef someclass fill:#f96;
+  </div>
+
+  <script>
+    var config = {
+      logLevel: 'debug',
+      startOnLoad: true,
+      securityLevel: 'loose',
+    };
+    mermaid.initialize(config);
+  </script>
+</body>

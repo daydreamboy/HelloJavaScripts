@@ -1,0 +1,29 @@
+<body>
+  <script src="../vendor/mermaid.min.js"></script>
+  <script>
+    var callback = function () {
+        alert('A callback was triggered');
+    };
+  </script>
+
+  <h2>Flow Chart - set node clickable</h2>
+  <div class="mermaid">
+    flowchart LR
+    A-->B
+    B-->C
+    C-->D
+    click A callback "Tooltip for a callback"
+    click B "https://www.github.com" "This is a tooltip for a link"
+    click C call callback() "Tooltip for a callback"
+    click D href "https://www.github.com" "This is a tooltip for a link"
+  </div>
+
+  <script>
+    var config = {
+      logLevel: 'debug',
+      startOnLoad: true,
+      securityLevel: 'loose',
+    };
+    mermaid.initialize(config);
+  </script>
+</body>

@@ -1,0 +1,22 @@
+<body>
+  <script src="../vendor/mermaid.min.js"></script>
+
+  <h2>Flow Chart - styling links</h2>
+  <div class="mermaid">
+    flowchart LR
+      A-->B
+      B-->C
+      C-->D
+      linkStyle 0 stroke:red;
+      linkStyle 2 stroke:#ff3,stroke-width:4px,color:red;
+  </div>
+
+  <script>
+    var config = {
+      logLevel: 'debug',
+      startOnLoad: true,
+      securityLevel: 'loose',
+    };
+    mermaid.initialize(config);
+  </script>
+</body>

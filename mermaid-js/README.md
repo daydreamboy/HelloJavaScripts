@@ -363,6 +363,8 @@ flowchart LR
     A --- B
 ```
 
+#### a. 支持文本
+
 ```mermaid
 flowchart LR
     A-- This is the text! ---B
@@ -378,8 +380,571 @@ flowchart LR
 
 
 ```mermaid
-sdfds
+flowchart LR;
+   A-.->B;
+   C-. text .-> D
 ```
+
+```mermaid
+flowchart LR
+   A ==> B
+   C == text ==> D
+```
+
+```mermaid
+flowchart LR
+   A -- text --> B -- text2 --> C
+```
+
+#### b. 使用&符号
+
+```mermaid
+flowchart LR
+   a --> b & c--> d
+```
+
+```mermaid
+flowchart TB
+    A & B--> C & D
+```
+
+
+
+#### c. 箭头样式
+
+```mermaid
+flowchart LR
+    A --o B
+    B --x C
+```
+
+
+
+#### d. 双向箭头
+
+```mermaid
+flowchart LR
+    A o--o B
+    B <--> C
+    C x--x D
+```
+
+#### e. 连接线的长度
+
+Mermaid-js在一定程度，支持定义连接线的长短。
+
+举个例子，如下
+
+`B ---->|No| E[End]`
+
+```mermaid
+flowchart TD
+    A[Start] --> B{Is it?}
+    B -->|Yes| C[OK]
+    C --> D[Rethink]
+    D --> B
+    B ---->|No| E[End]
+```
+
+`B --->|No| E[End]`
+
+```mermaid
+flowchart TD
+    A[Start] --> B{Is it?}
+    B -->|Yes| C[OK]
+    C --> D[Rethink]
+    D --> B
+    B --->|No| E[End]
+```
+
+`B -->|No| E[End]`
+
+```mermaid
+flowchart TD
+    A[Start] --> B{Is it?}
+    B -->|Yes| C[OK]
+    C --> D[Rethink]
+    D --> B
+    B -->|No| E[End]
+```
+
+按照官方文档的描述，流程图按照特定方向排列节点，那么这些节点按照流向的方向，可以定义一个rank，即节点排序，会构成一个层次，绘图引擎一层一层地绘制节点。如果连接线的长度变长，则节点可以放在下一层绘制。
+
+官方文档描述，如下
+
+> Each node in the flowchart is ultimately assigned to a rank in the rendered graph, i.e. to a vertical or horizontal level (depending on the flowchart orientation), based on the nodes to which it is linked. By default, links can span any number of ranks, but you can ask for any link to be longer than the others by adding extra dashes in the link definition.
+
+
+
+Mermaid-js的连接线长度，支持3个长度，如下
+
+| Length            | 1      | 2       | 3        |
+| ----------------- | ------ | ------- | -------- |
+| Normal            | `---`  | `----`  | `-----`  |
+| Normal with arrow | `-->`  | `--->`  | `---->`  |
+| Thick             | `===`  | `====`  | `=====`  |
+| Thick with arrow  | `==>`  | `===>`  | `====>`  |
+| Dotted            | `-.-`  | `-..-`  | `-...-`  |
+| Dotted with arrow | `-.->` | `-..->` | `-...->` |
+
+
+
+### (6) 字符转义
+
+在上面的介绍中，一些特殊字符，用于定义节点的样式，以及连接线的样式。如果节点的文本中，再出现这些字符，则需要进行转义。
+
+有两种方式可以转义。
+
+
+
+#### a. 使用`""`方式
+
+举个例子，如下
+
+```mermaid
+flowchart LR
+    id1["This is the (text) in the box"]
+```
+
+
+
+
+
+#### b. 使用`#decimal;`或者`#name;`方式
+
+举个例子，如下
+
+```mermaid
+flowchart LR
+        A["A double quote:#quot;"] -->B["A dec char:#9829;"]
+```
+
+说明
+
+> 1. `#decimal;`，decimal是是十进制数。比如`#`可以转义成`#35;`
+>
+> 2. `#name;`，name是HTML字符转义名称，比如`"`可以转义成`#quot;`，`>`可以转义成`#gt;`，`<`可以转义成`#lt;`
+
+
+
+### (7) 子流程图
+
+mermaid-js支持多个子流程图，即一张流程图中有多个小的流程图。
+
+使用`subgraph`关键词表示子流程图
+
+说明
+
+> 多个子流程图之间的关系，可以不嵌套，或者嵌套，即大流程图中有小的流程图
+
+
+
+举个例子，如下
+
+```mermaid
+flowchart TB
+    c1-->a2
+    subgraph one
+    a1-->a2
+    end
+    subgraph two
+    b1-->b2
+    end
+    subgraph three
+    c1-->c2
+    end
+```
+
+
+
+#### a. 设置子流程图的id
+
+可以为子流程图设置id
+
+举个例子，如下
+
+```mermaid
+flowchart TB
+    c1-->a2
+    subgraph ide1 [one]
+    a1-->a2
+    end
+```
+
+这里`subgraph ide1 [one]`，ide1是id，而one是标题。
+
+
+
+#### b. 子流程图的连接线
+
+子流程图之间，可以设置连接线
+
+举个例子，如下
+
+```mermaid
+flowchart TB
+    c1-->a2
+    subgraph one
+    a1-->a2
+    end
+    subgraph two
+    b1-->b2
+    end
+    subgraph three
+    c1-->c2
+    end
+    one --> two
+    three --> two
+    two --> c2
+```
+
+
+
+#### c. 设置子流程图的方向
+
+每个子流程图，可以使用`direction`来设置方向
+
+举个例子，如下
+
+```mermaid
+flowchart LR
+  subgraph TOP
+    direction TB
+    subgraph B1
+        direction RL
+        i1 -->f1
+    end
+    subgraph B2
+        direction BT
+        i2 -->f2
+    end
+  end
+  A --> TOP --> B
+  B1 --> B2
+```
+
+
+
+
+
+### (8) 点击交互
+
+Mermaid-js支持节点点击，当设置`securityLevel='loose'`开启点击交互，而设置`securityLevel='strict'`关闭点击交互。
+
+使用`click`关键词标记节点可点击。
+
+一般有4种写法，如下
+
+```html
+click A callback "Tooltip for a callback"
+click B "https://www.github.com" "This is a tooltip for a link"
+click C call callback() "Tooltip for a callback"
+click D href "https://www.github.com" "This is a tooltip for a link"
+```
+
+说明
+
+> 1. callback是回调函数名
+> 2. call和href也是关键词
+> 3. 最后一个参数，是tooltip，用于鼠标hover的提示
+
+
+
+举个例子，如下
+
+```html
+<body>
+  <script src="../vendor/mermaid.min.js"></script>
+  <script>
+    var callback = function () {
+        alert('A callback was triggered');
+    };
+  </script>
+
+  <h2>Flow Chart - set node clickable</h2>
+  <div class="mermaid">
+    flowchart LR
+    A-->B
+    B-->C
+    C-->D
+    click A callback "Tooltip for a callback"
+    click B "https://www.github.com" "This is a tooltip for a link"
+    click C call callback() "Tooltip for a callback"
+    click D href "https://www.github.com" "This is a tooltip for a link"
+  </div>
+
+  <script>
+    var config = {
+      logLevel: 'debug',
+      startOnLoad: true,
+      securityLevel: 'loose',
+    };
+    mermaid.initialize(config);
+  </script>
+</body>
+```
+
+
+
+#### a. 设置打开方式
+
+在上面看到`click`关键词带4个参数，其实还可以指定点击后的打开方式。
+
+有4种方式可选，`_self`, `_blank`, `_parent` and `_top`
+
+举个例子，如下
+
+```html
+<body>
+  <script src="../vendor/mermaid.min.js"></script>
+
+  <h2>Flow Chart - set node open style</h2>
+  <div class="mermaid">
+    flowchart LR
+    A-->B
+    B-->C
+    C-->D
+    click A "https://www.baidu.com/" _self
+    click B "https://www.baidu.com/" "Open this in a new tab" _blank
+    click C href "https://www.baidu.com/" _parent
+    click D href "https://www.baidu.com/" "Open this in a new tab" _top
+  </div>
+
+  <script>
+    var config = {
+      logLevel: 'debug',
+      startOnLoad: true,
+      securityLevel: 'loose',
+    };
+    mermaid.initialize(config);
+  </script>
+</body>
+```
+
+
+
+### (9) 注释
+
+使用`%%`，用于流程图的注释。仅支持单行注释。
+
+举个例子，如下
+
+```mermaid
+flowchart LR
+%% this is a comment A -- text --> B{node}
+   A -- text --> B -- text2 --> C
+```
+
+
+
+### (10) 设置CSS样式
+
+在上面的介绍中，已经知道如何定义节点和连接线的样式，但是这些样式是mermaid-js预置的样式，不能完全自定义样式。这里介绍如何更加细粒度的定义样式。
+
+
+
+#### a. 设置连接线的样式
+
+连接线在mermaid-js中没有定义id的语法，但是可以每个连接线都有一个顺序号，从0开始，因此可以根据顺序号为指定的连接线定义样式。或者所有连接线定义样式。
+
+使用`linkStyle`语句来设置连接线的样式。
+
+举个例子，如下
+
+```mermaid
+flowchart LR
+    A-->B
+    B-->C
+    C-->D
+    linkStyle 0 stroke:red;
+    linkStyle 2 stroke:#ff3,stroke-width:4px,color:red;
+```
+
+说明
+
+> 这里`color:`没有起作用，但是这个例子来官方文档。
+
+
+
+如果需要设置所有连接线，则使用`default`，而不是特定的顺序号。
+
+举个例子，如下
+
+```mermaid
+flowchart LR
+  A-->B
+  B-->C
+  C-->D
+  linkStyle default stroke:red,stroke-width:1px;
+```
+
+
+
+#### b. 设置节点的样式
+
+设置节点的样式，可以通过`style`语句和特定节点id来设置
+
+举个例子，如下
+
+```mermaid
+flowchart LR
+    id1(Start)-->id2(Stop)
+    style id1 fill:#f9f,stroke:#333,stroke-width:4px
+    style id2 fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5
+```
+
+
+
+#### c. 定义样式类
+
+使用`classDef`来定义一个样式类，使用`class`应用一个样式类到一个或多个节点上。
+
+举个例子，如下
+
+```mermaid
+flowchart LR
+  A-->B
+  B-->C
+  C-->D
+
+  classDef MyNodeStyle fill:#f9f,stroke:#333,stroke-width:4px;
+  class A,B MyNodeStyle;
+```
+
+
+
+
+
+除了使用`class`来应用样式，也可以在定义节点时，使用`:::`来指定样式。
+
+举个例子，如下
+
+```mermaid
+flowchart LR
+  A:::someclass --> B
+  classDef someclass fill:#f96;
+```
+
+
+
+使用`classDef default ...`可以应用样式到所有节点上。
+
+举个例子，如下
+
+```mermaid
+flowchart LR
+  A-->B
+  B-->C
+  C-->D
+
+  classDef default fill:#f9f,stroke:#333,stroke-width:4px;
+```
+
+
+
+#### d. 定义CSS样式 (Not Working, TODO)
+
+除了使用`classDef`语句来定义样式，也可以直接定义CSS样式。
+
+举个例子，如下
+
+```html
+<body>
+  <script src="../vendor/mermaid.min.js"></script>
+  <style>
+    .cssClass > rect{
+        fill:#FF0000;
+        stroke:#FFFF00;
+        stroke-width:4px;
+    }
+  </style>
+
+  <h2>Flow Chart - define CSS style (not working)</h2>
+  <div class="mermaid">
+    flowchart LR;
+      A-->B[AAA<span>BBB</span>]
+      B-->D
+      class A cssClass
+  </div>
+
+  <script>
+    var config = {
+      logLevel: 'debug',
+      startOnLoad: true,
+      securityLevel: 'loose',
+    };
+    mermaid.initialize(config);
+  </script>
+</body>
+```
+
+注意
+
+> 这个例子，并不起作用。在Chrome查看节点A，mermaid使用`#id`方式覆盖了使用`.class`方式，所以还是默认的样式。官方的例子，也没有生效。
+
+
+
+### (11) iconfont支持
+
+mermaid-js使用fontawesome库来支持图标显示。
+
+基本语法是` fa:#icon class name#`，其中`#icon class name#`，是icon的名字。
+
+举个例子[^9]，如下
+
+```html
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <script src="../vendor/mermaid.min.js"></script>
+
+  <h2>Flow Chart - node show icon</h2>
+  <div class="mermaid">
+    flowchart TD
+      B["fab:fa-twitter for peace"]
+      B-->C[fa:fa-ban forbidden]
+      B-->D(fa:fa-spinner);
+      B-->E(A fa:fa-camera-retro perhaps?)
+  </div>
+
+  <script>
+    var config = {
+      logLevel: 'debug',
+      startOnLoad: true,
+      securityLevel: 'loose',
+    };
+    mermaid.initialize(config);
+  </script>
+</body>
+```
+
+说明
+
+> mermaid-js对fontawesome库的支持，不是很好。这个例子，icon显示出来导致，部分文本显示不出来。
+
+
+
+注意
+
+> Mermaid is now only compatible with Font Awesome versions 4 and 5. Check that you are using the correct version of Font Awesome.
+
+
+
+### (12) 节点和连接线声明中的空格
+
+TODO
+
+https://mermaid-js.github.io/mermaid/#/flowchart?id=graph-declarations-with-spaces-between-vertices-and-link-and-without-semicolon
+
+
+
+### (13) 流程图的通用配置
+
+TODO
+
+https://mermaid-js.github.io/mermaid/#/flowchart?id=configuration
 
 
 
@@ -840,6 +1405,8 @@ Flow Chart的节点，不是支持所有字符，如果有特殊字符，则考�
 [^6]:https://mermaid-js.github.io/mermaid/#/Setup?id=mermaidapi-configuration-defaults
 [^7]:https://stackoverflow.com/questions/42402912/how-to-embed-an-image-in-a-node-with-mermaid-js
 [^8]:https://stackoverflow.com/questions/28121525/mermaid-cli-how-do-you-escape-characters
+
+[^9]:https://www.w3schools.com/icons/fontawesome_icons_intro.asp
 
 
 

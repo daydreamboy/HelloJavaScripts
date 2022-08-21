@@ -1,0 +1,20 @@
+<body>
+  <script src="../vendor/mermaid.min.js"></script>
+
+  <h2>Flow Chart - styling nodes</h2>
+  <div class="mermaid">
+    flowchart LR
+      id1(Start)-->id2(Stop)
+      style id1 fill:#f9f,stroke:#333,stroke-width:4px
+      style id2 fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5
+  </div>
+
+  <script>
+    var config = {
+      logLevel: 'debug',
+      startOnLoad: true,
+      securityLevel: 'loose',
+    };
+    mermaid.initialize(config);
+  </script>
+</body>

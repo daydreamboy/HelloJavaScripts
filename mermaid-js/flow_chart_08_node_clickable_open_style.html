@@ -1,0 +1,24 @@
+<body>
+  <script src="../vendor/mermaid.min.js"></script>
+
+  <h2>Flow Chart - set node open style</h2>
+  <div class="mermaid">
+    flowchart LR
+    A-->B
+    B-->C
+    C-->D
+    click A "https://www.baidu.com/" _self
+    click B "https://www.baidu.com/" "Open this in a new tab" _blank
+    click C href "https://www.baidu.com/" _parent
+    click D href "https://www.baidu.com/" "Open this in a new tab" _top
+  </div>
+
+  <script>
+    var config = {
+      logLevel: 'debug',
+      startOnLoad: true,
+      securityLevel: 'loose',
+    };
+    mermaid.initialize(config);
+  </script>
+</body>

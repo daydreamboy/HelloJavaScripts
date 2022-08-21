@@ -1,0 +1,29 @@
+<body>
+  <script src="../vendor/mermaid.min.js"></script>
+  <h2>Flow Chart - set direction for subgraph</h2>
+  <div class="mermaid">
+    flowchart LR
+    subgraph TOP
+      direction TB
+      subgraph B1
+          direction RL
+          i1 -->f1
+      end
+      subgraph B2
+          direction BT
+          i2 -->f2
+      end
+    end
+    A --> TOP --> B
+    B1 --> B2
+  </div>
+
+  <script>
+    var config = {
+      logLevel: 'debug',
+      startOnLoad: true,
+      securityLevel: 'loose',
+    };
+    mermaid.initialize(config);
+  </script>
+</body>
