@@ -16,7 +16,7 @@ Mermaid-js是一个js库，用于通过文本和代码，来创建可视化的�
 
 ### (1) 诞生原因
 
-Mermaid-js库的诞生原因，即为什么要创作Mermaid-js库来制作图表的原因。
+Mermaid-js库的诞生原因，即为什么要创建Mermaid-js库来制作图表的原因。
 
 官方给出的原因，如下
 
@@ -175,154 +175,213 @@ startOnLoad参数用于决定在page加载时，是否将带有class="mermaid"�
 
 ### (4) initialize函数的参数
 
-TODO: 
+在上面的例子中，无论使用mermaid对象，还是mermaidAPI对象，都可以使用initialize函数完成初始化
 
-https://mermaid-js.github.io/mermaid/#/Setup?id=configuration
+官方给了一个默认的配置示例[^6]，如下
 
+```javascript
+<script>
+  var config = {
+    theme: 'default',
+    logLevel: 'fatal',
+    securityLevel: 'strict',
+    startOnLoad: true,
+    arrowMarkerAbsolute: false,
 
-
-
-
-
-
-## 3、流程图(Flow Chart)
-
-TODO
-
-
-
-mermaid-js的Diagram Syntax
-
-
-
-Section 1: hello[^1]
-
-
-
-1. Div tag
-
-```html
-<div class="mermaid">
-<!-- mermaid text -->
-</div>
+    er: {
+      diagramPadding: 20,
+      layoutDirection: 'TB',
+      minEntityWidth: 100,
+      minEntityHeight: 75,
+      entityPadding: 15,
+      stroke: 'gray',
+      fill: 'honeydew',
+      fontSize: 12,
+      useMaxWidth: true,
+    },
+    flowchart: {
+      diagramPadding: 8,
+      htmlLabels: true,
+      curve: 'basis',
+    },
+    sequence: {
+      diagramMarginX: 50,
+      diagramMarginY: 10,
+      actorMargin: 50,
+      width: 150,
+      height: 65,
+      boxMargin: 10,
+      boxTextMargin: 5,
+      noteMargin: 10,
+      messageMargin: 35,
+      messageAlign: 'center',
+      mirrorActors: true,
+      bottomMarginAdj: 1,
+      useMaxWidth: true,
+      rightAngles: false,
+      showSequenceNumbers: false,
+    },
+    gantt: {
+      titleTopMargin: 25,
+      barHeight: 20,
+      barGap: 4,
+      topPadding: 50,
+      leftPadding: 75,
+      gridLineStartPadding: 35,
+      fontSize: 11,
+      fontFamily: '"Open Sans", sans-serif',
+      numberSectionStyles: 4,
+      axisFormat: '%Y-%m-%d',
+      topAxis: false,
+    },
+  };
+  mermaid.initialize(config);
+</script>
 ```
 
 
 
-2. load mermaid script
+#### a. securityLevel参数
 
-```html
-<script src="https://unpkg.com/mermaid@9.1.2/dist/mermaid.min.js"></script>
-<script>mermaid.initialize({
-    startOnLoad:true
-});
-```
+securityLevel参数是一个通用参数，它的值下面几种[^6]
 
-CDN:
+| Parameter     | Description                       | Type   | Required | Values                          |
+| ------------- | --------------------------------- | ------ | -------- | ------------------------------- |
+| securitylevel | Level of trust for parsed diagram | string | Required | 'strict', 'loose', 'antiscript' |
 
-https://unpkg.com/browse/mermaid@9.1.2/
-
-
-
-
-
-section2 
-
-securityLevel
+**Notes**:
 
 - **strict**: (**default**) tags in text are encoded, click functionality is disabled
 - **loose**: tags in text are allowed, click functionality is enabled
 - **antiscript**: html tags in text are allowed, (only script element is removed), click functionality is enabled
-- **sandbox**: With this security level all rendering takes place in a sandboxed iframe. This prevent any JavaScript running in the context. This may hinder interactive functionality of the diagram like scripts, popups in sequence diagram or links to other tabs/targets etc.
 
 
 
-initialize函数触发时机
+## 3、流程图 (Flow Chart)
 
-远端css样式
+流程图 (Flow Chart)是mermaid-js支持最常见的一种图表。
 
-```javascript
-$(document).load(function() {
-    mermaid.initialize();
-});
+mermaid图表语法代码，用`flowchart`来表示流程图
+
+说明
+
+> 一些历史的mermaid示例中，也看到用`graph`来表示流程图，但是官方最新文档已经换成使用`flowchart`
+
+
+
+### (1) 定义一个节点
+
+举个例子，如下
+
+```mermaid
+flowchart LR
+    id
 ```
 
-or
+### (2) 节点自定义文本
 
-```javascript
-$(document).ready(function() {
-    mermaid.initialize();
-});
+举个例子，如下
+
+```mermaid
+flowchart LR
+    id1[This is the text in the box]
 ```
 
+### (3) 流程图方向
+
+流程图方向，是所有节点串联的方向。支持下面几种方向，如下
+
+- TB - top to bottom
+- TD - top-down/ same as top to bottom
+- BT - bottom to top
+- RL - right to left
+- LR - left to right
 
 
-设置css样式
 
-```css
-div.mermaid {
-    font-family: 'trebuchet ms', verdana, arial;
-}
+举个例子，如下
+
+* 自上而下的方向 (TB/TD)
+
+```mermaid
+flowchart TD
+    Start --> Stop
 ```
 
+* 从左到右的方向 (LR)
 
-
-放置图片
-
-https://stackoverflow.com/questions/42402912/how-to-embed-an-image-in-a-node-with-mermaid-js
-
-
-
-mermaid.js加载问题
-
-https://github.com/mermaid-js/mermaid/blob/develop/docs/n00b-gettingStarted.md
-
-```html
-<html>
-
-<body>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-  <script>
-    mermaid.initialize({ startOnLoad: true });
-  </script>
-
-  Here is one mermaid diagram:
-  <div class="mermaid">
-    graph TD
-    A[Client] --> B[Load Balancer]
-    B --> C[Server1]
-    B --> D[Server2]
-  </div>
-
-  And here is another:
-  <div class="mermaid">
-    graph TD
-    A[Client] -->|tcp_123| B
-    B(Load Balancer)
-    B -->|tcp_456| C[Server1]
-    B -->|tcp_456| D[Server2]
-  </div>
-</body>
-
-</html>
+```mermaid
+flowchart LR
+    Start --> Stop
 ```
 
 
 
+### (4) 节点形状
 
+使用特殊的字符组合，可以定义一些节点的形状
 
-TODO
+举一些例子，如下
 
-https://stackoverflow.com/questions/28121525/mermaid-cli-how-do-you-escape-characters
-
+```mermaid
+flowchart LR
+    id1[This is the text in the box]
+    id2(This is the text in the box)
+    id3([This is the text in the box])
+    id4[[This is the text in the box]]
+    id5[(Database)]
+		id6((This is the text in the circle))
+		id7>This is the text in the box]
+		id8{This is the text in the box}
+		id9{{This is the text in the box}}
+		id10[/This is the text in the box/]
+		id11[\This is the text in the box\]
+		id12[/Christmas\]
+		id13[\Go shopping/]
 ```
-graph TD
 
-    question1{"Gas tank less than 1/8?"}
-    action1["Fill tank to 100%"]
+还有一些例子 (可能typora不支持)，如下
 
-    question1-- Yes -->action1
+```mermaid
+flowchart LR
+id14(((This is the text in the circle)))
 ```
+
+
+
+### (5) 节点的连接线
+
+节点的连接线，也是支持很多样式。这里举一些例子，如下
+
+```mermaid
+flowchart LR
+    A-->B
+```
+
+```mermaid
+flowchart LR
+    A --- B
+```
+
+```mermaid
+flowchart LR
+    A-- This is the text! ---B
+    C-->|text|D
+```
+
+```mermaid
+flowchart LR
+    A-->|text|B
+    C-- text -->D
+```
+
+
+
+```mermaid
+sdfds
+```
+
+
 
 
 
@@ -664,9 +723,108 @@ gantt
 
 
 
+## 5、常见问题
+
+### (1) Flow Chart的节点中显示图片
+
+举个例子[^7]，如下
+
+```html
+<body>
+  <h2>Embed an image in node</h2>
+
+  <div id="app">
+  </div>
+
+  <script src="../vendor/mermaid.min.js"></script>
+  <script>
+    var mermaidAPI = mermaid.mermaidAPI;
+
+    mermaidAPI.initialize({
+      startOnLoad: false
+    });
+
+    // https://stackoverflow.com/questions/42402912/how-to-embed-an-image-in-a-node-with-mermaid-js
+    var element = document.getElementById("app");
+    var insertSvg = function (svgCode, bindFunctions) {
+      element.innerHTML = svgCode;
+    };
+    var graphDefinition = `graph LR; Systemstart-->SomeIcon(<img src='https://iconscout.com/ms-icon-310x310.png' width='40' height='40' />)`;
+    var graph = mermaidAPI.render("mermaid", graphDefinition, insertSvg);
+  </script>
+</body>
+```
 
 
 
+
+
+mermaid.js加载问题
+
+https://github.com/mermaid-js/mermaid/blob/develop/docs/n00b-gettingStarted.md
+
+```html
+<html>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+
+  Here is one mermaid diagram:
+  <div class="mermaid">
+    graph TD
+    A[Client] --> B[Load Balancer]
+    B --> C[Server1]
+    B --> D[Server2]
+  </div>
+
+  And here is another:
+  <div class="mermaid">
+    graph TD
+    A[Client] -->|tcp_123| B
+    B(Load Balancer)
+    B -->|tcp_456| C[Server1]
+    B -->|tcp_456| D[Server2]
+  </div>
+</body>
+
+</html>
+```
+
+
+
+### (2) Flow Chart的节点中字符转义问题
+
+Flow Chart的节点，不是支持所有字符，如果有特殊字符，则考虑用双引号处理一下
+
+举个例子[^8]，如下
+
+```html
+<body>
+  <script src="../vendor/mermaid.min.js"></script>
+  <h2>Gantt Diagram for page event</h2>
+
+  <div class="mermaid">
+    graph TD
+
+    question1{"Gas tank less than 1/8?"}
+    action1["Fill tank to 100%"]
+
+    question1-- Yes -->action1
+  </div>
+
+  <script>
+    var config = {
+      logLevel: 'debug',
+      startOnLoad: true,
+      securityLevel: 'loose',
+    };
+    mermaid.initialize(config);
+  </script>
+</body>
+```
 
 
 
@@ -679,8 +837,15 @@ gantt
 [^3]:https://mermaid-js.github.io/mermaid/#/Setup?id=startonload
 [^4]:https://stackoverflow.com/questions/42402912/how-to-embed-an-image-in-a-node-with-mermaid-js
 [^5]:https://mermaid-js.github.io/mermaid/#/gantt 
+[^6]:https://mermaid-js.github.io/mermaid/#/Setup?id=mermaidapi-configuration-defaults
+[^7]:https://stackoverflow.com/questions/42402912/how-to-embed-an-image-in-a-node-with-mermaid-js
+[^8]:https://stackoverflow.com/questions/28121525/mermaid-cli-how-do-you-escape-characters
 
-[^]:https://github.com/mermaid-js/mermaid/blob/develop/docs/usage.md
+
+
+
+
+[]:https://github.com/mermaid-js/mermaid/blob/develop/docs/usage.md
 
 
 
