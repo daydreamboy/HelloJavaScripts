@@ -287,6 +287,41 @@ flowchart LR
     id1[This is the text in the box]
 ```
 
+定义节点的文本，和连接线，可以同时定义，也可以分别定义。
+
+举个例子，如下
+
+```mermaid
+flowchart LR
+  A[TextA]
+  B[TextB]
+  A-->B
+  
+  B-->C[TextC]
+  C-->D[TextD]
+```
+
+
+
+* 同时定义
+
+```html
+B-->C[TextC]
+C-->D[TextD]
+```
+
+
+
+* 分别定义
+
+```html
+A[TextA]
+B[TextB]
+A-->B
+```
+
+
+
 ### (3) 流程图方向
 
 流程图方向，是所有节点串联的方向。支持下面几种方向，如下
