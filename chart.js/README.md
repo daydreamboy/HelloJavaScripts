@@ -505,7 +505,201 @@ dataset字段的配置[^7]，如下
 举一个较复杂的例子，如下
 
 ```html
+<head>
+  <script src="../vendor/chart.js@3.9.1/chart.min.js"></script>
+</head>
+
+<body>
+  <h2>Data structure - bar chart example</h2>
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>
+</body>
+
+<script>
+  const data = [{ x: 'Jan', net: 100, cogs: 50, gm: 50 }, { x: 'Feb', net: 120, cogs: 55, gm: 75 }];
+  const cfg = {
+    type: 'bar',
+    data: {
+      labels: ['Jan', 'Feb'],
+      datasets: [{
+        label: 'Net sales',
+        data: data,
+        parsing: {
+          yAxisKey: 'net'
+        }
+      }, {
+        label: 'Cost of goods sold',
+        data: data,
+        parsing: {
+          yAxisKey: 'cogs'
+        }
+      }, {
+        label: 'Gross margin',
+        data: data,
+        parsing: {
+          yAxisKey: 'gm'
+        }
+      }]
+    },
+  };
+
+  const ctx = document.getElementById('myChart');
+  const chart = new Chart(ctx, cfg);
+</script>
 ```
+
+简单描述下这个图表，x轴是Jan和Feb 2个分组，每个组都有'Net sales'、'Cost of goods sold'和'Gross margin'。
+
+说明
+
+> 这里也使用parsing属性，但不在options属性中，可见options属性，更像是一个全局配置。这里parsing属性，针对每个bar数据来解析。
+
+
+
+### (4) Fonts
+
+#### a. 全局设置字体
+
+举个例子，如下
+
+```javascript
+Chart.defaults.font.size = 16;
+```
+
+说明
+
+> 在初始化Chart对象之前，设置好
+
+
+
+#### b. 局部设置字体
+
+举个例子，如下
+
+```javascript
+let chart = new Chart(ctx, {
+    type: 'line',
+    data: data,
+    options: {
+        plugins: {
+            legend: {
+                labels: {
+                    // This more specific font property overrides the global property
+                    font: {
+                        size: 14
+                    }
+                }
+            }
+        }
+    }
+});
+```
+
+这里设置legend的字体，而不影响x轴和y轴上元素的字体。
+
+
+
+#### c. 字体配置
+
+官方文档描述[^8]，如下
+
+| Name         | Type              | Default                                                | Description                                                  |
+| ------------ | ----------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
+| `family`     | `string`          | `"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"` | Default font family for all text, follows CSS font-family options. |
+| `size`       | `number`          | `12`                                                   | Default font size (in px) for text. Does not apply to radialLinear scale point labels. |
+| `style`      | `string`          | `'normal'`                                             | Default font style. Does not apply to tooltip title or footer. Does not apply to chart title. Follows CSS font-style options (i.e. normal, italic, oblique, initial, inherit). |
+| `weight`     | `string`          | `undefined`                                            | Default font weight (boldness). (see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight)). |
+| `lineHeight` | `number`|`string` | `1.2`                                                  | Height of an individual line of text (see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/line-height)). |
+
+
+
+### (5) Options
+
+Chart.js定义多个级别的Option，根据上下文环境，从外到内，来处理这些Option，最终确定Option的值。
+
+官方文档[^9]，提到下面几个级别的Option
+
+* Chart level options
+* Dataset level options
+* Dataset animation options
+* Dataset element level options
+* Scale options
+* Plugin options
+
+
+
+### (6) Padding
+
+Chart.js允许设置一些padding。
+
+有下面几种方式[^10]
+
+#### a. 直接设置数值
+
+举个例子，如下
+
+```javascript
+let chart = new Chart(ctx, {
+    type: 'line',
+    data: data,
+    options: {
+        layout: {
+            padding: 20
+        }
+    }
+});
+```
+
+
+
+#### b. 设置{top, left, bottom, right} object
+
+举个例子，如下
+
+```javascript
+let chart = new Chart(ctx, {
+    type: 'line',
+    data: data,
+    options: {
+        layout: {
+            padding: {
+                left: 50
+            }
+        }
+    }
+});
+```
+
+
+
+#### c. 设置 {x, y} object
+
+举个例子，如下
+
+```javascript
+let chart = new Chart(ctx, {
+    type: 'radar',
+    data: data,
+    options: {
+        scales: {
+          r: {
+            ticks: {
+              backdropPadding: {
+                  x: 10,
+                  y: 4
+              }
+            }
+        }
+    }
+});
+```
+
+
+
+### (7) Performance
+
+TODO: https://www.chartjs.org/docs/latest/general/performance.html
 
 
 
@@ -536,6 +730,9 @@ dataset字段的配置[^7]，如下
 [^5]:https://www.chartjs.org/docs/latest/general/accessibility.html
 [^6]:https://www.chartjs.org/docs/latest/general/colors.html
 [^7]:https://www.chartjs.org/docs/latest/general/data-structures.html
+[^8]:https://www.chartjs.org/docs/latest/general/fonts.html
+[^9]:https://www.chartjs.org/docs/latest/general/options.html
+[^10]:https://www.chartjs.org/docs/latest/general/padding.html
 
 
 
