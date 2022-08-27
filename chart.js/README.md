@@ -283,8 +283,229 @@ Chart.js支持颜色以字符串形式，内容是十六进制、RGB或者HSL。
 
 data参数包含2个参数，如下
 
-* datasets参数，用于图表的数据
+* datasets参数，用于图表的数据。
 * labels参数，用于图表的index轴（默认是x轴）上索引
+
+注意
+
+> datasets参数内部还有一个data参数
+
+举个例子，如下
+
+```html
+<head>
+  <script src="../vendor/chart.js@3.9.1/chart.min.js"></script>
+</head>
+
+<body>
+  <h2>Data structure - primitive structure</h2>
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>
+</body>
+
+<script>
+  const ctx = document.getElementById('myChart');
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      datasets: [{
+        data: [20, 10],
+      }],
+      labels: ['a', 'b']
+    }
+  });
+</script>
+```
+
+
+
+#### a. 使用Object对象数组
+
+在上面的例子中，datasets参数是一个整型数组。这里可以换成Object对象数组。
+
+注意
+
+> Object对象必须包含x和y属性，Chart.js内部默认会读取这些属性值。
+
+举几个例子，如下
+
+```html
+<head>
+  <script src="../vendor/chart.js@3.9.1/chart.min.js"></script>
+</head>
+
+<body>
+  <h2>Data structure - datasets use object 1</h2>
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>
+</body>
+
+<script>
+  const ctx = document.getElementById('myChart');
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      datasets: [{
+        data: [{ x: '10', y: 20 }, { x: '15', y: 25 }, { x: '20', y: 10 }]
+      }]
+    }
+  });
+</script>
+```
+
+注意
+
+> 上面例子改造自官方例子，这里x的值，不能是整型，必须是字符串。
+
+替换初始化Chart对象，如下
+
+```html
+<script>
+  const ctx = document.getElementById('myChart');
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      datasets: [{
+        data: [{ x: '2016-12-25', y: 20 }, { x: '2016-12-26', y: 10 }]
+      }]
+    }
+  });
+</script>
+```
+
+或者
+
+```html
+<script>
+  const ctx = document.getElementById('myChart');
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      datasets: [{
+        data: [{ x: 'Sales', y: 20 }, { x: 'Revenue', y: 10 }]
+      }]
+    }
+  });
+</script>
+```
+
+
+
+#### b. 使用自定义Object对象数组
+
+在上面提到Chart.js默认支持的Object，包含x和y属性。但是也支持自定义属性，同时需要指定解析这些属性的path。
+
+举个例子，如下
+
+```html
+<head>
+  <script src="../vendor/chart.js@3.9.1/chart.min.js"></script>
+</head>
+
+<body>
+  <h2>Data structure - datasets use custom object</h2>
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>
+</body>
+
+<script>
+  const ctx = document.getElementById('myChart');
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      datasets: [{
+        data: [{ id: 'Sales', nested: { value: 1500 } }, { id: 'Purchases', nested: { value: 500 } }]
+      }]
+    },
+    options: {
+      parsing: {
+        xAxisKey: 'id',
+        yAxisKey: 'nested.value'
+      }
+    }
+  });
+</script>
+```
+
+xAxisKey属性和yAxisKey属性，适用于二维坐标的图表。如果是一维图表，例如饼状图，则使用key属性。举个例子，如下
+
+```html
+<head>
+  <script src="../vendor/chart.js@3.9.1/chart.min.js"></script>
+</head>
+
+<body>
+  <h2>Data structure - datasets use custom object</h2>
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>
+</body>
+
+<script>
+  const ctx = document.getElementById('myChart');
+  const chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: [{ id: 'Sales', nested: { value: 1500 } }, { id: 'Purchases', nested: { value: 500 } }]
+      }]
+    },
+    options: {
+      parsing: {
+        key: 'nested.value'
+      }
+    }
+  });
+</script>
+```
+
+
+
+说明
+
+> 如果解析的key，包括`.`，则使用转义方式。
+>
+> 举个例子，如下
+>
+> ```javascript
+> type: 'line',
+> data: {
+>     datasets: [{
+>         data: [{ 'data.key': 'one', 'data.value': 20 }, { 'data.key': 'two', 'data.value': 30 }]
+>     }]
+> },
+> options: {
+>     parsing: {
+>       xAxisKey: 'data\\.key',
+>       yAxisKey: 'data\\.value'
+>     }
+> }
+> ```
+>
+> 
+
+
+
+#### c. dataset字段的配置
+
+dataset字段的配置[^7]，如下
+
+| Name      | Type               | Description                                                  |
+| --------- | ------------------ | ------------------------------------------------------------ |
+| `label`   | `string`           | The label for the dataset which appears in the legend and tooltips. |
+| `clip`    | `number`|`object`  | How to clip relative to chartArea. Positive value allows overflow, negative value clips that many pixels inside chartArea. 0 = clip at chartArea. Clipping can also be configured per side: clip: {left: 5, top: false, right: -2, bottom: 0} |
+| `order`   | `number`           | The drawing order of dataset. Also affects order for stacking, tooltip and legend. |
+| `stack`   | `string`           | The ID of the group to which this dataset belongs to (when stacked, each group will be a separate stack). Defaults to dataset `type`. |
+| `parsing` | `boolean`|`object` | How to parse the dataset. The parsing can be disabled by specifying parsing: false at chart options or dataset. If parsing is disabled, data must be sorted and in the formats the associated chart type and scales use internally. |
+| `hidden`  | `boolean`          | Configure the visibility of the dataset. Using `hidden: true` will hide the dataset from being rendered in the Chart. |
+
+举一个较复杂的例子，如下
+
+```html
+```
 
 
 
@@ -314,6 +535,7 @@ data参数包含2个参数，如下
 [^4]:https://www.chartjs.org/docs/latest/getting-started/usage.html
 [^5]:https://www.chartjs.org/docs/latest/general/accessibility.html
 [^6]:https://www.chartjs.org/docs/latest/general/colors.html
+[^7]:https://www.chartjs.org/docs/latest/general/data-structures.html
 
 
 

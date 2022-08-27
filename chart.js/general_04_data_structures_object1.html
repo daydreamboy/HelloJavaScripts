@@ -1,0 +1,22 @@
+<head>
+  <script src="../vendor/chart.js@3.9.1/chart.min.js"></script>
+</head>
+
+<body>
+  <h2>Data structure - datasets use object 1</h2>
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>
+</body>
+
+<script>
+  const ctx = document.getElementById('myChart');
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      datasets: [{
+        data: [{ x: '10', y: 20 }, { x: '15', y: 25 }, { x: '20', y: 10 }]
+      }]
+    }
+  });
+</script>
