@@ -1,0 +1,32 @@
+<head>
+  <script src="../vendor/chart.js@3.9.1/chart.min.js"></script>
+</head>
+
+<body>
+  <h2>Use pattern image (not work)</h2>
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>
+</body>
+
+<script>
+  const img = new Image();
+  img.src = './resources/small_pattern.png';
+
+  img.onload = function () {
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    const fillPattern = ctx.createPattern(img, 'repeat');
+    console.log(fillPattern);
+    
+    const chart = new Chart(ctx, {
+      data: {
+        labels: ['Item 1', 'Item 2', 'Item 3'],
+        datasets: [{
+          data: [10, 20, 30],
+          backgroundColor: fillPattern
+        }]
+      }
+    });
+  };
+</script>

@@ -957,7 +957,7 @@ mermaid-js使用fontawesome库来支持图标显示。
 
 说明
 
-> mermaid-js对fontawesome库的支持，不是很好。这个例子，icon显示出来导致，部分文本显示不出来。
+> mermaid-js对fontawesome库的支持，不是很好。这个例子，icon虽然能显示，但是部分文本显示不出来。
 
 
 
@@ -967,11 +967,40 @@ mermaid-js使用fontawesome库来支持图标显示。
 
 
 
-### (12) 节点和连接线声明中的空格
+### (12) 空格和分号的使用
 
-TODO
+#### a. 分号
 
-https://mermaid-js.github.io/mermaid/#/flowchart?id=graph-declarations-with-spaces-between-vertices-and-link-and-without-semicolon
+mermaid-js的语句可以加分号或者不加分号。
+
+
+
+#### b. 空格
+
+在流程图中，节点和连接线之间允许一个空格。
+
+而节点和它的文本、连接线和它的文本之间不允许有空格。
+
+
+
+官方文档描述，如下
+
+> - In graph declarations, the statements also can now end without a semicolon. After release 0.2.16, ending a graph statement with semicolon is just optional. So the below graph declaration is also valid along with the old declarations of the graph.
+> - A single space is allowed between vertices and the link. However there should not be any space between a vertex and its text and a link and its text. The old syntax of graph declaration will also work and hence this new feature is optional and is introduced to improve readability.
+
+
+
+举个例子，如下
+
+```mermaid
+flowchart LR
+    A[Hard edge] -->|Link text| B(Round edge)
+    B --> C{Decision}
+    C -->|One| D[Result one]
+    C -->|Two| E[Result two]
+```
+
+
 
 
 
