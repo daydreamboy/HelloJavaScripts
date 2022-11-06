@@ -143,7 +143,7 @@ typeof alert // "function"
 
 
 
-### （1）number类型
+### (1) number类型
 
 number类型的值支持算术操作符（`+`、`-`、`*`、`/`等）。
 
@@ -173,7 +173,7 @@ https://stackoverflow.com/questions/2652319/how-do-you-check-that-a-number-is-na
 
 
 
-### （2）string类型
+### (2) string类型
 
 string类型主要指字面常量字符串，例如'a'、"b"等。
 
@@ -315,7 +315,7 @@ substring(indexStart, indexEnd)
 
 
 
-### （7）object类型
+### (7) object类型
 
 object类型包括**自定义类**和**标准内置类**（Standard built-in objects）[^7]。
 
@@ -605,6 +605,213 @@ x.reduce((accumulator, element, index) => {
 
 
 > 示例代码，见16_data_types_4_array.html
+
+
+
+#### d. Promise
+
+Promise是object类型，是JavaScript内置标准类。它的主要作用是包装异步调用，提供调用者注册回调函数（通过then方法）。
+
+这篇文章[^29]对Promise的基础用法介绍比较详细，这里做一些精简的归纳。
+
+
+
+##### 生产者和消费者的编程模型
+
+Promise的编程范式，如下
+
+```javascript
+let promise = new Promise(function(resolve, reject) {
+  // executor (the producing code, "singer")
+});
+```
+
+Promise使用的场景是典型的生产者和消费者，上面resolve和reject是两个回调函数，用于触发消费者（即调用者）注册的回调函数，而executor部分代码，则是生产者，它处理好异步任务，并调用resolve或reject函数。
+
+文章[^29]对Promise定义，如下
+
+> A *promise* is a special JavaScript object that links the “producing code” and the “consuming code” together.
+
+当Promise对象初始化后，它的内部状态是pending，再调用resolve后，变成fulfill的；或者调用reject后，变成rejected，如下图
+
+<img src="images/01_Promise_internal_state.png" style="zoom:50%;" />
+
+举个resolve的例子，如下
+
+```javascript
+let promise = new Promise(function(resolve, reject) {
+    // the function is executed automatically when the promise is constructed
+
+    // after 1 second signal that the job is done with the result "done"
+    setTimeout(() => resolve("done"), 1000);
+});
+
+promise.then(value => {
+    console.log('value: ' + value);
+}).then(value => {
+    console.log('value2: ' + value); // Note: value is undefined this time
+});
+```
+
+> 示例代码，见32_Promise_1_resolve.html
+
+resolve函数可以传递任意值到then的回调函数上，在第一次then的回调已经消费了数据，所以在第二次then的回调上value是undefined。
+
+说明
+
+> resolve调用不一定，要放异步任务中，也可以直接调用，举个例子，如下
+>
+> ```javascript
+> let promise = new Promise(function(resolve, reject) {
+>   // not taking our time to do the job
+>   resolve(123); // immediately give the result: 123
+> });
+> ```
+>
+> 
+
+
+
+
+
+举个reject的例子，如下
+
+```javascript
+let promise = new Promise(function(resolve, reject) {
+    // after 1 second signal that the job is finished with an error
+    setTimeout(() => reject(new Error("Whoops!")), 1000);
+});
+
+promise.then(value => {
+    console.log('value: ' + value); // Note: will not called
+}).then(value => {
+    console.log('value2: ' + value); // Note: will not called
+}).catch(error => {
+    console.log('error: ' + error.message);
+}).catch(error => {
+    console.log('error2: ' + error); // Note: will not called
+});
+```
+
+> 示例代码，见32_Promise_2_reject.html
+
+同样reject函数可以传递任意值到catch的回调函数上，而且不会触发then的回调函数。
+
+说明
+
+> 1. .catch的写法，实际是等价于.then(null, errorHandlingFunction)的写法。
+>
+> 2. 和then不一样，多个catch只会触发一次
+
+
+
+当resolve和reject在一个Promise中多次调用只处理第一次的调用，举个例子，如下
+
+```javascript
+let promise = new Promise(function(resolve, reject) {
+    resolve("done");
+
+    reject(new Error("…")); // ignored
+    setTimeout(() => resolve("…")); // ignored
+});
+
+promise.then(value => {
+    console.log('value: ' + value); // Note: value is done
+}).then(value => {
+    console.log('value2: ' + value); // Note: value is undefined
+}).catch(error => {
+    console.log('error: ' + error.message); // Note: won't called
+}).catch(error => {
+    console.log('error2: ' + error); // Note: won't called
+});
+```
+
+> 示例代码，见32_Promise_3_mix_resolve_reject.html
+
+
+
+##### `.then`、`.catch`、`.finally`的签名
+
+`.then`、`.catch`、`.finally`都是Promise对应的消费者。
+
+`.then`的签名，如下
+
+```javascript
+then(onFulfilled)
+then(onFulfilled, onRejected)
+
+then(
+  (value) => { /* fulfillment handler */ },
+  (reason) => { /* rejection handler */ },
+);
+```
+
+
+
+`.catch`的签名，如下
+
+```javascript
+p.catch(onRejected)
+
+p.catch(function(reason) {
+  // rejection
+})
+```
+
+
+
+`.finally`的签名，如下
+
+```javascript
+promise.finally(onFinally)
+
+promise.finally(() => {
+  // Code that will run after promise is settled (fulfilled or rejected)
+})
+```
+
+`.finally`的回调函数，它没有参数，而且不管resolve还是reject调用了，它都会触发。
+
+举个例子，如下
+
+```javascript
+let promise = new Promise((resolve, reject) => {
+    setTimeout(() => resolve("done"), 2000);
+});
+
+promise.then(value => {
+    console.log('value: ' + value); // Note: value is done
+}).finally(() => {
+    console.log("Promise ready");
+});
+```
+
+`.finally`的回调函数和`.then`以及`.catch`的回调函数，触发顺序，是按照注册的顺序。
+
+上面例子，和下面例子的输出结果是不一样的，如下
+
+```javascript
+let promise = new Promise(function(resolve, reject) {
+    // after 1 second signal that the job is finished with an error
+    setTimeout(() => resolve("done"), 2000);
+});
+
+promise.then(value => {
+    console.log('value: ' + value); // Note: value is done
+}).finally(() => {
+    console.log("Promise ready");
+});
+
+promise.finally(() => {
+    console.log("Promise ready2"); // Note: trigger first
+}).then(value => {
+    console.log('value2: ' + value); // Note: value is done
+});
+```
+
+
+
+
 
 
 
@@ -2278,7 +2485,7 @@ html页面，示例如下
 
 
 
-#### （1）jquery.qrcode.js
+#### (1) jquery.qrcode.js
 
 [jquery.qrcode.js](http://jeromeetienne.github.com/jquery-qrcode)是JQuery的插件，可以生成二维码图片，举个例子[^10]
 
@@ -2358,6 +2565,8 @@ mermaid.min.js: https://github.com/mermaid-js/mermaid/blob/develop/docs/n00b-get
 [^27]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects
 
 [^28]:https://medium.com/@giltayar/iterating-over-emoji-characters-the-es6-way-f06e4589516
+
+[^29]:https://javascript.info/promise-basics
 
 
 

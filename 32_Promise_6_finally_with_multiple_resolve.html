@@ -1,0 +1,22 @@
+<html>
+<head>
+    <script>
+        let promise = new Promise(function(resolve, reject) {
+            // after 1 second signal that the job is finished with an error
+            setTimeout(() => resolve("done"), 2000);
+        });
+
+        promise.then(value => {
+            console.log('value: ' + value); // Note: value is done
+        }).finally(() => {
+            console.log("Promise ready");
+        });
+
+        promise.finally(() => {
+            console.log("Promise ready2"); // Note: trigger first
+        }).then(value => {
+            console.log('value2: ' + value); // Note: value is done
+        });
+    </script>
+</head>
+</html>

@@ -1,0 +1,20 @@
+<html>
+<head>
+    <script>
+        let promise = new Promise(function(resolve, reject) {
+            // after 1 second signal that the job is finished with an error
+            setTimeout(() => reject(new Error("Whoops!")), 1000);
+        });
+
+        promise.then(value => {
+            console.log('value: ' + value); // Note: will not called
+        }).then(value => {
+            console.log('value2: ' + value); // Note: will not called
+        }).catch(error => {
+            console.log('error: ' + error.message);
+        }).catch(error => {
+            console.log('error2: ' + error); // Note: will not called
+        });
+    </script>
+</head>
+</html>

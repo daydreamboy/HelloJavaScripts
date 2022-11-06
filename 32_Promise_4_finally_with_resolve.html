@@ -1,0 +1,15 @@
+<html>
+<head>
+    <script>
+        let promise = new Promise((resolve, reject) => {
+            setTimeout(() => resolve("done"), 2000);
+        });
+
+        promise.then(value => {
+            console.log('value: ' + value); // Note: value is done
+        }).finally(() => {
+            console.log("Promise ready");
+        });
+    </script>
+</head>
+</html>
