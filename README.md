@@ -2359,7 +2359,7 @@ static isStrictMode = () => {
 
 ## 9、JavaScript Tips
 
-### （1）获取当前函数的名字[^18]
+### (1) 获取当前函数的名字[^18]
 
 #### a. 使用arguments变量[^19]
 
@@ -2404,7 +2404,7 @@ class CallerTool {
 
 
 
-### （2）Chrome console输出有颜色的日志
+### (2) Chrome console输出有颜色的日志
 
 Chrome和Firefox(+31)支持console输出有颜色的日志[^20]，字符串增加前缀`%c`，log另外增加1个css样式参数。
 
@@ -2417,6 +2417,45 @@ console.log('%c Oh my heavens! ', 'background: #222; color: #bada55');
 
 
 > 示例代码，见log_tool.js
+
+
+
+## 10、JavaScript常见问题
+
+### (1) new Array(10)不是创建仅有一个元素为10的数组
+
+Array的构造函数的语法[^30]，如下
+
+```javascript
+new Array(element0, element1, /* … ,*/ elementN)
+new Array(arrayLength)
+
+Array(element0, element1, /* … ,*/ elementN)
+Array(arrayLength)
+```
+
+可见传入一个整型数字时，实际是创建一个长度为arrayLength的数组
+
+说明
+
+> 1. 创建Array对象，可以使用new关键词或者不使用
+> 2. 当传入一个元素时，如果不是整型，则是创建有一个元素的数组
+
+举个例子，如下
+
+```javascript
+const fruits = new Array(2);
+
+console.log(fruits.length); // 2
+console.log(fruits[0]); // undefined
+
+const fruits2 = new Array("Apple");
+
+console.log(fruits2.length); // 1
+console.log(fruits2[0]); // "Apple"
+```
+
+
 
 
 
@@ -2567,6 +2606,8 @@ mermaid.min.js: https://github.com/mermaid-js/mermaid/blob/develop/docs/n00b-get
 [^28]:https://medium.com/@giltayar/iterating-over-emoji-characters-the-es6-way-f06e4589516
 
 [^29]:https://javascript.info/promise-basics
+
+[^30]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Array
 
 
 
