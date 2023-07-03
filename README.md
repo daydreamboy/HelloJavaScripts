@@ -1679,7 +1679,7 @@ var promise = import("module-name"); // This is a stage 3 proposal.
 
 
 
-也是是有名的IIFE函数，如下
+也存在有名的IIFE函数，如下
 
 ```javascript
 (function doSomething() {
