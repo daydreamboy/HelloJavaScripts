@@ -2,17 +2,11 @@
 
 [TOC]
 
----
-
-
-
-主要记录一些笔记，并不覆盖全部的JavaScript语法。
-
 
 
 ## 1、JavaScript版本
 
-### （1）JavaScript和ECMAScript的关系
+### (1) JavaScript和ECMAScript的关系
 
 JavaScript是ECMAScript标准的实现
 
@@ -24,7 +18,7 @@ JavaScript可以简称JS，ECMAScript可以简称ES，目前主流ECMAScript标�
 
 
 
-### （2）ECMAScript版本
+### (2) ECMAScript版本
 
 JavaScript版本，实际上是对应ECMAScript的版本。ECMAScript的版本[^25]，如下
 
@@ -43,7 +37,7 @@ JavaScript版本，实际上是对应ECMAScript的版本。ECMAScript的版本[^
 
 
 
-### （3）浏览器对ES5 (ECMAScript 5)支持情况[^25]
+### (3) 浏览器对ES5 (ECMAScript 5)支持情况[^25]
 
 | Browser   | Version | From Date |
 | :-------- | :------ | :-------- |
@@ -60,7 +54,7 @@ JavaScript版本，实际上是对应ECMAScript的版本。ECMAScript的版本[^
 
 
 
-### （4）浏览器对ES6 (ECMAScript 2015)支持情况[^25]
+### (4) 浏览器对ES6 (ECMAScript 2015)支持情况[^25]
 
 | Browser | Version | Date     |
 | :------ | :------ | :------- |
@@ -859,7 +853,7 @@ user.sayHi();
 
 
 
-### （1）理解class和constructor作用
+### (1) 理解class和constructor作用
 
 * class定义User，实际上User不是类，还是function类型，可见class是function的另一种形式。
 
@@ -877,7 +871,7 @@ console.log(User === User.prototype.constructor); // true
 
 
 
-### （2）class和function的区别
+### (2) class和function的区别
 
 * class定义的类（也可以称函数，后面为了区分，还是称为类），必须使用new关键字初始化，否则浏览器会报错。
 
@@ -913,7 +907,7 @@ console.log("last_name: " + user.last_name);
 
 
 
-### （3）class的定义可以作为表达式
+### (3) class的定义可以作为表达式
 
 class的定义可以作为函数的返回值，也可以直接赋值给变量，这个和function是保持一致的。
 
@@ -943,7 +937,7 @@ new User2().sayHi();
 
 
 
-### （4）getter/setter语法
+### (4) getter/setter语法
 
 class定义的类中，允许重写属性的getter和setter方法。例如
 
@@ -1013,7 +1007,7 @@ user = new User("a");
 
 
 
-### （5）static语法
+### (5) static语法
 
 `static`关键字可以class中定义一个类方法，调用这个方法直接使用类名。
 
@@ -1078,13 +1072,13 @@ console.log(articles);
 
 
 
-### （6）let vs. var[^12]
+### (6) let vs. var[^12]
 
 let是es5语法引入的变量修饰符[^13]，推荐使用let，而不是var。
 
 
 
-#### var存在某些捕获变量特殊规则
+#### a. var存在某些捕获变量特殊规则
 
 举个例子，如下
 
@@ -1105,7 +1099,7 @@ g(); // returns '11'
 
 
 
-#### var变量不是block级别
+#### b. var变量不是block级别
 
 举个例子，如下
 
@@ -1130,7 +1124,7 @@ let修饰符解决上面var存在的问题，避免一些意外的错误
 
 
 
-#### let是block级别的作用域
+#### c. let是block级别的作用域
 
 举个例子，如下
 
@@ -1151,7 +1145,7 @@ function f(input: boolean) {
 
 
 
-#### let不允许重定义
+#### d. let不允许重定义
 
 
 
@@ -1224,7 +1218,7 @@ f(true, 0);  // returns '100'
 
 
 
-### （1）使用export[^5]
+### (1) 使用export[^5]
 
 ​        **export**语句用于从module中导出function、object或者primitive value。**export**语句不能用于内嵌script。
 
@@ -1451,7 +1445,7 @@ export { default } from …;
 
 
 
-### （2）使用import[^6]
+### (2) 使用import[^6]
 
 **import**语句用于绑定module导出的符号。
 
@@ -1724,9 +1718,7 @@ IIFE函数赋值到powers，powers函数和IIFE函数是等价的。页面加载
 
 JavaScript的window提供一些方法，因此这些方法可以直接使用，不需要window.method()。
 
-
-
-### （1）setTimeout
+### (1) setTimeout
 
 setTimeout方法是异步方法，但不是在其他线程，也是在JavaScript线程[^11]。
 
@@ -1763,7 +1755,7 @@ console.log("first"); // Note: "first" always appear before "second"
 
 
 
-#### 解决setTimeout方法在loop中传参问题[^12]
+#### a. 解决setTimeout方法在loop中传参问题[^12]
 
 
 
@@ -1913,7 +1905,7 @@ strict mode和sloppy mode相比，有下面几点变化
 
 
 
-### （1）strict mode带来的变化
+### (1) strict mode带来的变化
 
 #### a. 更加严格语法检查 (Converting mistakes into errors)
 
@@ -2250,7 +2242,7 @@ function baz() { // kosher
 
 
 
-### （2）应用strict mode
+### (2) 应用strict mode
 
 应用strict mode和应用sloppy mode的代码可以混合，因此有几种方式使strict mode生效。
 
@@ -2328,7 +2320,7 @@ export default strict;
 
 
 
-### （3）测试当前是否是strict mode[^27]
+### (3) 测试当前是否是strict mode[^27]
 
 可以借助strict mode和sloppy mode之间的特性差异来判断是否是strict mode，例如在sloppy mode中，函数中的this是指向全局的对象，而在strict mode中，函数中的this是undefined。因此借助这个差异，实现如下代码。
 
@@ -2457,32 +2449,28 @@ console.log(fruits2[0]); // "Apple"
 
 
 
-
-
-## 附录
-
-### 1、辅助工具
+## 11、JavaScript开发工具
 
 - [JSFiddle](https://jsfiddle.net/)，在线JS编辑运行工具
 - WebStorm，编写JavaScript、TypeScript的IDE
 
 
 
-### 2、开发环境搭建
+## 12、开发环境搭建
 
-#### （1）安装http-server
+### (1) 使用http-server
+
+#### a. 安装http-server
 
 ```shell
 $ npm install -g http-server
 ```
 
-
-
 > -g，全局安装
 
 
 
-#### （2）开启Web服务
+#### b. 开启Web服务
 
 在根目录开启http server，如下
 
@@ -2492,7 +2480,7 @@ $ http-server -c-1
 
 
 
-#### （3）浏览器中访问html页面
+#### c. 浏览器中访问html页面
 
 html页面，示例如下
 
@@ -2520,11 +2508,9 @@ html页面，示例如下
 
 
 
-### 3、JavaScript常用库
+## 13、JavaScript常用库
 
-
-
-#### (1) jquery.qrcode.js
+### (1) jquery.qrcode.js
 
 [jquery.qrcode.js](http://jeromeetienne.github.com/jquery-qrcode)是JQuery的插件，可以生成二维码图片，举个例子[^10]
 
@@ -2550,9 +2536,7 @@ html页面，示例如下
 
 
 
-#### (2) mermaid-js
-
-
+### (2) mermaid-js
 
 mermaid.min.js: https://github.com/mermaid-js/mermaid/blob/develop/docs/n00b-gettingStarted.md
 
