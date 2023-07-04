@@ -89,7 +89,7 @@ Tampermonkey的Dashboard，点击+号，会自动生成一个用户脚本的模�
 
 ```javascript
 // ==UserScript==
-// @name         HelloWorld
+// @name         HelloWorld_log
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
@@ -135,6 +135,48 @@ Tampermonkey的Dashboard，点击+号，会自动生成一个用户脚本的模�
 由于Tampermonkey的脚本涉及的语法，并不复杂，阅读上面两个文档，基本可以开发脚本。
 
 * Tampermonkey的2.9版本之前的源码：https://github.com/Tampermonkey/tampermonkey
+
+
+
+## 4、Tampermonkey常见任务
+
+### (1) 现有页面插入一个banner
+
+举个例子，如下
+
+```javascript
+// ==UserScript==
+// @name         HelloWorld_banner
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       wesley chen
+// @match        https://*/*
+// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @grant        none
+// @run-at       document-end
+// @require      https://code.jquery.com/jquery-3.6.0.min.js
+// ==/UserScript==
+
+(function() {
+    'use strict';
+    let banner = $("<div id='hello_banner'><p style='color: red;'>Hello Tampermonkey!</p></div>");
+    banner.css({
+        "display": "flex",
+        "align-items": "center",
+        "top": "0px",
+        "background-color": "#FFFFFF",
+        "width": "100%",
+        "height": "30px",
+        "border": "2px solid red",
+        "box-sizing": "border-box",
+        "z-index": "10000",
+    });
+    $('body').prepend(banner);
+})();
+```
+
+上面通过@require注解，在脚本执行之前，先加载JQuery库，这样用户脚本中可以使用`$`。
 
 
 

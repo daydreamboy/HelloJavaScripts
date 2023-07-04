@@ -8,12 +8,12 @@
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
 // @run-at       document-end
-// @require https://code.jquery.com/jquery-3.6.0.min.js
+// @require      https://code.jquery.com/jquery-3.6.0.min.js
 // ==/UserScript==
 
 (function() {
     'use strict';
-    var banner = $("<div id='hello_banner'><p style='color: red;'>Hello Tampermonkey!</p></div>");
+    let banner = $("<div id='hello_banner'><p style='color: red;'>Hello Tampermonkey!</p></div>");
     banner.css({
         "display": "flex",
         "align-items": "center",
