@@ -805,15 +805,58 @@ promise.finally(() => {
 
 
 
+### (8) function类型
 
+#### a. bind函数
 
+bind函数是function类型的实例中一个方法，用于返回一个新函数同时绑定这个新函数中this变量的值。
 
+[官方文档的描述](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)，如下
+
+> The **`bind()`** method of [`Function`](dfile:///Users/wesley_chen/Library/Application Support/Dash/DocSets/JavaScript/JavaScript.docset/Contents/Resources/Documents/developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function.html) instances creates a new function that, when called, calls this function with its `this` keyword set to the provided value, and a given sequence of arguments preceding any provided when the new function is called.
+
+举个例子，如下
+
+```html
+<script>
+// Note: JS module have no this global variable, here for demonstrate this.y so not use JS module
+//<script type="module">
+  this.y = 9; // Uncaught TypeError: Cannot set properties of undefined (setting 'y')
+  const module = {
+    x: 42,
+    y: 43,
+    getX: function () {
+      return this.x;
+    },
+    getY() {
+      return this.y;
+    },
+  };
+
+  console.log(`module.getX() = ${module.getX()}`); // 42
+
+  const unboundGetX = module.getX;
+  console.log(`unboundGetX() = ${unboundGetX()}`); // undefined. this is same as globalThis
+
+  const boundGetX = unboundGetX.bind(module); // Note: bind this to the `module` variable
+  console.log(`boundGetX() = ${boundGetX()}`); // 42
+
+  const unboundGetY = module.getY;
+  console.log(`unboundGetY() = ${unboundGetY()}`); // 9
+  console.log(`globalThis.y = ${globalThis.y}`); // 9
+</script>
+```
+
+这里不使用module声明，是因为在JS module中没有this全局变量。
+
+* 当对象的实例方法赋值后，新的function变量，例如unboundGetX、unboundGetY，它们内部的this变量会发生变化，指向全局变量this或者globalThis
+* 如果需要纠正新函数内部的this变量，则需要bind函数
 
 
 
 ## 3、class语法[^1]
 
-​           JavaScript（后简称JS），不使用`class`，采用`prototype`方式，也可以定义类的结构，如下
+JavaScript（后简称JS），不使用`class`，采用`prototype`方式，也可以定义类的结构，如下
 
 ```javascript
 function User(name) {

@@ -1,0 +1,37 @@
+<html>
+
+<head>
+  <script>
+  // Note: JS module have no this global variable, here for demonstrate this.y so not use JS module
+  //<script type="module">
+    this.y = 9; // Uncaught TypeError: Cannot set properties of undefined (setting 'y')
+    const module = {
+      x: 42,
+      y: 43,
+      getX: function () {
+        return this.x;
+      },
+      getY() {
+        return this.y;
+      },
+    };
+
+    console.log(`module.getX() = ${module.getX()}`); // 42
+
+    const unboundGetX = module.getX;
+    console.log(`unboundGetX() = ${unboundGetX()}`); // undefined. this is same as globalThis
+
+    const boundGetX = unboundGetX.bind(module); // Note: bind this to the `module` variable
+    console.log(`boundGetX() = ${boundGetX()}`); // 42
+
+    const unboundGetY = module.getY;
+    console.log(`unboundGetY() = ${unboundGetY()}`); // 9
+    console.log(`globalThis.y = ${globalThis.y}`); // 9
+  </script>
+</head>
+
+<body>
+  <p>Check result in console</p>
+</body>
+
+</html>
