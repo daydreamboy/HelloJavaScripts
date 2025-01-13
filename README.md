@@ -653,7 +653,7 @@ resolve函数可以传递任意值到then的回调函数上，在第一次then�
 
 说明
 
-> resolve调用不一定，要放异步任务中，也可以直接调用，举个例子，如下
+> resolve调用不一定要放异步任务中，也可以直接调用，举个例子，如下
 >
 > ```javascript
 > let promise = new Promise(function(resolve, reject) {
@@ -854,7 +854,61 @@ bind函数是function类型的实例中一个方法，用于返回一个新函�
 
 
 
-## 3、class语法[^1]
+## 3、表达式和操作符 (Expression & Operator)
+
+
+
+### (1) `?.`操作符（Optional chaining）
+
+`?.`操作符（Optional chaining），用于防止对undefined对象调用出现异常。
+
+语法，如下
+
+```javascript
+obj.val?.prop
+obj.val?.[expr]
+obj.func?.(args)
+```
+
+举个例子，如下
+
+```javascript
+const adventurer = {
+  name: 'Alice',
+  cat: {
+    name: 'Dinah',
+  },
+};
+
+// Case1: obj.val?.prop = optional chaining for property
+const dogName = adventurer.dog?.name;
+console.log(dogName); // output: undefined
+try {
+	const dogName2 = adventurer.dog.name;  
+}
+catch (error) {
+  console.log(`catch error: ${error}`);
+}
+
+// Case2: obj.func?.(args) = optional chaining for method
+console.log(adventurer.someNonExistentMethod?.()); // output: undefined
+
+// Case3: obj.val?.[expr] = optional chaining for expression
+var arr = undefined;
+try {
+	const value6 = arr[6];  
+}
+catch (error) {
+  console.log(`catch error: ${error}`);
+}
+console.log(arr?.[6]); // output: undefined
+```
+
+> 示例代码，见33_operator_optional_chanining.html
+
+
+
+## 4、class语法
 
 JavaScript（后简称JS），不使用`class`，采用`prototype`方式，也可以定义类的结构，如下
 
@@ -871,13 +925,12 @@ let user = new User("John");
 user.sayHi();
 ```
 
-​           prototype相当于一个JS对象的类型，向User的prototype，定义sayHi变量（这里不需要声明，直接定义变量，而且值是匿名函数），等于向User类型注入sayHi函数。
+prototype相当于一个JS对象的类型，向User的prototype，定义sayHi变量（这里不需要声明，直接定义变量，而且值是匿名函数），等于向User类型注入sayHi函数。
 
-​           如果使用class语法，会比使用prototype方式更加结构化一些，如下
+如果使用class语法[^1]，会比使用prototype方式更加结构化一些，如下
 
 ```javascript
 class User {
-
   constructor(name) {
     this.name = name;
   }
@@ -885,14 +938,13 @@ class User {
   sayHi() {
     alert(this.name);
   }
-
 }
 
 let user = new User("John");
 user.sayHi();
 ```
 
-​       class里提供constructor方法用于初始化class对象，其他自定义的方法可以直接写在class中，不用注入到prototype中。
+class里提供constructor方法用于初始化class对象，其他自定义的方法可以直接写在class中，不用注入到prototype中。
 
 
 
