@@ -1,0 +1,42 @@
+<html>
+
+<head>
+  <script>
+    // Case1: mix multiple then and catch
+    Promise.resolve("Case1")
+      .then(result => {
+        console.log(result); // Output: Case1
+        throw new Error("Something went wrong");
+      })
+      .then(result => {
+        console.log(`result=${result}`); // Note: never called
+      })
+      .catch(error => {
+        console.log("Caught:", error.message); // Note: called
+      })
+      .then((result) => {
+        console.log(`Continuing with result=${result}`); // Note: still called result is undefined
+      })
+
+    // Case2: mix multiple then and multiple catch
+    Promise.resolve("Case2")
+      .then(result => {
+        console.log(result); // Output: Case1
+        throw new Error("Something went wrong");
+      })
+      .then(result => {
+        console.log(`result=${result}`); // Note: never called
+      })
+      .catch(error => {
+        console.log("Caught1:", error.message); // Note: called
+      })
+      .catch(error => {
+        console.log("Caught2:", error.message); // Note: never called
+      })
+      .then((result) => {
+        console.log(`Continuing with result=${result}`); // Note: still called result is undefined
+      })
+  </script>
+</head>
+
+</html>

@@ -604,7 +604,7 @@ x.reduce((accumulator, element, index) => {
 
 #### d. Promise
 
-Promise是object类型，是JavaScript内置标准类。它的主要作用是包装异步调用，提供调用者注册回调函数（通过then方法）。
+Promise是object类型，是JavaScript内置标准类。它的主要作用是包装异步调用，提供调用者注册回调函数（通过then方法和catch方法）。
 
 这篇文章[^29]对Promise的基础用法介绍比较详细，这里做一些精简的归纳。
 
@@ -617,10 +617,17 @@ Promise的编程范式，如下
 ```javascript
 let promise = new Promise(function(resolve, reject) {
   // executor (the producing code, "singer")
+  // Case1: call resolve
+  // Case2: call reject
+  // Case3: throw new Error(XXX)
 });
 ```
 
-Promise使用的场景是典型的生产者和消费者，上面resolve和reject是两个回调函数，用于触发消费者（即调用者）注册的回调函数，而executor部分代码，则是生产者，它处理好异步任务，并调用resolve或reject函数。
+Promise使用的场景是典型的生产者和消费者，上面resolve和reject是两个回调函数，用于触发消费者（即调用者）注册的回调函数，而executor部分代码，则是生产者，它处理好异步任务，并调用resolve或reject函数，也可能抛出异常。
+
+说明
+
+> 如果生产者代码中，同时存在上面三种情况，则以第一次出现的情况为准，后面都会被忽略掉。示例代码，见32_Promise_3_mix_resolve_reject.html
 
 文章[^29]对Promise定义，如下
 
@@ -629,6 +636,13 @@ Promise使用的场景是典型的生产者和消费者，上面resolve和reject
 当Promise对象初始化后，它的内部状态是pending，再调用resolve后，变成fulfill的；或者调用reject后，变成rejected，如下图
 
 <img src="images/01_Promise_internal_state.png" style="zoom:50%;" />
+
+| 生产者             | 消费者 | 消费策略         |
+| ------------------ | ------ | ---------------- |
+| resolve            | then   | 一次生产多次消费 |
+| reject/throw Error | catch  | 一次生产一次消费 |
+
+
 
 举个resolve的例子，如下
 
@@ -663,8 +677,6 @@ resolve函数可以传递任意值到then的回调函数上，在第一次then�
 > ```
 >
 > 
-
-
 
 
 
@@ -805,6 +817,53 @@ promise.finally(() => {
 
 
 
+##### `.then`、`.catch`、`.finally`的对比
+
+| 方法    | 作用                                      | 多个同名的调用情况                    |
+| ------- | ----------------------------------------- | ------------------------------------- |
+| then    | 处理成功回调（对应resolve）               | 一次生产(resolve)多次消费(then)       |
+| catch   | 处理失败回调（对应reject）或者异常(Error) | 一次生产(reject/Error)一次消费(catch) |
+| finally | 总是处理回调                              | 多个finally总是处理                   |
+
+说明
+
+> 如果同时存在几个then、catch，总是按照顺序，并按照生产者-消费者的策略来判断是否处理。推荐将catch总是放在所有then方法之后，这样保证catch能处理所有可能抛出的异常。
+>
+> 举个例子，如下
+>
+> ```javascript
+> // Case2: mix multiple then and multiple catch
+> Promise.resolve("Case2")
+>   .then(result => {
+>     console.log(result); // Output: Case1
+>     throw new Error("Something went wrong");
+>   })
+>   .then(result => {
+>     console.log(`result=${result}`); // Note: never called
+>   })
+>   .catch(error => {
+>     console.log("Caught1:", error.message); // Note: called
+>   })
+>   .catch(error => {
+>     console.log("Caught2:", error.message); // Note: never called
+>   })
+>   .then((result) => {
+>     console.log(`Continuing with result=${result}`); // Note: still called result is undefined
+>   })
+> ```
+>
+> 示例代码，见32_Promise_10_mix_then_catch.html
+
+
+
+
+
+#### e. BigInt
+
+支持版本：ES11（2020）
+
+
+
 ### (8) function类型
 
 #### a. bind函数
@@ -860,7 +919,7 @@ bind函数是function类型的实例中一个方法，用于返回一个新函�
 
 ### (1) `?.`操作符（Optional chaining）
 
-`?.`操作符（Optional chaining），用于防止对undefined对象调用出现异常。
+`?.`操作符（Optional chaining），可选链，用于防止对undefined对象调用出现异常。
 
 语法，如下
 
@@ -869,6 +928,8 @@ obj.val?.prop
 obj.val?.[expr]
 obj.func?.(args)
 ```
+
+支持版本：ES11（2020）
 
 举个例子，如下
 
@@ -905,6 +966,14 @@ console.log(arr?.[6]); // output: undefined
 ```
 
 > 示例代码，见33_operator_optional_chanining.html
+
+
+
+### (2) `??`操作符（Nullish Coalescing）
+
+空值合并运算符（Nullish Coalescing，`??`）
+
+支持版本：ES11（2020）
 
 
 

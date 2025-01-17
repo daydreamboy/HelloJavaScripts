@@ -1,0 +1,47 @@
+<html>
+
+<head>
+  <script>
+    // Case1: multiple then methods
+    // once prodcued, multiple consumed
+    Promise.resolve("Success")
+      .then(result => {
+        console.log(`result=${result}`); // Output: Success
+        return "Next Success"; // 返回下一个 Promise
+      })
+      .then((result) => {
+        console.log(`Continuing with result=${result}`);
+      })
+      .catch(error => {
+        console.log("Caught:", error.message);
+      })
+
+    // Case2: multiple then methods
+    // once prodcued, multiple consumed
+    Promise.resolve("Success")
+      .then(result => {
+        console.log(result); // Output: Success
+        //return "Next Success"; // Note: not return
+      })
+      .then((result) => {
+        console.log(`Continuing with result=${result}`); // Note: result is undefined
+      })
+      .catch(error => {
+        console.log("Caught:", error.message);
+      })
+
+    // Promise.resolve("Success")
+    //   .catch(error => {
+    //     console.log("Caught:", error.message); // 不会被触发
+    //   })
+    //   .then(result => {
+    //     console.log(result); // 输出: Success
+    //     throw new Error("Something went wrong");
+    //   })
+    //   .catch(error => {
+    //     console.log("Caught:", error.message); // 捕获错误
+    //   });
+  </script>
+</head>
+
+</html>

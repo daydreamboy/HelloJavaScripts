@@ -1,7 +1,8 @@
 <html>
+
 <head>
     <script>
-        let promise = new Promise(function(resolve, reject) {
+        let promise = new Promise(function (resolve, reject) {
             resolve("done");
 
             reject(new Error("…")); // ignored
@@ -10,13 +11,17 @@
 
         promise.then(value => {
             console.log('value: ' + value); // Note: value is done
-        }).then(value => {
-            console.log('value2: ' + value); // Note: value is undefined
-        }).catch(error => {
-            console.log('error: ' + error.message); // Note: won't called
-        }).catch(error => {
-            console.log('error2: ' + error); // Note: won't called
-        });
+        })
+            .then(value => {
+                console.log('value2: ' + value); // Note: value is undefined
+            })
+            .catch(error => {
+                console.log('error: ' + error.message); // Note: won't called
+            })
+            .catch(error => {
+                console.log('error2: ' + error); // Note: won't called
+            });
     </script>
 </head>
+
 </html>

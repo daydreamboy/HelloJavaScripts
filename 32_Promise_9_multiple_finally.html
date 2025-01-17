@@ -1,0 +1,20 @@
+<html>
+
+<head>
+  <script>
+    // Case1: multiple finally methods
+    Promise.resolve("Case1")
+      .then(result => {
+        console.log(`result=${result}`); // Output: Case1
+        return "Next Success"; // 返回下一个 Promise
+      })
+      .finally(() => {
+        console.log("finally1 called");
+      })
+      .finally(() => {
+        console.log("finally2 called");
+      });
+  </script>
+</head>
+
+</html>

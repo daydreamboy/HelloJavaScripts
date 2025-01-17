@@ -1,0 +1,52 @@
+<html>
+
+<head>
+  <script>
+    // Case1: multiple catch methods
+    // once prodcued, once consumed
+    Promise.resolve("Case1")
+      .then(result => {
+        console.log(result); // Output: Case1
+        throw new Error("Something went wrong");
+      })
+      .catch(error => {
+        console.log("Caught1:", error.message);
+      })
+      .catch(error => {
+        console.log("Caught2:", error.message); // Note: never called
+      })
+
+    // Case2: multiple then methods
+    // once prodcued, once consumed
+    Promise.resolve("Case2")
+      .then(result => {
+        console.log(result); // Output: Case2
+        throw new Error("Something went wrong");
+      })
+      .catch(error => {
+        console.log("Caught1:", error.message);
+        return error;
+        //return new Error("Another error");
+      })
+      .catch(error => {
+        console.log("Caught2:", error.message); // Note: never called
+      })
+
+    // Case3: multiple then methods
+    // once prodcued, once consumed
+    Promise.resolve("Case3")
+      .then(result => {
+        console.log(result); // Output: Case3
+        throw new Error("Something went wrong");
+      })
+      .catch(error => {
+        console.log("Caught1:", error.message);
+        throw new Error("Another error");
+      })
+      .catch(error => {
+        console.log("Caught2:", error.message); // Note: called because throw a new Error
+      })
+  </script>
+</head>
+
+</html>
