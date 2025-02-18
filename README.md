@@ -864,6 +864,14 @@ promise.finally(() => {
 
 
 
+#### f. Reflect
+
+支持版本：ES6（ECMAScript 2015）
+
+简介：Reflect提供反射能力的调用。
+
+
+
 ### (8) function类型
 
 #### a. bind函数
